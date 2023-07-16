@@ -3,7 +3,6 @@ import Row from './Assistance/Row'
 
 import Navbar from './LeftSide/Navbar'
 
-
 import Remain from './TopRow/Remain'
 import Months from './TopRow/Months'
 import SingleMonth from './TopRow/SingleMonth'
@@ -18,6 +17,8 @@ import Chart from './RightSide/Chart'
 
 import Main from './Main'
 
+import Loading from './Loading'
+
 export {
   Card,
   Row,
@@ -31,4 +32,5 @@ export {
   Summary,
   Transactions,
   Chart,
+  Loading,
 }

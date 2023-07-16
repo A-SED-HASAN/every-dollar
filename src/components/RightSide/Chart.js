@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Pie, measureTextWidth } from '@ant-design/plots'
 
-const DemoPie = ({ legend }) => {
+const Chart = ({ pieTitle, data }) => {
   function renderStatistic(containerWidth, text, style) {
     const { width: textWidth, height: textHeight } = measureTextWidth(
       text,
@@ -29,58 +29,25 @@ const DemoPie = ({ legend }) => {
     };">${text}</div>`
   }
 
-  const data = [
-    {
-      type: 'doubt',
-      value: 25,
-    },
-    {
-      type: 'charity',
-      value: 25,
-    },
-    {
-      type: 'food',
-      value: 25,
-    },
-    {
-      type: 'work',
-      value: 25,
-    },
-    {
-      type: 'sos',
-      value: 10,
-    },
-    {
-      type: 'friends',
-      value: 5,
-    },
-    {
-      type: 'sub',
-      value: 100,
-    },
-  ]
-  const calcAverageValue = (data, type) => {
-    const items = data.filter((d) => d.type === type)
-    return items.length
-      ? items.reduce((a, b) => a + b.value, 0) / items.length
-      : '-'
-  }
+  // const calcAverageValue = (data, type) => {
+  //   const items = data.filter((d) => d.type === type)
+  //   return items.length
+  //     ? items.reduce((a, b) => a + b.value, 0) / items.length
+  //     : '-'
+  // }
   const config = {
     appendPadding: 10,
     data,
     angleField: 'value',
     colorField: 'type',
     radius: 1,
-    innerRadius: 0.8,
+    innerRadius: 0.77,
     meta: {
       value: {
         formatter: (v) => `${v} $`,
       },
     },
-    // legend: {
-    //   position: 'bottom',
 
-    // },
     // legend: {
     //   position: 'bottom',
     //   // offsetY: 100,
@@ -91,17 +58,15 @@ const DemoPie = ({ legend }) => {
     // },
     legend: {
       position: 'bottom',
-
       flipPage: false,
-      // 两行分页
-      maxRow: 2,
-      pageNavigator: {
-        marker: {
-          style: {
-            fill: 'rgba(0,0,0,0.65)',
-          },
-        },
-      },
+      maxRow: 3,
+      // pageNavigator: {
+      //   marker: {
+      //     style: {
+      //       fill: 'rgba(0,0,0,0.65)',
+      //     },
+      //   },
+      // },
     },
     // itemName: {
     //   style: (item, index) => {
@@ -120,22 +85,22 @@ const DemoPie = ({ legend }) => {
     //     }
     //   },
     // },
-    label: {
-      type: 'inner',
-      offset: '-50%',
+    // label: {
+    //   type: 'inner',
+    //   offset: '-50%',
 
-      style: {
-        textAlign: 'center',
-      },
-      //for rotating value in the colors
-      autoRotate: true,
-      // content: '{value} ',
-      // for percent
-      // content: '{percentage}',
+    //   style: {
+    //     textAlign: 'center',
+    //   },
+    //   //for rotating value in the colors
+    //   autoRotate: true,
+    //   // content: '{value} ',
+    //   // for percent
+    //   // content: '{percentage}',
 
-      //to fixed remove zeros
-      formatter: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
-    },
+    //   //to fixed remove zeros
+    //   formatter: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+    // },
 
     // on hovering styles
     // state: {
@@ -146,23 +111,23 @@ const DemoPie = ({ legend }) => {
     //     },
     //   },
     // },
-    // label: {
-    //   type: 'inner',
-    //   offset: '-50%',
-    //   autoRotate: false,
-    //   style: {
-    //     textAlign: 'center',
-    //     fill: '#fff',
-    //   },
-    //   formatter: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
-    // },
+    label: {
+      type: 'inner',
+      offset: '-50%',
+      autoRotate: true,
+      style: {
+        textAlign: 'center',
+        fill: '#fff',
+      },
+      formatter: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+    },
     statistic: {
       title: {
         offsetY: -4,
         customHtml: (container, view, datum) => {
           const { width, height } = container.getBoundingClientRect()
           const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2))
-          const text = datum ? datum.type : 'total'
+          const text = datum ? datum.type : `${pieTitle}`
           return renderStatistic(d, text, {
             fontSize: 28,
           })
@@ -172,7 +137,7 @@ const DemoPie = ({ legend }) => {
       content: {
         offsetY: 4,
         style: {
-          fontSize: '32px',
+          fontSize: '2rem',
         },
         customHtml: (container, view, datum, data) => {
           const { width } = container.getBoundingClientRect()
@@ -202,4 +167,4 @@ const DemoPie = ({ legend }) => {
   return <Pie {...config} />
 }
 
-export default DemoPie
+export default Chart

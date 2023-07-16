@@ -23,6 +23,10 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined'
 
 import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined'
+
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
+
 export {
   HomeOutlinedIcon,
   FolderIcon,
@@ -45,4 +49,6 @@ export {
   KeyboardArrowRightOutlinedIcon,
   KeyboardArrowUpOutlinedIcon,
   SavingsOutlinedIcon,
+  VisibilityOutlinedIcon,
+  VisibilityOffOutlinedIcon,
 }

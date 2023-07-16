@@ -5,7 +5,11 @@ import { Divider } from '@mui/material'
 const Row = ({ title }) => {
   return (
     <Wrapper>
-      Row
+      <div className='grid'>
+        <span>{title}</span>
+        <span style={{ justifySelf: 'end' }}>2</span>
+        <span style={{ justifySelf: 'end' }}>3</span>
+      </div>
       <Divider />
     </Wrapper>
   )
@@ -13,4 +17,15 @@ const Row = ({ title }) => {
 
 export default Row
 
-const Wrapper = styled('div')(() => ({}))
+const Wrapper = styled('div')(() => ({
+  padding: '.3rem ',
+  '.grid': {
+    // background: 'red',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr 1fr',
+    padding: '0 0 .2rem',
+    span: {
+      fontWeight: '600',
+    },
+  },
+}))

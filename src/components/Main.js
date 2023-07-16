@@ -8,7 +8,7 @@ import { Budget } from '../routes'
 const Main = () => {
   return (
     <Wrapper>
-      <Navbar width={30} />
+      <Navbar width={230} />
       <div className='item'>
         <Routes>
           <Route path='/budget' element={<Budget />} />

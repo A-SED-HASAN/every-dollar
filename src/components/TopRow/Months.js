@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 
 import { styled } from '@mui/material/styles'
 import { Tooltip } from '@mui/material'
@@ -12,7 +12,7 @@ import {
 } from '../../assets/icons'
 import { SingleMonth } from '../'
 import { monthsName } from '../../assets/constants'
-import { useGlobalContext } from '../../context'
+import { useDateContext } from '../../context/DateContext.js'
 const Months = () => {
   const {
     thisMonth,
@@ -21,7 +21,7 @@ const Months = () => {
     thisYear,
     toggleExpandMonth,
     monthExpanded,
-  } = useGlobalContext()
+  } = useDateContext()
   const [index, setIndex] = useState(thisMonth)
 
   const makeItSafe = (num) => {

@@ -7,32 +7,63 @@ const Summary = () => {
   const [value, setValue] = useState(0)
   const handleChange = (event, newValue) => {
     setValue(newValue)
+    console.log(newValue)
   }
+  const values = [
+    { id: '1', label: 'planned' },
+    { id: '2', label: 'spent' },
+    { id: '3', label: 'remaining' },
+  ]
+  const data = [
+    {
+      type: 'doubt',
+      value: 25,
+    },
+    {
+      type: 'charity',
+      value: 25,
+    },
+    {
+      type: 'food',
+      value: 25,
+    },
+    {
+      type: 'work',
+      value: 25,
+    },
+    {
+      type: 'sos',
+      value: 10,
+    },
+    {
+      type: 'friends',
+      value: 5,
+    },
+    {
+      type: 'mammad',
+      value: 10,
+    },
+  ]
   return (
     <Wrapper>
-      {value === 0 && <Chart />}
+      {value >= 0 && <Chart data={data} pieTitle={values[value].label} />}
 
-      <nav>
-        <Tabs centered value={value} onChange={handleChange}>
-          <TabBtn
-            label='planned'
-            sx={{ borderBottom: 2, borderColor: 'divider' }}
-          />
-          <TabBtn
-            label='spent'
-            sx={{ borderBottom: 2, borderColor: 'divider' }}
-          />
-          <TabBtn
-            label='remaining'
-            sx={{
-              borderBottom: 2,
-              borderColor: 'divider',
-            }}
-          />
-        </Tabs>
-
-        {value === 0 && <Row title='giving' />}
-      </nav>
+      <Tabs centered value={value} onChange={handleChange}>
+        {/* <TabBtn label='planned' />
+        <TabBtn label='spent' />
+        <TabBtn label='remaining' /> */}
+        {values.map((item) => (
+          <TabBtn key={item.id} label={item.label} />
+        ))}
+      </Tabs>
+      {value >= 0 && (
+        <article>
+          <Row title='giving' />
+          <Row title='giving' />
+          <Row title='giving' />
+          <Row title='giving' />
+        </article>
+      )}
     </Wrapper>
   )
 }
@@ -44,6 +75,8 @@ const TabBtn = styled(Tab)(() => ({
   fontWeight: '500',
   margin: ' 0 .15rem',
   padding: '0',
+  borderBottom: '2px',
+
   '&.Mui-selected': {
     fontWeight: '700',
     color: 'var(--text-800)',
@@ -51,6 +84,9 @@ const TabBtn = styled(Tab)(() => ({
 }))
 
 const Wrapper = styled('div')(() => ({
-  margin: 'auto',
-  nav: { background: 'red', width: '50%' },
+  article: {
+    background: 'blue',
+    width: '67%',
+    margin: 'auto',
+  },
 }))

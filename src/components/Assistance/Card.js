@@ -3,56 +3,59 @@ import { styled } from '@mui/material/styles'
 import MuiAccordion from '@mui/material/Accordion'
 import MuiAccordionSummary from '@mui/material/AccordionSummary'
 import MuiAccordionDetails from '@mui/material/AccordionDetails'
-import Typography from '@mui/material/Typography'
 
 import { KeyboardArrowDownOutlinedIcon } from '../../assets/icons'
 import { Divider } from '@mui/material'
-const Card = ({ title, month, children }) => {
+import Inp from './Inp'
+import { buck } from '../../assets/images'
+import { formatMoney } from '../../functions'
+const Card = ({ title, month, array }) => {
   return (
     <CardWrapper>
       <Accordion>
         <AccordionSummary>
-          <span>
-            {title} {month ? `for ${month}` : ''}
-          </span>
-          <span>planned</span>
-          <span>Received</span>
+          <div>
+            {month && <img src={buck} alt='buck' />}
+            <span className='title'> {title}</span>
+            {month ? `for ${month}` : ''}
+          </div>
+          <p>planned</p>
+          <p>received</p>
         </AccordionSummary>
 
         <AccordionDetails>
-          <span>
-            {children}
-            <Divider />
-          </span>
-          <span>
-            {children}
-            <Divider />
-          </span>
-          <span>
-            {children}
-            <Divider />
-          </span>
+          {array.map((item, index) => {
+            return (
+              <span key={index}>
+                <div>
+                  <Inp value={item.title} />
+                  <Inp seconde value={formatMoney(item.value)} />
+                  333%
+                </div>
+                <Divider />
+              </span>
+            )
+          })}
+
+          <h4>add {month ? 'income ' : 'item'}</h4>
         </AccordionDetails>
       </Accordion>
     </CardWrapper>
   )
-
-  // <CardWrapper>{children}</CardWrapper>
 }
 
 export default Card
 
-const CardWrapper = styled('div')(() => ({
-  background: 'var(--card-bg)',
-  padding: '.5rem 1.5rem',
-  borderRadius: 'var(--radius)',
-  width: '100%',
-  maxWidth: '720px',
-  margin: '1.5rem auto',
-}))
+const CardWrapper = styled('div')(() => {
+  return {
+    width: '100%',
+    maxWidth: '720px',
+    margin: '1.5rem auto',
+  }
+})
 
 const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
+  <MuiAccordion disableGutters elevation={0} {...props} />
 ))(({ theme }) => ({}))
 
 const AccordionSummary = styled((props) => (
@@ -63,9 +66,9 @@ const AccordionSummary = styled((props) => (
     {...props}
   />
 ))(() => ({
-  background: 'lightgreen',
-  // width: '40%',
-  padding: '0',
+  // background: 'lightgreen',
+
+  padding: '.7rem 1rem',
   flexDirection: 'row-reverse',
   display: 'flex',
 
@@ -73,14 +76,45 @@ const AccordionSummary = styled((props) => (
     transform: 'rotate(.5turn)',
   },
   '& .MuiAccordionSummary-content': {
-    background: 'lightblue',
+    // background: 'lightblue',
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr',
+    gridTemplateColumns: '1fr .4fr .15fr',
+    color: 'var(--text-500)',
+    fontWeight: '600',
+    fontSize: '.9rem',
+    div: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '.4rem',
+      '.title': {
+        color: 'var(--text-600)',
+        fontWeight: '700',
+        fontSize: '1.1rem',
+      },
+    },
+    p: {
+      color: 'var(--text-400)',
+    },
   },
 }))
 
 const AccordionDetails = styled(MuiAccordionDetails)(() => ({
-  background: 'red',
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr 1fr',
+  padding: '0 1rem',
+
+  // background: 'red',
+  textAlign: 'center',
+  div: {
+    display: 'grid',
+    gridTemplateColumns: '1fr .4fr .15fr',
+    gap: '2rem',
+    padding: '.5rem 0',
+    alignItems: 'center',
+  },
+  h4: {
+    textAlign: 'start',
+    color: 'var(--bg-s-600)',
+    fontWeight: '600',
+    padding: '1rem 0 ',
+    // 0
+  },
 }))

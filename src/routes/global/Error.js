@@ -12,7 +12,14 @@ const Error = () => {
           this as a fallback.
         </p>
         <Link to='/budget' style={{ width: '30vw' }}>
-          <Btn fullWidth size='large' variant='contained'>
+          <Btn
+            sx={{
+              background: 'var(--text-600)',
+              ':hover': { background: 'var(--text-700)' },
+            }}
+            fullWidth
+            size='large'
+            variant='contained'>
             Back
           </Btn>
         </Link>

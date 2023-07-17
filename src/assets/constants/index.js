@@ -46,6 +46,18 @@ export const navigation = [
     to: 'ask-a-coach',
     icon: <HeadsetMicOutlinedIcon />,
   },
+  {
+    id: 9,
+    title: 'help center',
+    to: 'help',
+    icon: <SupportOutlinedIcon />,
+  },
+  {
+    id: 10,
+    title: 'setting',
+    to: 'setting',
+    icon: <SettingsOutlinedIcon />,
+  },
 ]
 
 export const monthsName = [

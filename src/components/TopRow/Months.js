@@ -1,7 +1,7 @@
-import React, {  useState } from 'react'
+import React from 'react'
 
 import { styled } from '@mui/material/styles'
-import { Tooltip } from '@mui/material'
+import { Tooltip, Chip } from '@mui/material'
 import moment from 'moment'
 
 import {
@@ -9,6 +9,7 @@ import {
   KeyboardArrowLeftOutlinedIcon,
   KeyboardArrowUpOutlinedIcon,
   KeyboardArrowDownOutlinedIcon,
+  RestoreOutlinedIcon,
 } from '../../assets/icons'
 import { SingleMonth } from '../'
 import { monthsName } from '../../assets/constants'
@@ -21,8 +22,8 @@ const Months = () => {
     thisYear,
     toggleExpandMonth,
     monthExpanded,
+    name,
   } = useDateContext()
-  const [index, setIndex] = useState(thisMonth)
 
   const makeItSafe = (num) => {
     if (num > 12) {
@@ -35,14 +36,20 @@ const Months = () => {
     }
     return num
   }
-  const { name } = monthsName.find((item) => {
-    // setThisMonth(item.id)
-    return item.id === index
-  })
+
+  let monthNow = +moment().format('M')
+  let yearNow = +moment().format('YYYY')
+
   const backToday = () => {
-    setThisMonth(+moment().format('M'))
-    setThisYear(+moment().format('YYYY'))
+    setThisMonth(monthNow)
+    setThisYear(yearNow)
   }
+
+  let _ForNotToday = monthNow !== thisMonth || yearNow !== thisYear
+
+  let _ForPastOrFuture =
+    thisYear < yearNow || (thisYear === yearNow && thisMonth < monthNow)
+
   return (
     <Wrapper>
       <div className='container' onClick={toggleExpandMonth}>
@@ -66,35 +73,60 @@ const Months = () => {
         </div>
       )}
       <div className='flex'>
-        <Btn variant='outlined' text onClick={backToday}>
-          Today
-        </Btn>
-        <Tooltip title='previous month' arrow>
+        {_ForNotToday && (
+          <Tooltip title='jump today' arrow>
+            <Btn variant='outlined' text onClick={backToday}>
+              Today
+            </Btn>
+          </Tooltip>
+        )}
+        <Tooltip placement='left' title='previous month' arrow>
           <Btn
             variant='outlined'
             left
             onClick={() => {
-              setIndex(makeItSafe(index - 1))
+              setThisMonth(makeItSafe(thisMonth - 1))
             }}>
             <KeyboardArrowLeftOutlinedIcon fontSize='small' />
           </Btn>
         </Tooltip>
-        <Tooltip title='next month' arrow>
+        <Tooltip placement='right' title='next month' arrow>
           <Btn
             right
             variant='outlined'
             onClick={() => {
-              setIndex(makeItSafe(index + 1))
+              setThisMonth(makeItSafe(thisMonth + 1))
             }}>
             <KeyboardArrowRightOutlinedIcon fontSize='small' />
           </Btn>
         </Tooltip>
+        {_ForNotToday && (
+          <Cheap
+            sx={{ textTransform: 'lowercase' }}
+            size='small'
+            color='warning'
+            icon={<RestoreOutlinedIcon />}
+            label={`You are viewing a${_ForPastOrFuture ? ' past ' : ' future '}
+            month.`}
+          />
+        )}
       </div>
     </Wrapper>
   )
 }
 
 export default Months
+
+const Cheap = styled(Chip)(() => ({
+  position: 'absolute',
+  bottom: '0',
+  left: '100%',
+  transform: 'translate(-100%,85%)',
+  background: 'var(--warning)',
+  color: 'var(--text-900)',
+  fontWeight: '600',
+  fontSize: '.7rem',
+}))
 
 const Btn = styled('button')(({ left, right, text }) => ({
   border: '2px solid var(--bg-s-800)',
@@ -120,7 +152,6 @@ const Btn = styled('button')(({ left, right, text }) => ({
 }))
 
 const Wrapper = styled('div')(() => ({
-  // background: 'red',
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
@@ -136,7 +167,7 @@ const Wrapper = styled('div')(() => ({
         color: 'var(--text-700)',
       },
       '.year': {
-        fontWeight: '300',
+        fontWeight: '400',
         color: 'var(--text-300)',
       },
     },
@@ -169,7 +200,6 @@ const Wrapper = styled('div')(() => ({
     },
   },
   '.flex': {
-    // background: 'blue',
     display: 'flex',
   },
 }))

@@ -58,7 +58,7 @@ const Summary = () => {
       </Tabs>
       {value >= 0 && (
         <article>
-          <Row title='giving' />
+          <Row planned title='giving' />
           <Row title='giving' />
           <Row title='giving' />
           <Row title='giving' />
@@ -76,7 +76,7 @@ const TabBtn = styled(Tab)(() => ({
   margin: ' 0 .15rem',
   padding: '0',
   borderBottom: '2px',
-
+  width: '30%',
   '&.Mui-selected': {
     fontWeight: '700',
     color: 'var(--text-800)',
@@ -85,8 +85,8 @@ const TabBtn = styled(Tab)(() => ({
 
 const Wrapper = styled('div')(() => ({
   article: {
-    background: 'blue',
-    width: '67%',
+    // background: 'blue',
+    width: '92%',
     margin: 'auto',
   },
 }))

@@ -41,6 +41,8 @@ Global Styles And Variables
   --text-800: #2c2f35;
   --text-900: #17191c;
   --text-950: #0d0e0f;
+  
+  --warning: #fdba40;
 
   --clr-black: '#222';
 
@@ -49,7 +51,7 @@ Global Styles And Variables
   --card-bg: #fff;
   --card-border-color: #d5d9db;
   --shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-  --light-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  --light-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
 
   --light-radius: 0.25rem;
   --radius: 0.5rem;

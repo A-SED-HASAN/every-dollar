@@ -2,13 +2,13 @@ import React from 'react'
 import { styled } from '@mui/material/styles'
 import { Divider } from '@mui/material'
 
-const Row = ({ title }) => {
+const Row = ({ title, planned }) => {
   return (
-    <Wrapper>
+    <Wrapper planned={planned}>
       <div className='grid'>
         <span>{title}</span>
-        <span style={{ justifySelf: 'end' }}>2</span>
-        <span style={{ justifySelf: 'end' }}>3</span>
+        <span>$230.00</span>
+        {planned && <span style={{ justifySelf: 'end' }}>100%</span>}
       </div>
       <Divider />
     </Wrapper>
@@ -17,13 +17,12 @@ const Row = ({ title }) => {
 
 export default Row
 
-const Wrapper = styled('div')(() => ({
+const Wrapper = styled('div')(({ planned }) => ({
   padding: '.3rem ',
   '.grid': {
-    // background: 'red',
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr',
-    padding: '0 0 .2rem',
+    gridTemplateColumns: planned ? '1fr .2fr .3fr' : '1fr .2fr ',
+    padding: ' .4rem 0',
     span: {
       fontWeight: '600',
     },

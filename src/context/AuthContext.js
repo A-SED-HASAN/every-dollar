@@ -6,13 +6,14 @@ import {
   onAuthStateChanged,
   signOut,
 } from 'firebase/auth'
+import { useLocalStorage } from '../hook'
 const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const [authUser, setAuthUser] = useState(null)
+  const [authUser, setAuthUser] = useLocalStorage('authUser', null)
 
   const [error, setError] = useState('')
   const [pending, setPending] = useState(true)
@@ -32,29 +33,25 @@ const AuthProvider = ({ children }) => {
     })
   }, [])
 
-  const existingUser = () => {
+  const existingUser = (e) => {
+    e.preventDefault()
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setAuthUser(userCredential.user)
-        // ...
       })
       .catch((error) => {
         setError(error.code.slice(5))
       })
   }
 
-  const newUser = () => {
+  const newUser = (e) => {
+    e.preventDefault()
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         setAuthUser(userCredential.user)
-
-        // ...
       })
       .catch((error) => {
         setError(error.code.slice(5))
-
-        // ..
       })
   }
 

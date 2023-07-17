@@ -50,7 +50,6 @@ const SignIn = () => {
     setError('')
     setEmail('')
     setPassword('')
-    setAuthUser(null)
     // eslint-disable-next-line
   }, [hasAccount])
   if (pending) {
@@ -72,70 +71,70 @@ const SignIn = () => {
             {error}
           </Alert>
         )}
-        <FormControl
-          sx={{ margin: '1rem 0', width: '100%' }}
-          variant='outlined'>
-          <InputLabel htmlFor='outlined-adornment-email'>email</InputLabel>
-          <OutlinedInp
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            id='outlined-adornment-email'
-            endAdornment={<InputAdornment position='end'>@</InputAdornment>}
-            aria-describedby='outlined-email-helper-text'
-            inputProps={{
-              'aria-label': 'email',
-            }}
-            label='email'
-          />
-        </FormControl>
-        <FormControl
-          sx={{ margin: '1rem 0', width: '100%' }}
-          variant='outlined'>
-          <InputLabel htmlFor='outlined-adornment-password'>
-            Password
-          </InputLabel>
-          <OutlinedInp
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            id='outlined-adornment-password'
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position='end'>
-                <IconBtn
-                  aria-label='toggle password visibility'
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge='end'>
-                  {showPassword ? (
-                    <VisibilityOffOutlinedIcon />
-                  ) : (
-                    <VisibilityOutlinedIcon />
-                  )}
-                </IconBtn>
-              </InputAdornment>
-            }
-            label='Password'
-          />
-        </FormControl>
-        <Btn
-          onClick={() => {
+        <form
+          onSubmit={(e) => {
             if (hasAccount) {
-              existingUser()
+              existingUser(e)
               if (authUser) {
                 nav('/budget')
               }
             } else {
-              newUser()
+              newUser(e)
             }
-          }}
-          variant='contained'
-          fullWidth>
-          {hasAccount ? 'sign in' : 'create'}
-        </Btn>
+          }}>
+          <FormControl
+            sx={{ margin: '1rem 0', width: '100%' }}
+            variant='outlined'>
+            <InputLabel htmlFor='outlined-adornment-email'>email</InputLabel>
+            <OutlinedInp
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id='outlined-adornment-email'
+              endAdornment={<InputAdornment position='end'>@</InputAdornment>}
+              aria-describedby='outlined-email-helper-text'
+              inputProps={{
+                'aria-label': 'email',
+              }}
+              label='email'
+            />
+          </FormControl>
+          <FormControl
+            sx={{ margin: '1rem 0', width: '100%' }}
+            variant='outlined'>
+            <InputLabel htmlFor='outlined-adornment-password'>
+              Password
+            </InputLabel>
+            <OutlinedInp
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id='outlined-adornment-password'
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconBtn
+                    aria-label='toggle password visibility'
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge='end'>
+                    {showPassword ? (
+                      <VisibilityOffOutlinedIcon />
+                    ) : (
+                      <VisibilityOutlinedIcon />
+                    )}
+                  </IconBtn>
+                </InputAdornment>
+              }
+              label='Password'
+            />
+          </FormControl>
+          <Btn type='submit' variant='contained' fullWidth>
+            {hasAccount ? 'sign in' : 'create'}
+          </Btn>
+        </form>
 
         {hasAccount && (
           <LinkBtn weight='bold' underline='hover'>
-            Forgot password
+            Forgot password ?
           </LinkBtn>
         )}
 
@@ -143,6 +142,7 @@ const SignIn = () => {
           <>
             <Divider sx={{ fontWeight: '700', mt: 2 }}> OR</Divider>
             <Btn
+              type='button'
               variant='outlined'
               fullWidth
               onClick={() => {
@@ -166,9 +166,11 @@ const SignIn = () => {
 }
 
 export default SignIn
+
 const LinkBtn = styled(Link)(({ weight }) => ({
   color: 'var(--bg-s-700)',
   fontWeight: weight === 'bold' && '600',
+  fontSize: weight === 'bold' && '1rem',
   cursor: 'pointer',
   ':hover': {
     color: 'var(--bg-s-800)',
@@ -185,14 +187,14 @@ const OutlinedInp = styled(OutlinedInput)(() => ({
   },
 }))
 export const Btn = styled(Button)(({ variant }) => ({
-  background: variant === 'contained' ? 'var(--bg-s-700)' : 'transparent',
+  background: variant === 'contained' ? 'var(--bg-s-800)' : 'transparent',
   margin: variant === 'outlined' ? '2rem 0' : '1rem 0',
-  padding: '.8rem 0',
+  padding: '.6rem 0',
   fontWeight: '700',
   textTransform: 'capitalize',
   fontSize: '1rem',
   ':hover': {
-    background: variant === 'outlined' && 'var(--bg-s-50)',
+    background: variant === 'outlined' ? 'var(--bg-s-50)' : 'var(--bg-s-700)',
   },
   '*': {
     cursor: 'pointer',
@@ -210,6 +212,10 @@ const Wrapper = styled('section')(({ hasAccount }) => ({
     flexDirection: 'column',
     gap: '1rem',
     margin: '1rem 0',
+    '.ramseyBlue': {
+      margin: 'auto',
+      width: '80%',
+    },
   },
   '.container': {
     alignSelf: 'start',
@@ -221,8 +227,8 @@ const Wrapper = styled('section')(({ hasAccount }) => ({
     borderRadius: 'var(--radius)',
     boxShadow: 'var(--light-shadow)',
     marginBottom: '1rem',
-    h1: { fontSize: '1.8rem' },
-    p: { fontSize: '1rem', fontWeight: '500' },
+    h1: { fontSize: '1.6rem' },
+    p: { fontSize: '.9rem', fontWeight: '500', color: 'var(--text-600)' },
   },
   '.end': {
     alignSelf: 'start',

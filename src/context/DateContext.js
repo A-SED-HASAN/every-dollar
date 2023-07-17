@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useState } from 'react'
 import moment from 'moment/moment'
-
+import { monthsName } from '../assets/constants'
+import { useLocalStorage } from '../hook'
 const DateContext = createContext()
 
 const DateProvider = ({ children }) => {
@@ -10,8 +11,19 @@ const DateProvider = ({ children }) => {
     setMonthExpanded((prev) => !prev)
   }
 
-  const [thisMonth, setThisMonth] = useState(+moment().format('M'))
-  const [thisYear, setThisYear] = useState(+moment().format('YYYY'))
+  const [thisMonth, setThisMonth] = useLocalStorage(
+    'thisMonth',
+    +moment().format('M')
+  )
+  const [thisYear, setThisYear] = useLocalStorage(
+    'thisYear',
+    +moment().format('YYYY')
+  )
+  const [drawerOpen, setDrawerOpen] = useState(true)
+
+  const { name } = monthsName.find((item) => {
+    return item.id === thisMonth
+  })
 
   return (
     <DateContext.Provider
@@ -22,6 +34,8 @@ const DateProvider = ({ children }) => {
         thisYear,
         setThisYear,
         setThisMonth,
+        drawerOpen,
+        name,
       }}>
       {children}
     </DateContext.Provider>

@@ -13,7 +13,7 @@ import { Accounts, Summary, Transactions } from '../'
 
 const RightCard = () => {
   const [value, setValue] = useState(0)
-  const handleChange = (event, newValue) => {
+  const handleChange = (_, newValue) => {
     setValue(newValue)
   }
 
@@ -54,7 +54,6 @@ export default RightCard
 
 const TabBtn = styled(Tab)(() => ({
   padding: '2rem',
-  // background: 'red',
   color: 'var(--text-200)',
   fontWeight: '600',
   textTransform: 'capitalize',
@@ -86,8 +85,7 @@ const Wrapper = styled('div')(() => ({
   maxWidth: '439px',
   borderRadius: 'var(--radius)',
   border: '1px solid var(--card-border-color)',
-
   main: {
-    background: 'red',
+    // background: 'red',
   },
 }))

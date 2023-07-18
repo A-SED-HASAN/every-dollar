@@ -23,7 +23,9 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'
 import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined'
-
+import DragIndicatorOutlinedIcon from '@mui/icons-material/DragIndicatorOutlined'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined'
 export {
   HomeOutlinedIcon,
   FolderIcon,
@@ -50,4 +52,7 @@ export {
   VisibilityOffOutlinedIcon,
   LogoutOutlinedIcon,
   RestoreOutlinedIcon,
+  DeleteOutlineOutlinedIcon,
+  DragIndicatorOutlinedIcon,
+  RotateLeftOutlinedIcon,
 }

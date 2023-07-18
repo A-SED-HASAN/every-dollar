@@ -41,7 +41,7 @@ Global Styles And Variables
   --text-800: #2c2f35;
   --text-900: #17191c;
   --text-950: #0d0e0f;
-  
+
   --warning: #fdba40;
 
   --clr-black: '#222';
@@ -74,11 +74,11 @@ Global Styles And Variables
     width: 0.3rem;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: var(--bg-border-light);
+    background-color: var(--card-border-color);
     border-radius: 50rem;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background-color: var(--bg-border);
+    background-color: var(--text-200);
   }
 }
 

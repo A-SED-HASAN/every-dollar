@@ -3,83 +3,23 @@ import { styled } from '@mui/material/styles'
 import { Card, Months, Remain } from '../../components'
 import { formatMoney } from '../../functions'
 import { useDateContext } from '../../context/DateContext'
+import { Button } from '@mui/material'
+import { AddOutlinedIcon, RotateLeftOutlinedIcon } from '../../assets/icons'
 const Budget = () => {
-  const { name } = useDateContext()
-  const init = [
-    {
-      id: 1,
-      title: 'income',
-      month: name,
-      array: [
-        { title: 'paycheck 1', value: 0 },
-        { title: 'paycheck 2', value: 0 },
-      ],
-    },
-    {
-      id: 2,
-      title: 'giving',
-      array: [
-        { title: 'church', value: 0 },
-        { title: 'charity', value: 0 },
-      ],
-    },
-    {
-      id: 3,
-      title: 'saving',
-      array: [{ title: 'Emergency Fund', value: 0 }],
-    },
-    {
-      id: 4,
-      title: 'Bills & Subscriptions',
-      array: [
-        { title: 'Mortgage/Rent', value: 0 },
-        { title: 'water', value: 0 },
-        { title: 'natural gas', value: 0 },
-        { title: 'Electricity', value: 0 },
-        { title: 'internet', value: 0 },
-        { title: 'Streaming Services', value: 0 },
-        { title: 'Trash', value: 0 },
-        { title: 'Phone', value: 0 },
-        { title: 'Health Insurance', value: 0 },
-        { title: 'Life Insurance', value: 0 },
-        { title: 'Auto Insurance', value: 0 },
-        { title: 'Identity Theft', value: 0 },
-        { title: 'Gym', value: 0 },
-      ],
-    },
-    {
-      id: 5,
-      title: 'Spending',
-      array: [
-        { title: 'Groceries', value: 0 },
-        { title: 'Restaurants', value: 0 },
-        { title: 'gas', value: 0 },
-        { title: 'Clothing', value: 0 },
-        { title: 'Hair & Skin Care', value: 0 },
-        { title: 'Fun & Entertainment', value: 0 },
-        { title: 'Pet Care', value: 0 },
-        { title: 'Child Care', value: 0 },
-        { title: 'Repairs & Maintenance', value: 0 },
-        { title: 'Miscellaneous', value: 0 },
-      ],
-    },
-    {
-      id: 6,
-      title: 'debt',
-      array: [
-        { title: 'bank', value: 0 },
-        { title: 'father', value: 0 },
-        { title: 'friend', value: 0 },
-      ],
-    },
-  ]
+  const { list, addGroupHandler, resetBudget } = useDateContext()
   return (
     <Wrapper>
       <Months />
       <Remain amount={formatMoney(7343)} />
-      {init.map((item) => {
+      {list.map((item) => {
         return <Card key={item.id} {...item} />
       })}
+      <AddGroupBtn onClick={addGroupHandler} startIcon={<AddOutlinedIcon />}>
+        add group
+      </AddGroupBtn>
+      <ResetBtn onClick={resetBudget} startIcon={<RotateLeftOutlinedIcon />}>
+        reset budget
+      </ResetBtn>
     </Wrapper>
   )
 }
@@ -91,8 +31,31 @@ const Wrapper = styled('div')(() => ({
   height: '100vh',
   position: 'relative',
   padding: '1.5rem',
-
   '@media (width<= 1200px)': {
     padding: '.5rem',
   },
+}))
+
+
+const Btn = styled(Button)(() => ({
+  margin: '1.5rem auto',
+  display: 'flex',
+  justifyContent: 'start',
+  color: 'var(--bg-s-800)',
+  fontWeight: '700',
+  '*': {
+    cursor: 'pointer',
+  },
+}))
+const AddGroupBtn = styled(Btn)(() => ({
+  width: '100%',
+  maxWidth: '720px',
+  border: '1px dashed var(--text-100)',
+  padding: ' 1.5rem',
+  fontSize: '1rem',
+}))
+const ResetBtn = styled(Btn)(() => ({
+  padding: ' 1rem',
+  fontSize: '.9rem',
+  textTransform: 'capitalize',
 }))

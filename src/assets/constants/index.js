@@ -11,6 +11,7 @@ import {
   SupportOutlinedIcon,
   SettingsOutlinedIcon,
 } from '../icons'
+
 export const navigation = [
   {
     id: 1,
@@ -73,4 +74,86 @@ export const monthsName = [
   { id: 10, name: 'October' },
   { id: 11, name: 'November' },
   { id: 12, name: 'December' },
+]
+
+export const init = [
+  {
+    id: 1,
+    title: 'income',
+    month: true,
+    array: [
+      { title: 'paycheck 1', value: 0 },
+      { title: 'paycheck 2', value: 0 },
+    ],
+  },
+  {
+    id: 2,
+    title: 'giving',
+    array: [
+      { title: 'church', value: 0 },
+      { title: 'charity', value: 0 },
+    ],
+  },
+  {
+    id: 3,
+    title: 'saving',
+    array: [{ title: 'Emergency Fund', value: 0 }],
+  },
+  {
+    id: 4,
+    title: 'Bills & Subscriptions',
+    array: [
+      { title: 'Mortgage/Rent', value: 0 },
+      { title: 'water', value: 0 },
+      { title: 'natural gas', value: 0 },
+      { title: 'Electricity', value: 0 },
+      { title: 'internet', value: 0 },
+      { title: 'Streaming Services', value: 0 },
+      { title: 'Trash', value: 0 },
+      { title: 'Phone', value: 0 },
+      { title: 'Health Insurance', value: 0 },
+      { title: 'Life Insurance', value: 0 },
+      { title: 'Auto Insurance', value: 0 },
+      { title: 'Identity Theft', value: 0 },
+      { title: 'Gym', value: 0 },
+    ],
+  },
+  {
+    id: 5,
+    title: 'Spending',
+    array: [
+      { title: 'Groceries', value: 0 },
+      { title: 'Restaurants', value: 0 },
+      { title: 'gas', value: 0 },
+      { title: 'Clothing', value: 0 },
+      { title: 'Hair & Skin Care', value: 0 },
+      { title: 'Fun & Entertainment', value: 0 },
+      { title: 'Pet Care', value: 0 },
+      { title: 'Child Care', value: 0 },
+      { title: 'Repairs & Maintenance', value: 0 },
+      { title: 'Miscellaneous', value: 0 },
+    ],
+  },
+  {
+    id: 6,
+    title: 'debt',
+    array: [
+      { title: 'bank', value: 0 },
+      { title: 'father', value: 0 },
+      { title: 'friend', value: 0 },
+    ],
+  },
+]
+
+// ====== tabs ======
+
+export const summaryValues_tabs = [
+  { id: 1, label: 'income' },
+  { id: 2, label: 'spent' },
+  { id: 3, label: 'remaining' },
+]
+export const transactionsValues_tabs = [
+  { id: 1, label: 'new' },
+  { id: 2, label: 'tracked' },
+  { id: 3, label: 'deleted' },
 ]

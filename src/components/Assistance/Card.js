@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import MuiAccordion from '@mui/material/Accordion'
 import MuiAccordionSummary from '@mui/material/AccordionSummary'
 import MuiAccordionDetails from '@mui/material/AccordionDetails'
-
-import { KeyboardArrowDownOutlinedIcon } from '../../assets/icons'
+import {
+  KeyboardArrowDownOutlinedIcon,
+  DeleteOutlineOutlinedIcon,
+} from '../../assets/icons'
 import { Divider } from '@mui/material'
 import Inp from './Inp'
 import { buck } from '../../assets/images'
 import { formatMoney } from '../../functions'
-const Card = ({ title, month, array }) => {
+import { useDateContext } from '../../context/DateContext'
+
+const Card = ({ title, month, array, id }) => {
+  const { addItemHandler, name, deleteSingle, makeDataForChart } =
+    useDateContext()
+
+  //make this global
+  const [remaining, setRemaining] = useState(false)
+
   return (
     <CardWrapper>
       <Accordion>
@@ -17,27 +27,52 @@ const Card = ({ title, month, array }) => {
           <div>
             {month && <img src={buck} alt='buck' />}
             <span className='title'> {title}</span>
-            {month ? `for ${month}` : ''}
+            {month ? `for ${name}` : ''}
           </div>
           <p>planned</p>
-          <p>received</p>
+          <p className='end' onClick={() => setRemaining((prev) => !prev)}>
+            {month ? 'received' : remaining ? 'remaining' : 'spent'}
+          </p>
         </AccordionSummary>
 
-        <AccordionDetails>
+        <AccordionDetails
+          month={month ? 'true' : 'false'}
+          remaining={remaining ? 'true' : 'false'}
+          length={array.length}>
           {array.map((item, index) => {
             return (
               <span key={index}>
-                <div>
-                  <Inp value={item.title} />
-                  <Inp seconde value={formatMoney(item.value)} />
-                  333%
+                <div className='single-row'>
+                  <IconWrapper>
+                    <DeleteOutlineOutlinedIcon
+                      className='icon'
+                      onClick={() => deleteSingle(title, index)}
+                    />
+                  </IconWrapper>
+                  <Inp value={item.title} name={`${id}-${index}`} />
+                  <Inp
+                    seconde
+                    value={item.value}
+                    name={`${id}-${index}-price`}
+                  />
+                  <span className='remain end'>333%</span>
                 </div>
                 <Divider />
               </span>
             )
           })}
 
-          <h4>add {month ? 'income ' : 'item'}</h4>
+          <div className='grid'>
+            <h4 onClick={() => addItemHandler(title, id)}>
+              add {month ? 'income ' : 'item'}
+            </h4>
+            {month && array.length > 0 && (
+              <span>{formatMoney(makeDataForChart()[0].value)}</span>
+            )}
+            {month && array.length > 0 && (
+              <span className=' end'>{formatMoney(1500)}</span>
+            )}
+          </div>
         </AccordionDetails>
       </Accordion>
     </CardWrapper>
@@ -46,17 +81,9 @@ const Card = ({ title, month, array }) => {
 
 export default Card
 
-const CardWrapper = styled('div')(() => {
-  return {
-    width: '100%',
-    maxWidth: '720px',
-    margin: '1.5rem auto',
-  }
-})
-
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} {...props} />
-))(({ theme }) => ({}))
+))(() => ({}))
 
 const AccordionSummary = styled((props) => (
   <MuiAccordionSummary
@@ -66,19 +93,15 @@ const AccordionSummary = styled((props) => (
     {...props}
   />
 ))(() => ({
-  // background: 'lightgreen',
-
   padding: '.7rem 1rem',
   flexDirection: 'row-reverse',
   display: 'flex',
-
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(.5turn)',
   },
   '& .MuiAccordionSummary-content': {
-    // background: 'lightblue',
     display: 'grid',
-    gridTemplateColumns: '1fr .4fr .15fr',
+    gridTemplateColumns: '3fr 1fr .6fr',
     color: 'var(--text-500)',
     fontWeight: '600',
     fontSize: '.9rem',
@@ -98,23 +121,79 @@ const AccordionSummary = styled((props) => (
   },
 }))
 
-const AccordionDetails = styled(MuiAccordionDetails)(() => ({
-  padding: '0 1rem',
+const AccordionDetails = styled(MuiAccordionDetails)(
+  ({ length, remaining, month }) => ({
+    padding: '0 1rem',
+    textAlign: 'center',
+    '.single-row': {
+      position: 'relative',
+      '.remain': {
+        fontSize: '1.1rem',
+        fontWeight: '600',
+        color:
+          month === 'true'
+            ? 'var(--text-600)'
+            : remaining === 'true'
+            ? ' var(--bg-s-600)'
+            : 'var(--bg-p-500)',
+      },
+      ':hover': {
+        '.icon': {
+          visibility: 'visible',
+        },
+      },
+    },
+    div: {
+      display: 'grid',
+      gridTemplateColumns: '3fr 1fr .6fr',
+      gap: '2rem',
+      padding: '.5rem 0',
+      alignItems: 'center',
+      h4: {
+        textAlign: 'start',
+        color: 'var(--bg-s-600)',
+        fontWeight: '600',
+        padding: length > 0 ? '1rem 0 ' : '0.5rem 1.5rem',
+        cursor: 'pointer',
+        ':hover': {
+          color: 'var(--bg-s-800)',
+        },
+      },
+    },
+    '.grid': {
+      display: 'grid',
+      gridTemplateColumns: '3fr 1.5fr .6fr',
+      fontWeight: '700',
+      fontSize: '1.1rem',
+      color: 'var(--text-700)',
+    },
+  })
+)
 
-  // background: 'red',
-  textAlign: 'center',
-  div: {
-    display: 'grid',
-    gridTemplateColumns: '1fr .4fr .15fr',
-    gap: '2rem',
-    padding: '.5rem 0',
-    alignItems: 'center',
+const IconWrapper = styled('span')(() => ({
+  position: 'absolute',
+  left: '-16px',
+  display: 'grid',
+  placeItems: 'center',
+  '*': {
+    cursor: 'pointer',
   },
-  h4: {
-    textAlign: 'start',
-    color: 'var(--bg-s-600)',
-    fontWeight: '600',
-    padding: '1rem 0 ',
-    // 0
+  '.icon': {
+    color: 'var(--text-200)',
+    width: '1rem',
+    visibility: 'hidden',
+    ':hover': {
+      color: 'red',
+      visibility: 'visible',
+    },
+  },
+}))
+
+const CardWrapper = styled('div')(() => ({
+  width: '100%',
+  maxWidth: '720px',
+  margin: '1.5rem auto',
+  '.end': {
+    justifySelf: 'end',
   },
 }))

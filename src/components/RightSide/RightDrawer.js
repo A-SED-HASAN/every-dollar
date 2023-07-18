@@ -14,7 +14,7 @@ export default function RightDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <DrawerWrapper
-        elevation
+        elevation={0}
         hideBackdrop
         variant={width < 950 ? 'temporary' : 'persistent'}
         anchor='right'

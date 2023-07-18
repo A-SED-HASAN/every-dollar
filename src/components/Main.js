@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles'
 import { Navbar, RightDrawer } from './'
 import { useHref } from 'react-router-dom'
 
-import { Budget } from '../routes'
+import { Budget, Insights } from '../routes'
 const Main = () => {
   const href = useHref().slice(1)
 
@@ -11,6 +11,7 @@ const Main = () => {
     <Wrapper>
       <Navbar />
       {href === 'budget' && <Budget />}
+      {href === 'insights' && <Insights />}
       <RightDrawer />
     </Wrapper>
   )

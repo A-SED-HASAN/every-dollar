@@ -36,10 +36,22 @@ const Chart = ({ pieTitle, data }) => {
   //     : '-'
   // }
   const config = {
-    appendPadding: 10,
+    appendPadding: 15,
     data,
     angleField: 'value',
     colorField: 'type',
+    color: [
+      '#00b2f6',
+      '#e64b40',
+      '#faab19',
+      '#48ce65',
+      '#b34fa0',
+      '#16a597',
+      '#f26552',
+      '#e3b409',
+      '#35bd59',
+      '#634fb3',
+    ],
     radius: 1,
     innerRadius: 0.77,
     meta: {
@@ -48,25 +60,10 @@ const Chart = ({ pieTitle, data }) => {
       },
     },
 
-    // legend: {
-    //   position: 'bottom',
-    //   // offsetY: 100,
-    //   title: {
-    //     text: 'title',
-    //     // spacing: 100,
-    //   },
-    // },
     legend: {
       position: 'bottom',
       flipPage: false,
       maxRow: 3,
-      // pageNavigator: {
-      //   marker: {
-      //     style: {
-      //       fill: 'rgba(0,0,0,0.65)',
-      //     },
-      //   },
-      // },
     },
     // itemName: {
     //   style: (item, index) => {
@@ -81,36 +78,19 @@ const Chart = ({ pieTitle, data }) => {
     //   },
     //   style: (item, index) => {
     //     return {
-    //       fill: calcAverageValue(data, item.value) > 1000 ? 'black' : 'green',
+    //       fill: calcAverageValue(data, item.value) > 10 ? 'black' : 'green',
     //     }
     //   },
     // },
-    // label: {
-    //   type: 'inner',
-    //   offset: '-50%',
 
-    //   style: {
-    //     textAlign: 'center',
-    //   },
-    //   //for rotating value in the colors
-    //   autoRotate: true,
-    //   // content: '{value} ',
-    //   // for percent
-    //   // content: '{percentage}',
-
-    //   //to fixed remove zeros
-    //   formatter: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
-    // },
-
-    // on hovering styles
-    // state: {
-    //   active: {
-    //     style: {
-    //       lineWidth: 0,
-    //       fillOpacity: 0.5,
-    //     },
-    //   },
-    // },
+    state: {
+      active: {
+        style: {
+          lineWidth: 0,
+          fillOpacity: 0.7,
+        },
+      },
+    },
     label: {
       type: 'inner',
       offset: '-50%',
@@ -119,6 +99,8 @@ const Chart = ({ pieTitle, data }) => {
         textAlign: 'center',
         fill: '#fff',
       },
+
+      // content: '{percentage}',
       formatter: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
     },
     statistic: {
@@ -150,7 +132,33 @@ const Chart = ({ pieTitle, data }) => {
         },
       },
     },
+    pieStyle: {
+      lineWidth: 0,
+      cursor: 'pointer',
+    },
+    // pattern: {
+    //   type: 'square',
+    // },
+    //disable animation
+    // animation: false,
 
+    animation: {
+      appear: {
+        animation: 'grow-in-xy', // Effects of the first animation
+        duration: 500, // Duration of the first animation
+      },
+    },
+
+    //     'fade-in'
+    // 'fade-out'
+    // 'grow-in-x'
+    // 'grow-in-y'
+    // 'grow-in-xy'
+    // 'scale-in-x'
+    // 'scale-in-y'
+    // 'wave-in'
+    // 'zoom-in'
+    // 'zoom-out'
     interactions: [
       {
         type: 'element-selected',
@@ -160,6 +168,10 @@ const Chart = ({ pieTitle, data }) => {
       },
       {
         type: 'pie-statistic-active',
+      },
+
+      {
+        type: 'legend-highlight',
       },
     ],
   }

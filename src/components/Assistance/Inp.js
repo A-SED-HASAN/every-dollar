@@ -2,14 +2,15 @@ import React from 'react'
 import { styled } from '@mui/material/styles'
 // import { formatMoney } from '../../functions'
 import { useDateContext } from '../../context/DateContext'
-const Inp = ({ seconde, value, name }) => {
+const Inp = ({ seconde, value, name, className }) => {
   const { inputHandler } = useDateContext()
   return (
     <Input
+      className={className}
       style={{ background: value === 0 && 'var(--bg-main)' }}
       seconde={seconde}
       onChange={(e) => inputHandler(e)}
-      value={seconde ? value : value}
+      value={value}
       type='text'
       name={name}
     />
@@ -22,7 +23,7 @@ const Input = styled('input')(({ seconde }) => ({
   border: '1px solid var(--card-bg)',
   width: seconde ? '50%' : '100%',
   minWidth: '100px',
-  maxWidth: '336px',
+  maxWidth: '300px',
   outline: 'none',
   backgroundColor: 'var(--card-bg)',
   fontSize: '1.1rem',

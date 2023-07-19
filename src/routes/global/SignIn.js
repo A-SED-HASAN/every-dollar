@@ -83,7 +83,10 @@ const SignIn = () => {
             }
           }}>
           <FormControl
-            sx={{ margin: '1rem 0', width: '100%' }}
+            sx={{
+              margin: '1rem 0',
+              width: '100%',
+            }}
             variant='outlined'>
             <InputLabel htmlFor='outlined-adornment-email'>email</InputLabel>
             <OutlinedInp
@@ -244,5 +247,8 @@ const Wrapper = styled('section')(({ hasAccount }) => ({
     '.end': {
       fontSize: '.8rem',
     },
+  },
+  input: {
+    textTransform: 'lowercase',
   },
 }))

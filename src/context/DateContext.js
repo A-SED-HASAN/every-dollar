@@ -20,7 +20,7 @@ const DateProvider = ({ children }) => {
     +moment().format('YYYY')
   )
   // eslint-disable-next-line
-  const [drawerOpen, setDrawerOpen] = useState(true)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const { name } = monthsName.find((item) => {
     return item.id === thisMonth
@@ -40,9 +40,9 @@ const DateProvider = ({ children }) => {
 
     setList([...list])
   }
-  const deleteSingle = (title, index) => {
+  const deleteSingle = (title, index, id) => {
     const specific = list.find((item) => {
-      return item.title === title
+      return item.title === title && item.id === id
     })
 
     const newArray = specific.array.filter((_, i) => {
@@ -61,12 +61,17 @@ const DateProvider = ({ children }) => {
   const inputHandler = (e) => {
     const inpVal = e.target.value
     const [id, index, price] = e.target.name.split('-')
+
     const { array } = list.find((item) => {
       return item.id === +id
     })
-    if (price) {
+    if (!index && !price) {
+      list[id - 1].title = inpVal
+    }
+    if (index && price) {
       if (!isNaN(inpVal)) array[index].value = inpVal
-    } else {
+    }
+    if (index && !price) {
       array[index].title = inpVal
     }
 
@@ -96,6 +101,8 @@ const DateProvider = ({ children }) => {
     })
     return ChartData
   }
+  const [pieTitle, setPieTitle] = useState('')
+  const [pieValue, setPieValue] = useState('')
 
   return (
     <DateContext.Provider
@@ -115,6 +122,10 @@ const DateProvider = ({ children }) => {
         resetBudget,
         inputHandler,
         makeDataForChart,
+        pieTitle,
+        setPieTitle,
+        pieValue,
+        setPieValue,
       }}>
       {children}
     </DateContext.Provider>

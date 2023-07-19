@@ -26,7 +26,12 @@ const Card = ({ title, month, array, id }) => {
         <AccordionSummary>
           <div>
             {month && <img src={buck} alt='buck' />}
-            <span className='title'> {title}</span>
+            {month ? (
+              <span className='title'> {title}</span>
+            ) : (
+              <Inp className='title' name={`${id}`} value={title} />
+            )}
+
             {month ? `for ${name}` : ''}
           </div>
           <p>planned</p>
@@ -46,7 +51,7 @@ const Card = ({ title, month, array, id }) => {
                   <IconWrapper>
                     <DeleteOutlineOutlinedIcon
                       className='icon'
-                      onClick={() => deleteSingle(title, index)}
+                      onClick={() => deleteSingle(title, index, id)}
                     />
                   </IconWrapper>
                   <Inp value={item.title} name={`${id}-${index}`} />
@@ -96,10 +101,15 @@ const AccordionSummary = styled((props) => (
   padding: '.7rem 1rem',
   flexDirection: 'row-reverse',
   display: 'flex',
+  '&.MuiAccordionSummary-root': {
+    background: 'var(--card-bg)',
+    borderRadius: 'var(--light-radius)',
+  },
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(.5turn)',
   },
   '& .MuiAccordionSummary-content': {
+    background: 'var(--card-bg)',
     display: 'grid',
     gridTemplateColumns: '3fr 1fr .6fr',
     color: 'var(--text-500)',

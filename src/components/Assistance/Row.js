@@ -1,17 +1,35 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import { Divider } from '@mui/material'
-import { formatMoney } from '../../functions'
+import { formatMoney, formatPercent } from '../../functions'
+import { useDateContext } from '../../context/DateContext'
+const Row = ({ type, planned, value }) => {
+  const { makeDataForChart, setPieTitle, pieTitle, setPieValue } =
+    useDateContext()
+  const incomeValue = makeDataForChart()[0].value
 
-const Row = ({ type, planned, percent, value }) => {
   return (
     <Wrapper planned={planned}>
-      <div className='grid'>
-        <span>{type}</span>
-        <span className='num'>{formatMoney(value)}</span>
+      <div className={`grid ${pieTitle === type ? 'active' : null}`}>
+        <span
+          onClick={() => {
+            setPieTitle((prev) => {
+              if (prev === type) {
+                return ''
+              } else {
+                return type
+              }
+            })
+            setPieValue(value)
+          }}>
+          {type}
+        </span>
+        <span className='num' style={{ justifySelf: 'start' }}>
+          {formatMoney(value)}
+        </span>
         {planned && (
           <span className='num' style={{ justifySelf: 'end' }}>
-            ({value}%)
+            {formatPercent(value / incomeValue, true)}
           </span>
         )}
       </div>
@@ -42,7 +60,6 @@ const Wrapper = styled('div')(({ planned }) => ({
   ':nth-of-type(10n+6)': {
     color: ' #16a597',
   },
-
   ':nth-of-type(10n+7)': {
     color: ' #f26552',
   },
@@ -58,13 +75,19 @@ const Wrapper = styled('div')(({ planned }) => ({
 
   '.grid': {
     display: 'grid',
-    gridTemplateColumns: planned ? '1fr .4fr .3fr' : '1fr .2fr ',
+    gridTemplateColumns: planned ? '1fr .6fr auto' : '1fr .2fr ',
     padding: ' .4rem 0',
     span: {
       fontWeight: '600',
+      cursor: 'pointer',
     },
     '.num': {
       color: 'var(--text-600)',
+    },
+  },
+  '.active': {
+    span: {
+      fontWeight: '700',
     },
   },
 }))

@@ -3,7 +3,7 @@ import React from 'react'
 import { Main } from './components'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import { Error, SignIn, PrivateRoute, Budget } from './routes'
+import { Error, SignIn, PrivateRoute } from './routes'
 
 const App = () => {
   return (

@@ -26,7 +26,11 @@ import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined'
 import DragIndicatorOutlinedIcon from '@mui/icons-material/DragIndicatorOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined'
 export {
+  SearchOutlinedIcon,
   HomeOutlinedIcon,
   FolderIcon,
   FolderOpenIcon,
@@ -55,4 +59,6 @@ export {
   DeleteOutlineOutlinedIcon,
   DragIndicatorOutlinedIcon,
   RotateLeftOutlinedIcon,
+  CancelOutlinedIcon,
+  WarningAmberOutlinedIcon,
 }

@@ -157,3 +157,16 @@ export const transactionsValues_tabs = [
   { id: 2, label: 'tracked' },
   { id: 3, label: 'deleted' },
 ]
+
+export const colors = [
+  '#00b2f6',
+  '#e64b40',
+  '#faab19',
+  '#48ce65',
+  '#b34fa0',
+  '#16a597',
+  '#f26552',
+  '#e3b409',
+  '#35bd59',
+  '#634fb3',
+]

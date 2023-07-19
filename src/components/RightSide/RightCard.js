@@ -85,7 +85,5 @@ const Wrapper = styled('div')(() => ({
   maxWidth: '439px',
   borderRadius: 'var(--radius)',
   border: '1px solid var(--card-border-color)',
-  main: {
-    // background: 'red',
-  },
+  main: {},
 }))

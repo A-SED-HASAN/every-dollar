@@ -6,8 +6,7 @@ export const formatMoney = (amount) => {
   } else if (amount >= 1_000) {
     amount = `${amount / 1_000} K`
   }
-  return amount
-  // `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`
+  return `$${amount.toFixed(2)}`
 }
 
 export const formatPercent = (amount, parentheses) => {

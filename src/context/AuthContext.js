@@ -31,6 +31,7 @@ const AuthProvider = ({ children }) => {
         listen()
       }
     })
+    // eslint-disable-next-line
   }, [])
 
   const existingUser = (e) => {

@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles'
 import { TabBtn } from '../../../../global'
 import { Tabs, Fab, Zoom, Tooltip } from '@mui/material'
 import { transactionsValues_tabs } from '../../../../assets/constants'
-import TransactionModal from './TransactionModal'
+import TransactionModal from '../../../Modal/TransactionModal'
 import { AddOutlinedIcon } from '../../../../assets/icons'
 import { SearchInput } from '../../../'
 

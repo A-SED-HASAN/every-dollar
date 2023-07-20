@@ -1,6 +1,11 @@
 import React from 'react'
 import { Gauge, G2 } from '@ant-design/plots'
 import { Liquid } from '@ant-design/plots'
+import { Top, AddBtn, ResetBtn, GoalModal } from '../../components'
+import { styled } from '@mui/material/styles'
+import { heart, star } from '../../functions'
+import { useDateContext } from '../../context/DateContext'
+import { shapes } from '../../assets/constants'
 //for goals we can both of theme
 
 const DemoGauge = () => {
@@ -121,56 +126,18 @@ const DemoGauge = () => {
   }
   return <Gauge {...config} />
 }
-const DemoLiquid = () => {
+const GoalLiquid = ({ percent, shape }) => {
   const config = {
-    percent: 0.6,
-
-    //default circle
+    percent: percent,
+    // default circle
     // shape: 'rect',
     // shape: 'triangle',
-    shape: 'pin',
-    // shape: 'diamond',
-
-    //make star
-    // shape: (x, y, width, height) => {
-    //   const path = []
-    //   const w = Math.min(width, height)
-
-    //   for (let i = 0; i < 5; i++) {
-    //     path.push([
-    //       i === 0 ? 'M' : 'L',
-    //       (Math.cos(((18 + i * 72) * Math.PI) / 180) * w) / 2 + x,
-    //       (-Math.sin(((18 + i * 72) * Math.PI) / 180) * w) / 2 + y,
-    //     ])
-    //     path.push([
-    //       'L',
-    //       (Math.cos(((54 + i * 72) * Math.PI) / 180) * w) / 4 + x,
-    //       (-Math.sin(((54 + i * 72) * Math.PI) / 180) * w) / 4 + y,
-    //     ])
-    //   }
-
-    //   path.push(['Z'])
-    //   return path
-    // },
-
-    //make heart
-    // shape: function (x, y, width, height) {
-    //   const r = width / 4
-    //   const dx = x - width / 2
-    //   const dy = y - height / 2
-    //   return [
-    //     ['M', dx, dy + r * 2],
-    //     ['A', r, r, 0, 0, 1, x, dy + r],
-    //     ['A', r, r, 0, 0, 1, dx + width, dy + r * 2],
-    //     ['L', x, dy + height],
-    //     ['L', dx, dy + r * 2],
-    //     ['Z'],
-    //   ]
-    // },
+    // shape: 'pin',
+    shape: shape,
 
     outline: {
       border: 4,
-      distance: 5,
+      distance: 1,
       style: {
         stroke: '#FFC100',
         strokeOpacity: 0.6,
@@ -179,9 +146,9 @@ const DemoLiquid = () => {
     wave: {
       length: 128,
     },
-    pattern: {
-      type: 'line',
-    },
+    // pattern: {
+    //   type: 'line',
+    // },
 
     //main color
     theme: {
@@ -193,12 +160,63 @@ const DemoLiquid = () => {
   return <Liquid {...config} />
 }
 const Goals = () => {
+  const { handleOpenGoal, goalList, resetGoal } = useDateContext()
   return (
-    <>
-      <DemoGauge />
-      {/* <DemoLiquid /> */}
-    </>
+    <Wrapper>
+      <GoalModal />
+      <Top />
+      {/* <DemoGauge /> */}
+      <ChartsWrapper>
+        {goalList.length > 0 ? (
+          goalList.map((item, index) => {
+            return (
+              <SingleGoal
+                key={index}
+                percent={0.5}
+                {...item}
+                shape={shapes[index]}
+              />
+            )
+          })
+        ) : (
+          <h1>You haven't any goal yet !</h1>
+        )}
+      </ChartsWrapper>
+      <AddBtn onClick={handleOpenGoal}>add goal</AddBtn>
+      <ResetBtn onClick={resetGoal}>reset goals</ResetBtn>
+    </Wrapper>
   )
 }
 
 export default Goals
+
+const Wrapper = styled('div')(() => ({
+  position: 'relative',
+  padding: '1.5rem',
+  '@media (width<= 1200px)': {
+    padding: '.5rem',
+  },
+}))
+
+const ChartsWrapper = styled('div')(() => ({
+  display: 'grid',
+  padding: '2rem 0',
+  gridTemplateColumns: 'repeat(auto-fit,minmax(400px,1fr))',
+  gap: '3rem',
+  textAlign: 'center',
+}))
+
+const SingleGoal = ({ percent, shape, name, amount, date }) => {
+  return (
+    <SingleChart>
+      <GoalLiquid percent={percent} shape={shape} />
+      <h1>{name}</h1>
+      <h3>{amount}</h3>
+      <p>{date}</p>
+    </SingleChart>
+  )
+}
+const SingleChart = styled('div')(() => ({
+  borderRadius: 'var(--light-radius)',
+  background: 'var(--card-bg)',
+}))

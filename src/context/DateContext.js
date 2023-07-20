@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useState } from 'react'
 import moment from 'moment/moment'
-import { init, monthsName } from '../assets/constants'
+import { init, monthsName, goalInit } from '../assets/constants'
 import { useLocalStorage } from '../hook'
 const DateContext = createContext()
 
@@ -104,6 +104,44 @@ const DateProvider = ({ children }) => {
   const [pieTitle, setPieTitle] = useState('')
   const [pieValue, setPieValue] = useState('')
 
+  // ======== goal =========
+  const [openGoal, setOpenGoal] = useState(false)
+
+  const [goalList, setGoalList] = useLocalStorage('goalList', [])
+  const [goalInputData, setGoalInputData] = useLocalStorage(
+    'goalInputData',
+    goalInit
+  )
+
+  const handleOpenGoal = () => setOpenGoal(true)
+  const handleCloseGoal = () => setOpenGoal(false)
+
+  const changeHandler = (e) => {
+    e.preventDefault()
+    const inpVal = e.target.value
+    const [, name] = e.target.name.split('-')
+    if (name === 'name') {
+      goalInputData[name] = inpVal
+    }
+
+    if (name === 'amount' && !isNaN(+inpVal)) {
+      goalInputData[name] = inpVal
+    }
+    setGoalInputData({ ...goalInputData })
+  }
+  const setDate = (val) => {
+    if(val)
+    goalInputData.date = val
+    setGoalInputData({ ...goalInputData })
+  }
+  const addGoalHandler = () => {
+    setGoalList([...goalList, goalInputData])
+    setGoalInputData({ ...goalInit })
+    handleCloseGoal()
+  }
+  const resetGoal = () => {
+    setGoalList([...[]])
+  }
   return (
     <DateContext.Provider
       value={{
@@ -126,6 +164,15 @@ const DateProvider = ({ children }) => {
         setPieTitle,
         pieValue,
         setPieValue,
+        handleCloseGoal,
+        handleOpenGoal,
+        openGoal,
+        goalList,
+        resetGoal,
+        addGoalHandler,
+        goalInputData,
+        changeHandler,
+        setDate,
       }}>
       {children}
     </DateContext.Provider>

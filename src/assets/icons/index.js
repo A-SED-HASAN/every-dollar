@@ -29,6 +29,9 @@ import RotateLeftOutlinedIcon from '@mui/icons-material/RotateLeftOutlined'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+import TitleOutlinedIcon from '@mui/icons-material/TitleOutlined'
+import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
 export {
   SearchOutlinedIcon,
   HomeOutlinedIcon,
@@ -61,4 +64,8 @@ export {
   RotateLeftOutlinedIcon,
   CancelOutlinedIcon,
   WarningAmberOutlinedIcon,
+  CloseOutlinedIcon,
+  TitleOutlinedIcon,
+  MoneyOutlinedIcon,
 }
+

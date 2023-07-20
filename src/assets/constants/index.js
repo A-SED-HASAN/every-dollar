@@ -145,6 +145,12 @@ export const init = [
   },
 ]
 
+export const goalInit = {
+  name: '',
+  amount: '',
+  date: '',
+}
+
 // ====== tabs ======
 
 export const summaryValues_tabs = [
@@ -170,3 +176,5 @@ export const colors = [
   '#35bd59',
   '#634fb3',
 ]
+
+export const shapes = ['circle', 'rect', 'triangle', 'star', 'heart', 'pin']

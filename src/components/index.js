@@ -8,6 +8,7 @@ import Navbar from './LeftSide/Navbar'
 import Remain from './TopRow/Remain'
 import Months from './TopRow/Months'
 import SingleMonth from './TopRow/SingleMonth'
+import Top from './TopRow'
 
 import RightDrawer from './RightSide/RightDrawer'
 import RightCard from './RightSide/RightCard'
@@ -21,6 +22,9 @@ import Chart from './RightSide/ThreeTab/Summary/Chart'
 import Main from './Main'
 import Loading from './Loading'
 
+import GoalModal from './Modal/GoalModal'
+
+import { ResetBtn, AddBtn } from './Assistance/Btns'
 export {
   Card,
   Row,
@@ -38,4 +42,8 @@ export {
   Chart,
   Loading,
   SearchInput,
+  Top,
+  ResetBtn,
+  AddBtn,
+  GoalModal,
 }

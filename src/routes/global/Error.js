@@ -34,10 +34,10 @@ const Wrapper = styled('section')(() => ({
   display: 'grid',
   placeItems: 'center',
   height: '100vh',
-  background: 'var(--bg-p-500)',
+  background: 'var(--bg-main)',
 
   div: {
-    color: 'white',
+    color: 'var(--text-800)',
     padding: '3rem',
     display: 'flex',
     flexDirection: 'column',

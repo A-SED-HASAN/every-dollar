@@ -1,22 +1,22 @@
 export const formatMoney = (amount) => {
-  if (amount >= 1_000_000_000) {
-    amount = `${amount / 1_000_000_000} B`
-  } else if (amount >= 1_000_000) {
-    amount = `${amount / 1_000_000} M`
-  } else if (amount >= 1_000) {
-    amount = `${amount / 1_000} K`
-  }
-  return `$${amount.toFixed(2)}`
+  const formatter = new Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 2,
+  })
+  return formatter.format(amount)
 }
 
 export const formatPercent = (amount, parentheses) => {
-  const percentage = (amount * 100).toFixed(2)
-
-  return isNaN(percentage) || !isFinite(percentage)
-    ? `(??%)`
-    : parentheses
-    ? `(${percentage}%)`
-    : `${percentage}%`
+  const percent = new Intl.NumberFormat(undefined, {
+    style: 'percent',
+  }).format(amount)
+  if (!isNaN(amount)) {
+    return parentheses ? `(${percent})` : percent
+  } else {
+    return parentheses ? `(0%)` : '0%'
+  }
 }
 
 export const calcPercentValue = (data, type) => {

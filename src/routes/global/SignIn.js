@@ -32,7 +32,6 @@ const SignIn = () => {
     setError,
     authUser,
     pending,
-    setAuthUser,
   } = useAuthContext()
 
   const [showPassword, setShowPassword] = useState(false)
@@ -144,15 +143,8 @@ const SignIn = () => {
         {hasAccount && (
           <>
             <Divider sx={{ fontWeight: '700', mt: 2 }}> OR</Divider>
-            <Btn
-              type='button'
-              variant='outlined'
-              fullWidth
-              onClick={() => {
-                setAuthUser(true)
-                nav('/budget')
-              }}>
-              sign in as guest
+            <Btn type='button' variant='outlined' fullWidth>
+              login with SSO
             </Btn>
           </>
         )}

@@ -4,7 +4,7 @@ import { Liquid } from '@ant-design/plots'
 import { Top, AddBtn, ResetBtn, GoalModal } from '../../components'
 import { styled } from '@mui/material/styles'
 import { heart, star } from '../../functions'
-import { useDateContext } from '../../context/DateContext'
+import { useDataContext } from '../../context/DataContext'
 import { shapes } from '../../assets/constants'
 //for goals we can both of theme
 
@@ -160,7 +160,7 @@ const GoalLiquid = ({ percent, shape }) => {
   return <Liquid {...config} />
 }
 const Goals = () => {
-  const { handleOpenGoal, goalList, resetGoal } = useDateContext()
+  const { handleOpenGoal, goalList, resetGoal } = useDataContext()
   return (
     <Wrapper>
       <GoalModal />

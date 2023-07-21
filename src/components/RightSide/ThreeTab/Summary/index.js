@@ -2,18 +2,20 @@ import React, { useState } from 'react'
 import { Tabs } from '@mui/material'
 import { Chart, Row } from '../../..'
 import { styled } from '@mui/material/styles'
-import { useDateContext } from '../../../../context/DateContext'
+import { useDataContext } from '../../../../context/DataContext'
 import { summaryValues_tabs } from '../../../../assets/constants'
 import { TabBtn } from '../../../../global'
 
 const Summary = () => {
-  const { makeDataForChart, pieTitle, pieValue } = useDateContext()
+  const { makeDataForChart, pieTitle, pieValue } = useDataContext()
   const [value, setValue] = useState(0)
   const handleChange = (_, newValue) => {
     setValue(newValue)
   }
   const dataMustRendered = makeDataForChart().filter((item) => {
-    return item.type !== 'income' && item.value
+    return item.type !== 'income'
+    //&&item.value
+    //add this when u want not render 0
   })
   const incomeValue = makeDataForChart()[0].value
 

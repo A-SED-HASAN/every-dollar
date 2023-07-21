@@ -5,8 +5,10 @@ import ReactDOM from 'react-dom/client'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
-import { DateProvider } from './context/DateContext'
+import { DataProvider } from './context/DataContext'
 import { AuthProvider } from './context/AuthContext'
+import { GlobalProvider } from './context/GlobalContext'
+
 import App from './App'
 
 import './global/index.css'
@@ -15,9 +17,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <LocalizationProvider dateAdapter={AdapterMoment}>
     <AuthProvider>
-      <DateProvider>
-        <App />
-      </DateProvider>
+      <GlobalProvider>
+        <DataProvider>
+          <App />
+        </DataProvider>
+      </GlobalProvider>
     </AuthProvider>
   </LocalizationProvider>
 )

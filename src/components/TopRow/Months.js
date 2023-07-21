@@ -13,7 +13,7 @@ import {
 } from '../../assets/icons'
 import { SingleMonth } from '../'
 import { monthsName } from '../../assets/constants'
-import { useDateContext } from '../../context/DateContext.js'
+import { useDataContext } from '../../context/DataContext.js'
 const Months = () => {
   const {
     thisMonth,
@@ -23,7 +23,7 @@ const Months = () => {
     toggleExpandMonth,
     monthExpanded,
     name,
-  } = useDateContext()
+  } = useDataContext()
 
   const makeItSafe = (num) => {
     if (num > 12) {

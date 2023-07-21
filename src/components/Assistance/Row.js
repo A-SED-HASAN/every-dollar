@@ -2,10 +2,10 @@ import React from 'react'
 import { styled } from '@mui/material/styles'
 import { Divider } from '@mui/material'
 import { formatMoney, formatPercent } from '../../functions'
-import { useDateContext } from '../../context/DateContext'
+import { useDataContext } from '../../context/DataContext'
 const Row = ({ type, planned, value }) => {
   const { makeDataForChart, setPieTitle, pieTitle, setPieValue } =
-    useDateContext()
+    useDataContext()
   const incomeValue = makeDataForChart()[0].value
 
   return (
@@ -75,7 +75,7 @@ const Wrapper = styled('div')(({ planned }) => ({
 
   '.grid': {
     display: 'grid',
-    gridTemplateColumns: planned ? '1fr .6fr auto' : '1fr .2fr ',
+    gridTemplateColumns: planned ? '1fr .1fr .4fr' : '1fr .2fr ',
     padding: ' .4rem 0',
     span: {
       fontWeight: '600',

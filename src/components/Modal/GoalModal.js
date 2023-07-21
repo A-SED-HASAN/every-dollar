@@ -1,4 +1,7 @@
 import React from 'react'
+import moment from 'moment/moment'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { styled } from '@mui/material/styles'
 
 import {
   Modal,
@@ -12,26 +15,17 @@ import {
   Select,
   MenuItem,
 } from '@mui/material'
-import { styled } from '@mui/material/styles'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import {
   CloseOutlinedIcon,
   TitleOutlinedIcon,
   MoneyOutlinedIcon,
 } from '../../assets/icons'
 import { ResetBtn } from '../Assistance/Btns'
-import { useDateContext } from '../../context/DateContext'
-import moment from 'moment/moment'
+import { useDataContext } from '../../context/DataContext'
 import { colors, shapes } from '../../assets/constants'
 export default function GoalModal() {
-  const {
-    goalInputData,
-
-    setDate,
-    handleCloseGoal,
-    openGoal,
-    addGoalHandler,
-  } = useDateContext()
+  const { goalInputData, setDate, handleCloseGoal, openGoal, addGoalHandler } =
+    useDataContext()
 
   return (
     <Modal open={openGoal} onClose={handleCloseGoal}>
@@ -127,7 +121,7 @@ const IconBtn = styled(IconButton)(() => ({
 }))
 
 const GoalInput = ({ label, icon, name, value, select, array }) => {
-  const { changeHandler } = useDateContext()
+  const { changeHandler } = useDataContext()
 
   return (
     <FormControl fullWidth variant='standard'>

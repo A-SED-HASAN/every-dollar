@@ -1,12 +1,15 @@
-import { Divider } from '@mui/material'
 import React from 'react'
+import { Divider } from '@mui/material'
 import { styled } from '@mui/material/styles'
-
+import { formatMoney } from '../../functions'
 const Remain = ({ amount }) => {
   return (
     <Wrapper>
       <p>
-        <span>{amount}</span> left to budget
+        <span style={{ color: amount < 0 && 'var(--error)' }}>
+          {formatMoney(amount)}
+        </span>
+        {amount >= 0 ? ' left to' : ' over'} budget
       </p>
       <Divider />
     </Wrapper>

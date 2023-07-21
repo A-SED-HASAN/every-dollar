@@ -7,15 +7,15 @@ import {
   KeyboardArrowDownOutlinedIcon,
   DeleteOutlineOutlinedIcon,
 } from '../../assets/icons'
-import { Divider } from '@mui/material'
+import { Button, Divider } from '@mui/material'
 import Inp from './Inp'
 import { buck } from '../../assets/images'
 import { formatMoney } from '../../functions'
-import { useDateContext } from '../../context/DateContext'
+import { useDataContext } from '../../context/DataContext'
 
 const Card = ({ title, month, array, id }) => {
-  const { addItemHandler, name, deleteSingle, makeDataForChart } =
-    useDateContext()
+  const { addItemHandler, name, deleteSingle, makeDataForChart, deleteGroup } =
+    useDataContext()
 
   //make this global
   const [remaining, setRemaining] = useState(false)
@@ -60,7 +60,7 @@ const Card = ({ title, month, array, id }) => {
                     value={item.value}
                     name={`${id}-${index}-price`}
                   />
-                  <span className='remain end'>333%</span>
+                  <span className='remain end'>{formatMoney(0)}</span>
                 </div>
                 <Divider />
               </span>
@@ -71,20 +71,25 @@ const Card = ({ title, month, array, id }) => {
             <h4 onClick={() => addItemHandler(title, id)}>
               add {month ? 'income ' : 'item'}
             </h4>
+            <span>{formatMoney(makeDataForChart()[id - 1]?.value)}</span>
             {month && array.length > 0 && (
-              <span>{formatMoney(makeDataForChart()[0].value)}</span>
-            )}
-            {month && array.length > 0 && (
-              <span className=' end'>{formatMoney(1500)}</span>
+              <span className=' end'>{formatMoney(0)}</span>
             )}
           </div>
         </AccordionDetails>
+        <Btn onClick={() => deleteGroup(id)}>delete group</Btn>
       </Accordion>
     </CardWrapper>
   )
 }
 
 export default Card
+const Btn = styled(Button)(() => ({
+  color: 'var(--error)',
+  marginLeft: 'auto',
+  fontWeight: '600',
+  fontSize: '.7rem',
+}))
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} {...props} />

@@ -1,11 +1,11 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import { AddBtn, Card, ResetBtn, Top } from '../../components'
-import { useDateContext } from '../../context/DateContext'
+import { useDataContext } from '../../context/DataContext'
 import { AddOutlinedIcon, RotateLeftOutlinedIcon } from '../../assets/icons'
 
 const Budget = () => {
-  const { list, addGroupHandler, resetBudget } = useDateContext()
+  const { list, addGroupHandler, resetBudget } = useDataContext()
   return (
     <Wrapper>
       <Top />

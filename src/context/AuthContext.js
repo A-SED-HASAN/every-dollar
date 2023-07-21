@@ -21,11 +21,10 @@ const AuthProvider = ({ children }) => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthUser(user)
-        setPending(false)
       } else {
         setAuthUser(null)
-        setPending(false)
       }
+      setPending(false)
 
       return () => {
         listen()

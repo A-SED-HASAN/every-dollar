@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Box, Drawer } from '@mui/material'
 import RightCard from './RightCard'
 import { styled } from '@mui/material/styles'
-
-import { useDateContext } from '../../context/DateContext'
+import { useGlobalContext } from '../../context/GlobalContext'
 
 export default function RightDrawer() {
-  const { drawerOpen } = useDateContext()
-  const [width, setWidth] = useState(window.innerWidth)
-  useEffect(() => {
-    setWidth(window.innerWidth)
-  }, [])
+  const { width, drawerOpen } = useGlobalContext()
   return (
     <Box sx={{ display: 'flex' }}>
       <DrawerWrapper
@@ -25,9 +20,10 @@ export default function RightDrawer() {
   )
 }
 
-const DrawerWrapper = styled(Drawer)(({ width }) => ({
+const DrawerWrapper = styled(Drawer)(() => ({
   width: '439px',
   flexShrink: 0,
+
   '& .MuiDrawer-paper': {
     border: 'none',
     padding: '1.5rem',

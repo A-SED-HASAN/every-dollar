@@ -8,4 +8,14 @@ import ramseyBlue from './ramseyBlue.svg'
 
 import everyDollar from './everyDollar.svg'
 
-export { dollarImg, dollarLoad, buck, everyDollar, ramseyWhite, ramseyBlue }
+import reset from './reset.png'
+
+export {
+  reset,
+  dollarImg,
+  dollarLoad,
+  buck,
+  everyDollar,
+  ramseyWhite,
+  ramseyBlue,
+}

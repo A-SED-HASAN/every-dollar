@@ -23,7 +23,6 @@ const DataProvider = ({ children }) => {
   const { name } = monthsName.find((item) => {
     return item.id === thisMonth
   })
-
   const [list, setList] = useLocalStorage('list', init)
 
   const addItemHandler = (title, id) => {
@@ -46,6 +45,7 @@ const DataProvider = ({ children }) => {
     const newArray = specific.array.filter((_, i) => {
       return i !== index
     })
+
     specific.array = newArray
     setList([...list])
   }
@@ -56,11 +56,20 @@ const DataProvider = ({ children }) => {
   const resetBudget = () => {
     setList([...init])
   }
+  const resetBudgetJustValue = () => {
+    // eslint-disable-next-line
+    list.map((item) => {
+      item.array.map((item) => {
+        return (item.value = 0)
+      })
+    })
+    setList([...list])
+  }
   const deleteGroup = (id) => {
-    const specific = list.filter((item) => {
+    const newList = list.filter((item) => {
       return item.id !== id
     })
-    setList([...specific])
+    setList([...newList])
   }
   const inputHandler = (e) => {
     const inpVal = e.target.value
@@ -121,6 +130,12 @@ const DataProvider = ({ children }) => {
     )
     return value * 2 - sum
   }
+  const [info, setInfo] = useLocalStorage('info', null)
+  const giveInfo = (title, subTitle, index, id) => {
+    setInfo({ title, subTitle, index, id })
+  }
+
+  const [resetPlan, setResetPlan] = useState(null)
 
   const [pieTitle, setPieTitle] = useState('')
   const [pieValue, setPieValue] = useState('')
@@ -195,6 +210,11 @@ const DataProvider = ({ children }) => {
         setDate,
         calculateBalance,
         deleteGroup,
+        giveInfo,
+        info,
+        resetPlan,
+        setResetPlan,
+        resetBudgetJustValue,
       }}>
       {children}
     </DataContext.Provider>

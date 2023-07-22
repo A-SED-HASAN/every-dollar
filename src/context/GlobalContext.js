@@ -1,23 +1,42 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'
 
 const GlobalContext = createContext()
-
 const GlobalProvider = ({ children }) => {
-  const [width, setWidth] = useState(window.innerWidth)
-  const resize = () => {
-    setWidth(window.innerWidth)
+  const [openDelete, setOpenDelete] = useState(false)
+
+  const handleOpenDelete = () => setOpenDelete(true)
+  const handleCloseDelete = () => setOpenDelete(false)
+
+  const [openReset, setOpenReset] = useState(false)
+
+  const handleOpenReset = () => {
+    setOpenReset(true)
   }
-  useEffect(() => {
-    window.addEventListener('resize', resize)
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [width])
+  const handleCloseReset = () => {
+    setOpenReset(false)
+  }
+
+  const [openTrans, setOpenTrans] = useState(false)
+
+  const handleOpenTrans = () => setOpenTrans(true)
+  const handleCloseTrans = () => setOpenTrans(false)
 
   // eslint-disable-next-line
   const [drawerOpen, setDrawerOpen] = useState(true)
   return (
-    <GlobalContext.Provider value={{ drawerOpen, width }}>
+    <GlobalContext.Provider
+      value={{
+        drawerOpen,
+        openDelete,
+        handleCloseDelete,
+        handleOpenDelete,
+        openReset,
+        handleCloseReset,
+        handleOpenReset,
+        openTrans,
+        handleOpenTrans,
+        handleCloseTrans,
+      }}>
       {children}
     </GlobalContext.Provider>
   )

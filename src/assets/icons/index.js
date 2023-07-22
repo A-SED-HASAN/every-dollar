@@ -32,6 +32,7 @@ import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import TitleOutlinedIcon from '@mui/icons-material/TitleOutlined'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
 export {
   SearchOutlinedIcon,
   HomeOutlinedIcon,
@@ -67,5 +68,6 @@ export {
   CloseOutlinedIcon,
   TitleOutlinedIcon,
   MoneyOutlinedIcon,
+  CheckCircleOutlineOutlinedIcon,
 }
 

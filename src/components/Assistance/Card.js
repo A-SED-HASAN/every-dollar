@@ -73,7 +73,9 @@ const Card = ({ title, month, array, id, index }) => {
             <h4 onClick={() => addItemHandler(title, id)}>
               add {month ? 'income ' : 'item'}
             </h4>
-            <span>{formatMoney(makeDataForChart()[index]?.value)}</span>
+            {array.length > 0 && (
+              <span>{formatMoney(makeDataForChart()[index]?.value)}</span>
+            )}
             {id > 1 && (
               <Tooltip arrow title='delete group'>
                 <Btn

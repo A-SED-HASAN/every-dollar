@@ -9,6 +9,7 @@ import ramseyBlue from './ramseyBlue.svg'
 import everyDollar from './everyDollar.svg'
 
 import reset from './reset.png'
+import empty from './empty.svg'
 
 export {
   reset,
@@ -18,4 +19,5 @@ export {
   everyDollar,
   ramseyWhite,
   ramseyBlue,
+  empty,
 }

@@ -17,7 +17,7 @@ const Summary = () => {
     //&&item.value
     //add this when u want not render 0
   })
-  const incomeValue = makeDataForChart()[0].value
+  const incomeValue = makeDataForChart()[0]?.value
 
   return (
     <Wrapper>

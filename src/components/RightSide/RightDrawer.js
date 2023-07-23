@@ -3,17 +3,20 @@ import { Box, Drawer } from '@mui/material'
 import RightCard from './RightCard'
 import { styled } from '@mui/material/styles'
 import { useGlobalContext } from '../../context/GlobalContext'
+import { useDataContext } from '../../context/DataContext'
 
 export default function RightDrawer() {
   const { drawerOpen } = useGlobalContext()
+  const { specificList } = useDataContext()
+
   return (
     <Box sx={{ display: 'flex' }}>
       <DrawerWrapper
         elevation={0}
         hideBackdrop
-        variant={'persistent'}
+        variant='persistent'
         anchor='right'
-        open={drawerOpen}>
+        open={specificList?.array.length > 0 ? drawerOpen : false}>
         <RightCard />
       </DrawerWrapper>
     </Box>

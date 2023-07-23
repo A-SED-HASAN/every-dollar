@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState } from 'react'
+import React, { useContext, createContext, useState, useEffect } from 'react'
 import moment from 'moment/moment'
 import { init, monthsName, goalInit } from '../assets/constants'
 import { useLocalStorage } from '../hook'
@@ -23,25 +23,54 @@ const DataProvider = ({ children }) => {
   const { name } = monthsName.find((item) => {
     return item.id === thisMonth
   })
-  const [list, setList] = useLocalStorage('list', init)
+  const Date = `${thisYear}-${thisMonth}`
+
+  const [allDate, setAllDate] = useLocalStorage('allDate', [])
+
+  useEffect(() => {
+    const initWithDate = [{ date: Date, array: [] }]
+    if (
+      allDate.find((item) => {
+        return item.date === Date
+      })
+    ) {
+      return
+    }
+    setAllDate([...allDate, ...initWithDate])
+    // eslint-disable-next-line
+  }, [Date])
+
+  const makeNewBudget = () => {
+    const specificDate = allDate.find((item) => {
+      return item.date === Date
+    })
+    specificDate.array = init
+    setAllDate([...allDate])
+  }
+
+  const specificList = allDate.find((item) => {
+    return item.date === `${thisYear}-${thisMonth}`
+  })
+
+  const [list, setList] = useLocalStorage('list', specificList?.array)
 
   const addItemHandler = (title, id) => {
-    const specific = list.find((item) => {
+    const specific = specificList.array.find((item) => {
       return item.title === title && item.id === id
     })
+
     specific.array.push({
       title:
-        title === 'income' ? `paycheck ${specific.array.length + 1}` : 'label',
+        title === 'income' ? `paycheck ${specific?.array.length + 1}` : 'label',
       value: 0,
     })
 
     setList([...list])
   }
   const deleteSingle = (title, index, id) => {
-    const specific = list.find((item) => {
+    const specific = specificList.array.find((item) => {
       return item.title === title && item.id === id
     })
-
     const newArray = specific.array.filter((_, i) => {
       return i !== index
     })
@@ -50,15 +79,20 @@ const DataProvider = ({ children }) => {
     setList([...list])
   }
   const addGroupHandler = () => {
-    list.push({ id: list.length + 1, title: 'untitled', array: [] })
+    specificList.array.push({
+      id: list?.length + 1,
+      title: 'untitled',
+      array: [],
+    })
     setList([...list])
   }
   const resetBudget = () => {
-    setList([...init])
+    specificList.array = init
+    setList([...specificList.array])
   }
   const resetBudgetJustValue = () => {
     // eslint-disable-next-line
-    list.map((item) => {
+    specificList.array.map((item) => {
       item.array.map((item) => {
         return (item.value = 0)
       })
@@ -66,21 +100,23 @@ const DataProvider = ({ children }) => {
     setList([...list])
   }
   const deleteGroup = (id) => {
-    const newList = list.filter((item) => {
+    const newList = specificList.array.filter((item) => {
       return item.id !== id
     })
-    setList([...newList])
+    specificList.array = newList
+
+    setList([...list])
   }
   const inputHandler = (e) => {
     const inpVal = e.target.value
 
     const [id, index, price] = e.target.name.split('-')
 
-    const { array } = list.find((item) => {
+    const { array } = specificList?.array.find((item) => {
       return item.id === +id
     })
     if (!index && !price) {
-      list[id - 1].title = inpVal
+      specificList.array[id - 1].title = inpVal
     }
     if (index && price) {
       if (!isNaN(inpVal)) array[index].value = inpVal
@@ -89,14 +125,14 @@ const DataProvider = ({ children }) => {
       array[index].title = inpVal
     }
 
-    setList([...list])
+    setList([...specificList.array])
   }
 
   const makeDataForChart = () => {
     const ChartData = []
     // eslint-disable-next-line
-    list.map((item) => {
-      const { sum } = item.array.reduce(
+    specificList?.array.map((item) => {
+      const { sum } = item?.array.reduce(
         (total, item) => {
           const { value } = item
           total.sum += +value
@@ -118,7 +154,6 @@ const DataProvider = ({ children }) => {
   }
 
   const calculateBalance = () => {
-    const { value } = makeDataForChart()[0]
     const { sum } = makeDataForChart().reduce(
       (total, item) => {
         const { value } = item
@@ -128,7 +163,9 @@ const DataProvider = ({ children }) => {
       },
       { sum: 0 }
     )
-    return value * 2 - sum
+    return !isNaN(makeDataForChart()[0]?.value * 2 - sum)
+      ? makeDataForChart()[0]?.value * 2 - sum
+      : 0
   }
   const [info, setInfo] = useLocalStorage('info', null)
   const giveInfo = (title, subTitle, index, id) => {
@@ -215,6 +252,9 @@ const DataProvider = ({ children }) => {
         resetPlan,
         setResetPlan,
         resetBudgetJustValue,
+        makeNewBudget,
+        allDate,
+        specificList,
       }}>
       {children}
     </DataContext.Provider>

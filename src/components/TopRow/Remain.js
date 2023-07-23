@@ -28,5 +28,4 @@ const Wrapper = styled('div')(() => ({
     color: 'var(--text-800)',
     fontWeight: '700',
   },
-  //   background: 'salmon',
 }))

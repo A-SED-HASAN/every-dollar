@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import { Navbar, RightDrawer } from './'
-import { useHref } from 'react-router-dom'
+import { useHref, useNavigate } from 'react-router-dom'
 
 import { Budget, Goals, Insights } from '../routes'
 const Main = () => {
   const href = useHref().slice(1)
+  const nav = useNavigate()
 
+  useEffect(() => {
+    nav('budget')
+  }, [])
   return (
     <Wrapper>
       <Navbar />

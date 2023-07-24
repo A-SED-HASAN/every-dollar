@@ -62,3 +62,4 @@ export const star = () => (x, y, width, height) => {
   path.push(['Z'])
   return path
 }
+ 

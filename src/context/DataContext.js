@@ -39,7 +39,6 @@ const DataProvider = ({ children }) => {
     setAllDate([...allDate, ...initWithDate])
     // eslint-disable-next-line
   }, [Date])
-
   const makeNewBudget = () => {
     const specificDate = allDate.find((item) => {
       return item.date === Date
@@ -55,9 +54,10 @@ const DataProvider = ({ children }) => {
   const [list, setList] = useLocalStorage('list', specificList?.array)
 
   const addItemHandler = (title, id) => {
-    const specific = specificList.array.find((item) => {
+    const specific = list?.array.find((item) => {
       return item.title === title && item.id === id
     })
+    console.log(specific)
 
     specific.array.push({
       title:
@@ -65,7 +65,7 @@ const DataProvider = ({ children }) => {
       value: 0,
     })
 
-    setList([...list])
+    setList([...specificList?.array])
   }
   const deleteSingle = (title, index, id) => {
     const specific = specificList.array.find((item) => {
@@ -76,7 +76,7 @@ const DataProvider = ({ children }) => {
     })
 
     specific.array = newArray
-    setList([...list])
+    setList([...specificList?.array])
   }
   const addGroupHandler = () => {
     specificList.array.push({
@@ -84,7 +84,7 @@ const DataProvider = ({ children }) => {
       title: 'untitled',
       array: [],
     })
-    setList([...list])
+    setList([...specificList?.array])
   }
   const resetBudget = () => {
     specificList.array = init
@@ -97,7 +97,7 @@ const DataProvider = ({ children }) => {
         return (item.value = 0)
       })
     })
-    setList([...list])
+    setList([...specificList?.array])
   }
   const deleteGroup = (id) => {
     const newList = specificList.array.filter((item) => {
@@ -105,7 +105,7 @@ const DataProvider = ({ children }) => {
     })
     specificList.array = newList
 
-    setList([...list])
+    setList([...specificList?.array])
   }
   const inputHandler = (e) => {
     const inpVal = e.target.value
@@ -125,7 +125,7 @@ const DataProvider = ({ children }) => {
       array[index].title = inpVal
     }
 
-    setList([...specificList.array])
+    setList([...specificList?.array])
   }
 
   const makeDataForChart = () => {
@@ -177,44 +177,6 @@ const DataProvider = ({ children }) => {
   const [pieTitle, setPieTitle] = useState('')
   const [pieValue, setPieValue] = useState('')
 
-  // ======== goal =========
-  const [openGoal, setOpenGoal] = useState(false)
-
-  const [goalList, setGoalList] = useLocalStorage('goalList', [])
-  const [goalInputData, setGoalInputData] = useLocalStorage(
-    'goalInputData',
-    goalInit
-  )
-
-  const handleOpenGoal = () => setOpenGoal(true)
-  const handleCloseGoal = () => setOpenGoal(false)
-
-  const changeHandler = (e) => {
-    e.preventDefault()
-    const inpVal = e.target.value
-    const [, name] = e.target.name.split('-')
-    if (name === 'name') {
-      goalInputData[name] = inpVal
-    }
-
-    if (name === 'amount' && !isNaN(+inpVal)) {
-      goalInputData[name] = inpVal
-    }
-    setGoalInputData({ ...goalInputData })
-  }
-  const setDate = (val) => {
-    if (val) goalInputData.date = val
-    setGoalInputData({ ...goalInputData })
-  }
-  const addGoalHandler = () => {
-    setGoalList([...goalList, goalInputData])
-    setGoalInputData({ ...goalInit })
-    handleCloseGoal()
-  }
-  const resetGoal = () => {
-    setGoalList([...[]])
-  }
-
   return (
     <DataContext.Provider
       value={{
@@ -236,15 +198,6 @@ const DataProvider = ({ children }) => {
         setPieTitle,
         pieValue,
         setPieValue,
-        handleCloseGoal,
-        handleOpenGoal,
-        openGoal,
-        goalList,
-        resetGoal,
-        addGoalHandler,
-        goalInputData,
-        changeHandler,
-        setDate,
         calculateBalance,
         deleteGroup,
         giveInfo,

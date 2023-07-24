@@ -14,7 +14,7 @@ export default function RightDrawer() {
       <DrawerWrapper
         elevation={0}
         hideBackdrop
-        variant='persistent'
+        variant='temporary'
         anchor='right'
         open={specificList?.array.length > 0 ? drawerOpen : false}>
         <RightCard />

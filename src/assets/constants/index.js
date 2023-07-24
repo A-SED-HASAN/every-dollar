@@ -10,6 +10,13 @@ import {
   HeadsetMicOutlinedIcon,
   SupportOutlinedIcon,
   SettingsOutlinedIcon,
+  CircleOutlinedIcon,
+  RectangleOutlinedIcon,
+  ChangeHistoryOutlinedIcon,
+  StarBorderOutlinedIcon,
+  FavoriteBorderOutlinedIcon,
+  EditLocationOutlinedIcon,
+  DiamondOutlinedIcon,
 } from '../icons'
 
 export const navigation = [
@@ -177,4 +184,25 @@ export const colors = [
   '#634fb3',
 ]
 
-export const shapes = ['circle', 'rect', 'triangle', 'star', 'heart', 'pin']
+export const shapes = [
+  { id: 1, shape: 'circle', icon: <CircleOutlinedIcon /> },
+  { id: 2, shape: 'rect', icon: <RectangleOutlinedIcon /> },
+  { id: 3, shape: 'triangle', icon: <ChangeHistoryOutlinedIcon /> },
+  { id: 4, shape: 'star', icon: <StarBorderOutlinedIcon /> },
+  { id: 5, shape: 'heart', icon: <FavoriteBorderOutlinedIcon /> },
+  { id: 6, shape: 'pin', icon: <EditLocationOutlinedIcon /> },
+  { id: 7, shape: 'diamond', icon: <DiamondOutlinedIcon /> },
+]
+
+export const colorsForSlt = [
+  { id: 1, colorHex: '#00b2f6', colorName: 'blue bolt' },
+  { id: 2, colorHex: '#e64b40', colorName: 'carmine pink' },
+  { id: 3, colorHex: '#faab19', colorName: 'crayola' },
+  { id: 4, colorHex: '#48ce65', colorName: 'UFO green' },
+  { id: 5, colorHex: '#b34fa0', colorName: 'rose quartz pink' },
+  { id: 6, colorHex: '#16a597', colorName: 'persian green' },
+  { id: 7, colorHex: '#f26552', colorName: 'sunset orange' },
+  { id: 8, colorHex: '#e3b409', colorName: 'mustard yellow' },
+  { id: 9, colorHex: '#35bd59', colorName: 'sea green' },
+  { id: 10, colorHex: '#634fb3', colorName: 'plump purple' },
+]

@@ -33,6 +33,15 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import TitleOutlinedIcon from '@mui/icons-material/TitleOutlined'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined'
+import InvertColorsOutlinedIcon from '@mui/icons-material/InvertColorsOutlined'
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined'
+import RectangleOutlinedIcon from '@mui/icons-material/RectangleOutlined'
+import ChangeHistoryOutlinedIcon from '@mui/icons-material/ChangeHistoryOutlined'
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import EditLocationOutlinedIcon from '@mui/icons-material/EditLocationOutlined'
+import DiamondOutlinedIcon from '@mui/icons-material/DiamondOutlined'
 export {
   SearchOutlinedIcon,
   HomeOutlinedIcon,
@@ -69,5 +78,14 @@ export {
   TitleOutlinedIcon,
   MoneyOutlinedIcon,
   CheckCircleOutlineOutlinedIcon,
+  RemoveOutlinedIcon,
+  InvertColorsOutlinedIcon,
+  CircleOutlinedIcon,
+  RectangleOutlinedIcon,
+  ChangeHistoryOutlinedIcon,
+  StarBorderOutlinedIcon,
+  FavoriteBorderOutlinedIcon,
+  EditLocationOutlinedIcon,
+  DiamondOutlinedIcon,
 }
 

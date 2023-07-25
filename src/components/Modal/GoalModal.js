@@ -27,10 +27,12 @@ import { useGlobalContext } from '../../context/GlobalContext'
 import { colorsForSlt, shapes } from '../../assets/constants'
 import { useForm, Controller } from 'react-hook-form'
 import moment from 'moment/moment'
+
+import { addDoc } from 'firebase/firestore'
+
 export default function GoalModal() {
   const [date, setDate] = useState(null)
-  const { handleCloseGoal, openGoal, setGoalList, goalList } =
-    useGlobalContext()
+  const { handleCloseGoal, openGoal, goalCollectionRef } = useGlobalContext()
 
   const {
     control,
@@ -45,9 +47,12 @@ export default function GoalModal() {
       date: '',
     },
   })
-  const onSubmit = (data) => {
-    data.date = date
-    setGoalList([...goalList, data])
+
+  const onSubmit = async (data) => {
+    const newData = { ...data, date: date, pay: 0 }
+    await addDoc(goalCollectionRef, {
+      newData,
+    })
     handleCloseGoal()
   }
 
@@ -98,6 +103,7 @@ export default function GoalModal() {
                   goal Amount
                 </Label>
                 <Inp
+                  type='number'
                   color={errors.goalAmount ? 'error' : ''}
                   disableUnderline
                   endAdornment={
@@ -168,7 +174,10 @@ export default function GoalModal() {
             goal due date :
             <FormControl variant='standard'>
               <DatePicker
-                onChange={(e) => setDate(moment(e).format('D-M-YYYY'))}
+                disablePast
+                onChange={(e) => {
+                  setDate(moment(e).fromNow(true))
+                }}
                 slotProps={{
                   textField: {
                     variant: 'standard',
@@ -233,13 +242,13 @@ const IconBtn = styled(IconButton)(() => ({
   },
 }))
 
-const Label = styled(InputLabel)(() => ({
+export const Label = styled(InputLabel)(() => ({
   color: 'var(--text-300)',
   '&	.Mui-focused': {
     color: 'var(--bg-s-800)',
   },
 }))
-const Inp = styled(Input)(({ color }) => ({
+export const Inp = styled(Input)(({ color }) => ({
   borderBottom: '1px solid var(--text-300)',
   '&.Mui-focused': {
     borderBottomColor: color === 'error' ? 'var(--error)' : 'var(--bg-s-800)',

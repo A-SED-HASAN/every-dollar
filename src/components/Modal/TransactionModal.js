@@ -15,7 +15,13 @@ import { useGlobalContext } from '../../context/GlobalContext'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useForm, Controller } from 'react-hook-form'
 import SplitAdder from '../Assistance/SplitAdder'
+import moment from 'moment/moment'
+
 export default function TransactionModal() {
+  const { handleCloseTrans, openTrans } = useGlobalContext()
+
+  const [date, setDate] = useState(null)
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       title: '',
@@ -26,9 +32,12 @@ export default function TransactionModal() {
     },
   })
 
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => {
+    data.date = date
+    console.log(data)
+    handleCloseTrans()
+  }
 
-  const { openTrans, handleCloseTrans } = useGlobalContext()
   const [value, setValue] = useState('income')
   return (
     <Modal open={openTrans} onClose={handleCloseTrans}>
@@ -73,7 +82,10 @@ export default function TransactionModal() {
               )}
             />
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <DatePicker sx={{ maxWidth: '192px' }} />
+              <DatePicker
+                onChange={(e) => setDate(moment(e).format('D-M-YYYY'))}
+                sx={{ maxWidth: '192px' }}
+              />
               <Controller
                 name='whereSpend_income'
                 control={control}

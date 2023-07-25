@@ -1,131 +1,13 @@
-import React from 'react'
-// import { Gauge, G2 } from '@ant-design/plots'
+import React, { useEffect, useState } from 'react'
 import { Liquid } from '@ant-design/plots'
-import { Top, AddBtn, ResetBtn, GoalModal } from '../components'
+import { AddBtn, ResetBtn, GoalModal, Loading } from '../components'
 import { styled } from '@mui/material/styles'
 import { formatMoney, heart, star } from '../functions'
 import { useGlobalContext } from '../context/GlobalContext'
-import { Divider } from '@mui/material'
-//for goals we can both of theme
-
-// const DemoGauge = () => {
-//   //make pointer triangle
-//   //   const { registerShape, Util } = G2
-//   //   registerShape('point', 'triangle-gauge-indicator', {
-//   //     draw(cfg, container) {
-//   //       // 使用 customInfo 传递参数
-//   //       const { indicator, defaultColor } = cfg.customInfo
-//   //       const { pointer } = indicator
-//   //       const group = container.addGroup() // 获取极坐标系下画布中心点
-
-//   //       const center = this.parsePoint({
-//   //         x: 0,
-//   //         y: 0,
-//   //       }) // 绘制指针
-
-//   //       if (pointer) {
-//   //         const { startAngle, endAngle } = Util.getAngle(cfg, this.coordinate)
-//   //         const radius = this.coordinate.getRadius()
-//   //         const midAngle = (startAngle + endAngle) / 2
-//   //         const { x: x1, y: y1 } = Util.polarToCartesian(
-//   //           center.x,
-//   //           center.y,
-//   //           radius * 0.52,
-//   //           midAngle + Math.PI / 30
-//   //         )
-//   //         const { x: x2, y: y2 } = Util.polarToCartesian(
-//   //           center.x,
-//   //           center.y,
-//   //           radius * 0.52,
-//   //           midAngle - Math.PI / 30
-//   //         )
-//   //         const { x, y } = Util.polarToCartesian(
-//   //           center.x,
-//   //           center.y,
-//   //           radius * 0.6,
-//   //           midAngle
-//   //         )
-//   //         const path = [['M', x1, y1], ['L', x, y], ['L', x2, y2], ['Z']] // pointer
-
-//   //         group.addShape('path', {
-//   //           name: 'pointer',
-//   //           attrs: {
-//   //             path,
-//   //             fill: defaultColor,
-//   //             ...pointer.style,
-//   //           },
-//   //         })
-//   //       }
-
-//   //       return group
-//   //     },
-//   //   })
-
-//   const config = {
-//     percent: 1,
-//     //make half circle
-//     // startAngle: Math.PI,
-//     // endAngle: 2 * Math.PI,
-
-//     //make tiny square
-//     type: 'meter',
-//     range: {
-//       //   color: '#30BF78',
-
-//       //divide main
-//       //   ticks: [0, 1 / 3, 2 / 3, 1],
-//       //   color: ['#F4664A', '#FAAD14', '#30BF78'],
-
-//       //multi gradient
-//       //   ticks: [0, 1],
-//       //   color: ['l(0) 0:#F4664A 0.5:#FAAD14 1:#30BF78'],
-
-//       //make gradients
-//       //   color: 'l(0) 0:#B8E1FF 1:#3D76DD ',
-
-//       //set width of main border
-//       width: 12,
-//     },
-
-//     indicator: {
-//       //make triangle with g2 and above func
-//       //   shape: 'triangle-gauge-indicator',
-
-//       pointer: {
-//         style: {
-//           stroke: '#D0D0D0',
-//         },
-//       },
-//       pin: {
-//         style: {
-//           stroke: '#D0D0D0',
-//         },
-//       },
-//     },
-//     axis: {
-//       label: {
-//         formatter(v) {
-//           return Number(v) * 100
-//         },
-//       },
-
-//       //count of pins between numbers
-//       subTickLine: {
-//         count: 3,
-//       },
-//     },
-//     statistic: {
-//       content: {
-//         formatter: ({ percent }) => `Rate: ${(percent * 100).toFixed(0)}%`,
-//         style: {
-//           color: 'rgba(0,0,0,0.65)',
-//           fontSize: 48,
-//         },
-//       },
-//     },
-//   }
-//   return <Gauge {...config} />
-// }
+import { Button, Divider, FormControl } from '@mui/material'
+import { Inp, Label } from '../components/Modal/GoalModal'
+import { useForm, Controller } from 'react-hook-form'
+import { getDocs, deleteDoc, doc } from 'firebase/firestore'
 const GoalLiquid = ({ percent, shape, color }) => {
   const config = {
     percent: percent,
@@ -160,17 +42,56 @@ const GoalLiquid = ({ percent, shape, color }) => {
   }
   return <Liquid {...config} />
 }
+
 const Goals = () => {
-  const { handleOpenGoal, goalList, resetGoals } = useGlobalContext()
+  const { handleOpenGoal, resetGoals, goalCollectionRef } = useGlobalContext()
+  const [goalList, setGoalList] = useState([])
+  const [goalListLoading, setGoalListLoading] = useState(true)
+
+  const getGoal = async () => {
+    setGoalListLoading(true)
+    const data = await getDocs(goalCollectionRef)
+    setGoalList(
+      data.docs.map((doc) => ({
+        ...doc.data().newData,
+      }))
+    )
+    setGoalListLoading(false)
+  }
+  // const deleteAll = async () => {
+  //   setGoalListLoading(true)
+  //   const data = await getDocs(goalCollectionRef)
+  //   data.docs.map(async (doc) => ({}))
+
+  //   // setGoalList(
+  //   //   data.docs.map((doc) => ({
+  //   //     ...doc.data().newData,
+  //   //   }))
+  //   // )
+  //   setGoalListLoading(false)
+  // }
+
+  useEffect(() => {
+    getGoal()
+  }, [])
+  if (goalListLoading) {
+    return <Loading />
+  }
   return (
     <Wrapper>
       <GoalModal />
-      <Top />
-      {/* <DemoGauge /> */}
       <ChartsWrapper>
         {goalList.length > 0 ? (
           goalList.map((item, index) => {
-            return <SingleGoal key={index} percent={0.5} {...item} />
+            const { goalAmount, pay } = item
+            return (
+              <SingleGoal
+                key={index}
+                index={index}
+                percent={pay / goalAmount >= 1 ? 1 : pay / goalAmount}
+                {...item}
+              />
+            )
           })
         ) : (
           <h1>You haven't any goal yet !</h1>
@@ -200,24 +121,94 @@ const ChartsWrapper = styled('div')(() => ({
   textAlign: 'center',
 }))
 
-const SingleGoal = ({ percent, goalName, goalAmount, color, shape, date }) => {
+const SingleGoal = ({
+  index,
+  percent,
+  goalName,
+  goalAmount,
+  color,
+  shape,
+  date,
+  pay,
+}) => {
+  const { goalList, setGoalList } = useGlobalContext()
+  const [showPay, setShowPay] = useState(false)
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      payAmount: 0,
+    },
+  })
+
+  const onSubmit = (data) => {
+    const { pay, goalAmount } = goalList[index]
+    const payAmount = +data.payAmount
+    if (pay + payAmount < goalAmount) {
+      goalList[index].pay += payAmount
+    } else {
+      goalList[index].pay = goalAmount
+    }
+    setGoalList([...goalList])
+    setShowPay(false)
+  }
+
   return (
     <SingleChart>
       <GoalLiquid percent={percent} shape={shape} color={color} />
       <Divider />
       <div className='info'>
         <div className='row'>
-          <h1>title </h1>
-          <h1>{goalName}</h1>
+          <p> title</p>
+          <p> {goalName}</p>
         </div>
-        <div className='row'>
-          <h1>money </h1>
-          <h1>{formatMoney(goalAmount)}</h1>
+        <div className='row '>
+          <p>
+            until now :
+            <span style={{ color: 'green' }}> {formatMoney(pay)}</span>
+          </p>
+          <p> {formatMoney(goalAmount)}</p>
         </div>
-        <div className='row'>
-          <h1>date </h1>
-          <h1>{date}</h1>
+
+        <Divider />
+        <div className='row '>
+          <p style={{ textDecoration: percent < 1 ? '' : 'line-through' }}>
+            {date} to go
+          </p>
+          {!showPay && (
+            <Btn
+              style={{ visibility: percent < 1 ? 'visible' : 'hidden' }}
+              variant='outlined'
+              onClick={() => setShowPay(true)}>
+              Wanna pay ?
+            </Btn>
+          )}
         </div>
+
+        {showPay && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              rules={{ required: true }}
+              name='payAmount'
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth variant='standard' {...field}>
+                  <Label>payAmount</Label>
+                  <Inp
+                    sx={{ maxWidth: '300px' }}
+                    disableUnderline
+                    type='number'
+                  />
+                </FormControl>
+              )}
+            />
+            <Btn
+              variant='outlined'
+              type='submit'
+              onClick={() => setShowPay(true)}>
+              pay
+            </Btn>
+          </form>
+        )}
       </div>
     </SingleChart>
   )
@@ -227,8 +218,26 @@ const SingleChart = styled('div')(() => ({
   background: 'var(--card-bg)',
   '.info': {
     textAlign: 'start',
-    padding: '1rem 2rem',
-    '.row': { display: 'flex', justifyContent: 'space-between' },
-    // background: 'red',
+    '.row': {
+      padding: '1.5rem 1rem',
+      fontSize: '1rem',
+      fontWight: '500',
+      color: 'var(--text-600)',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    form: {
+      padding: '0 1rem 1.5rem',
+
+      display: 'flex',
+      justifyContent: 'space-between',
+      gap: '3rem',
+    },
   },
+}))
+
+const Btn = styled(Button)(() => ({
+  color: 'var(--bg-s-800)',
+  textTransform: 'capitalize',
 }))

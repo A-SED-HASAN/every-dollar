@@ -30,7 +30,7 @@ export default function MiniDrawer() {
     if (window.innerWidth < 1330) setOpen(false)
   }, [window.innerWidth])
   return (
-    <Drawer variant='permanent' open={open}>
+    <Drawer sx={{ zIndex: '100' }} variant='permanent' open={open}>
       <DrawerHeader>
         <img
           style={{

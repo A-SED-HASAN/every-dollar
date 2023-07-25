@@ -11,7 +11,7 @@ export function AddBtn({ onClick, startIcon, children }) {
 }
 export function ResetBtn({ onClick, startIcon, children, type }) {
   return (
-    <ResetBtnS type={type || 'button'} onClick={onClick} startIcon={startIcon}>
+    <ResetBtnS  type={type || 'button'} onClick={onClick} startIcon={startIcon}>
       {children}
     </ResetBtnS>
   )

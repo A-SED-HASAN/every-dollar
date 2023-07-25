@@ -1,6 +1,14 @@
-import React, { useContext, createContext, useState } from 'react'
+import React, { useContext, createContext, useState, useEffect } from 'react'
 import { useLocalStorage } from '../hook'
-
+import { db } from '../firebase'
+import {
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+  getDocs,
+} from 'firebase/firestore'
 const GlobalContext = createContext()
 
 const GlobalProvider = ({ children }) => {
@@ -26,10 +34,26 @@ const GlobalProvider = ({ children }) => {
   // eslint-disable-next-line
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-  const [goalList, setGoalList] = useLocalStorage('goalList', [])
-  const resetGoals = () => {
-    setGoalList([...[]])
-  }
+  const goalCollectionRef = collection(db, 'Goal')
+
+  // await addDoc(todoCollectionRef, {
+  //     text: inputText,
+  //     isCompleted: false,
+  //     isImportant: special ? true : false,
+  //     note: '',
+  //     createdAt: new Date().getTime().toString(),
+  //     doneAt: '',
+  //   })
+
+  // await getDocs(todoCollectionRef)
+
+  //  await updateDoc(specificItem, {
+  //   isCompleted: true,
+  //   doneAt: new Date().getTime().toString(),
+  // })
+
+  //  await deleteDoc(specificItem)
+
   return (
     <GlobalContext.Provider
       value={{
@@ -46,9 +70,7 @@ const GlobalProvider = ({ children }) => {
         openGoal,
         handleOpenGoal,
         handleCloseGoal,
-        goalList,
-        setGoalList,
-        resetGoals,
+        goalCollectionRef,
       }}>
       {children}
     </GlobalContext.Provider>

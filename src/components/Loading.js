@@ -23,6 +23,9 @@ const Wrapper = styled('section')(() => ({
   placeItems: 'center',
   height: '100vh',
   background: 'var(--bg-p-500)',
+  position: 'fixed',
+  width: '100vw',
+  zIndex: '1000',
   '>div': {
     color: 'white',
     padding: '3rem',

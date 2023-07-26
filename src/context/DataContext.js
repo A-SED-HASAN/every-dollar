@@ -1,7 +1,11 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'
 import moment from 'moment/moment'
-import { init, monthsName, goalInit } from '../assets/constants'
+import { init, monthsName } from '../assets/constants'
 import { useLocalStorage } from '../hook'
+
+import { db } from '../firebase'
+import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
+
 const DataContext = createContext()
 
 const DataProvider = ({ children }) => {
@@ -25,26 +29,49 @@ const DataProvider = ({ children }) => {
   })
   const Date = `${thisYear}-${thisMonth}`
 
-  const [allDate, setAllDate] = useLocalStorage('allDate', [])
+  const [allDate, setAllDate] = useState([])
 
-  useEffect(() => {
-    const initWithDate = [{ date: Date, array: [] }]
-    if (
-      allDate.find((item) => {
-        return item.date === Date
-      })
-    ) {
-      return
+  const budgetCollectionRef = collection(db, 'Budget')
+  const [loading, setLoading] = useState(false)
+  const getAllDate = async () => {
+    setLoading(true)
+    const data = await getDocs(budgetCollectionRef)
+    setAllDate(
+      data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    )
+    setList(false)
+  }
+
+  const allDateMaker = async () => {
+    getAllDate()
+    if (!loading) {
+      const initWithDate = { date: Date, array: [] }
+      if (
+        allDate.find((item) => {
+          return item.date === Date
+        })
+      ) {
+        return
+      }
+      await addDoc(budgetCollectionRef, initWithDate)
     }
-    setAllDate([...allDate, ...initWithDate])
+  }
+  useEffect(() => {
+    allDateMaker()
     // eslint-disable-next-line
   }, [Date])
-  const makeNewBudget = () => {
+
+  const makeNewBudget = async () => {
     const specificDate = allDate.find((item) => {
       return item.date === Date
     })
-    specificDate.array = init
-    setAllDate([...allDate])
+    const specificItem = doc(db, 'Budget', specificDate.id)
+    await updateDoc(specificItem, {
+      array: init,
+    })
   }
 
   const specificList = allDate.find((item) => {

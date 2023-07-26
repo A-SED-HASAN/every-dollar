@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import { Tab } from '@mui/material'
+import { Tab, IconButton } from '@mui/material'
 
 export const TabBtn = styled(Tab)(() => ({
   color: 'var(--text-800)',
@@ -11,5 +11,14 @@ export const TabBtn = styled(Tab)(() => ({
   '&.Mui-selected': {
     fontWeight: '700',
     color: 'var(--text-800)',
+  },
+}))
+
+export const IconBtn = styled(IconButton)(() => ({
+  ':hover': {
+    color: 'var(--error)',
+  },
+  '*': {
+    cursor: 'pointer',
   },
 }))

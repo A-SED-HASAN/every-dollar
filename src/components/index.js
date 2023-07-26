@@ -21,7 +21,8 @@ import Transactions from './RightSide/ThreeTab/Transactions/Transactions'
 import Chart from './RightSide/ThreeTab/Summary/Chart'
 
 import Main from './Main'
-import Loading from './Loading'
+import Loading from './Loading/Loading'
+import LoadingCenter from './Loading/LoadingCenter'
 
 import GoalModal from './Modal/GoalModal'
 import DeleteModal from './Modal/DeleteModal'
@@ -52,4 +53,5 @@ export {
   DeleteModal,
   ResetModal,
   MiniCard,
+  LoadingCenter,
 }

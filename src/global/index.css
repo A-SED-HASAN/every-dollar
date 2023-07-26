@@ -93,3 +93,8 @@ body {
   line-height: 1.5;
   font-size: 0.875rem;
 }
+
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}

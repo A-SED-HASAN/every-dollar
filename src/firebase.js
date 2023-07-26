@@ -7,7 +7,6 @@ import { getFirestore } from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: 'AIzaSyC2cI6Vl6Tc0HHFOED0-1mK95J0QCM6-14',
   authDomain: 'every-dollar.firebaseapp.com',
-  databaseURL: 'https://every-dollar-default-rtdb.firebaseio.com',
   projectId: 'every-dollar',
   storageBucket: 'every-dollar.appspot.com',
   messagingSenderId: '36469855675',

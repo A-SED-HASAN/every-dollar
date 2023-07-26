@@ -151,13 +151,6 @@ export const init = [
     ],
   },
 ]
-
-export const goalInit = {
-  name: '',
-  amount: '',
-  date: '',
-}
-
 // ====== tabs ======
 
 export const summaryValues_tabs = [

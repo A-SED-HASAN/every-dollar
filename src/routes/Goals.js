@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Liquid } from '@ant-design/plots'
-import { AddBtn, ResetBtn, GoalModal, Loading } from '../components'
+import { AddBtn, GoalModal, LoadingCenter } from '../components'
 import { styled } from '@mui/material/styles'
 import { formatMoney, heart, star } from '../functions'
 import { useGlobalContext } from '../context/GlobalContext'
 import { Button, Divider, FormControl } from '@mui/material'
 import { Inp, Label } from '../components/Modal/GoalModal'
 import { useForm, Controller } from 'react-hook-form'
-import { getDocs, deleteDoc, doc } from 'firebase/firestore'
+import { deleteDoc, updateDoc, doc } from 'firebase/firestore'
+import { db } from '../firebase'
+import { RemoveOutlinedIcon } from '../assets/icons'
+import { IconBtn } from '../global'
+
 const GoalLiquid = ({ percent, shape, color }) => {
   const config = {
     percent: percent,
@@ -32,8 +36,15 @@ const GoalLiquid = ({ percent, shape, color }) => {
     wave: {
       length: 128,
     },
-
-    //main color
+    pattern:
+      percent === 1
+        ? {
+            type: 'dot',
+            cfg: {
+              size: 30,
+            },
+          }
+        : false,
     theme: {
       styleSheet: {
         brandColor: color,
@@ -43,117 +54,76 @@ const GoalLiquid = ({ percent, shape, color }) => {
   return <Liquid {...config} />
 }
 
-const Goals = () => {
-  const { handleOpenGoal, resetGoals, goalCollectionRef } = useGlobalContext()
-  const [goalList, setGoalList] = useState([])
-  const [goalListLoading, setGoalListLoading] = useState(true)
-
-  const getGoal = async () => {
-    setGoalListLoading(true)
-    const data = await getDocs(goalCollectionRef)
-    setGoalList(
-      data.docs.map((doc) => ({
-        ...doc.data().newData,
-      }))
-    )
-    setGoalListLoading(false)
-  }
-  // const deleteAll = async () => {
-  //   setGoalListLoading(true)
-  //   const data = await getDocs(goalCollectionRef)
-  //   data.docs.map(async (doc) => ({}))
-
-  //   // setGoalList(
-  //   //   data.docs.map((doc) => ({
-  //   //     ...doc.data().newData,
-  //   //   }))
-  //   // )
-  //   setGoalListLoading(false)
-  // }
+export default function Goals() {
+  const { handleOpenGoal, getGoal, goalList, goalListLoading } =
+    useGlobalContext()
 
   useEffect(() => {
     getGoal()
+    // eslint-disable-next-line
   }, [])
+
   if (goalListLoading) {
-    return <Loading />
+    return <LoadingCenter />
   }
   return (
     <Wrapper>
       <GoalModal />
       <ChartsWrapper>
         {goalList.length > 0 ? (
-          goalList.map((item, index) => {
-            const { goalAmount, pay } = item
-            return (
-              <SingleGoal
-                key={index}
-                index={index}
-                percent={pay / goalAmount >= 1 ? 1 : pay / goalAmount}
-                {...item}
-              />
-            )
+          goalList.map((item) => {
+            return <SingleGoal key={item.id} {...item} />
           })
         ) : (
           <h1>You haven't any goal yet !</h1>
         )}
       </ChartsWrapper>
       <AddBtn onClick={handleOpenGoal}>add goal</AddBtn>
-      <ResetBtn onClick={resetGoals}>reset goals</ResetBtn>
     </Wrapper>
   )
 }
 
-export default Goals
-
-const Wrapper = styled('div')(() => ({
-  position: 'relative',
-  padding: '1.5rem',
-  '@media (width<= 1200px)': {
-    padding: '.5rem',
-  },
-}))
-
-const ChartsWrapper = styled('div')(() => ({
-  display: 'grid',
-  padding: '2rem 0',
-  gridTemplateColumns: 'repeat(auto-fit,minmax(400px,1fr))',
-  gap: '3rem',
-  textAlign: 'center',
-}))
-
-const SingleGoal = ({
-  index,
-  percent,
-  goalName,
-  goalAmount,
-  color,
-  shape,
-  date,
-  pay,
-}) => {
-  const { goalList, setGoalList } = useGlobalContext()
+const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
+  const { getGoal } = useGlobalContext()
   const [showPay, setShowPay] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
       payAmount: 0,
     },
   })
+  const percent = pay / goalAmount > 1 ? 1 : pay / goalAmount
 
-  const onSubmit = (data) => {
-    const { pay, goalAmount } = goalList[index]
+  const onSubmit = async (data) => {
+    setLoading(true)
     const payAmount = +data.payAmount
-    if (pay + payAmount < goalAmount) {
-      goalList[index].pay += payAmount
+    const specificItem = doc(db, 'Goal', id)
+    let val = 0
+    if (payAmount + pay > goalAmount) {
+      val = goalAmount
     } else {
-      goalList[index].pay = goalAmount
+      val = pay + payAmount
     }
-    setGoalList([...goalList])
+    await updateDoc(specificItem, {
+      pay: val,
+    })
+    getGoal()
     setShowPay(false)
+    setLoading(false)
   }
-
+  const deleteHandler = async () => {
+    setLoading(true)
+    const specificItem = doc(db, 'Goal', id)
+    await deleteDoc(specificItem)
+    getGoal()
+    setLoading(false)
+  }
   return (
-    <SingleChart>
+    <SingleChart className={loading ? 'loading' : null}>
+      <IconButton className='delete' onClick={deleteHandler}>
+        <RemoveOutlinedIcon />
+      </IconButton>
       <GoalLiquid percent={percent} shape={shape} color={color} />
       <Divider />
       <div className='info'>
@@ -213,6 +183,28 @@ const SingleGoal = ({
     </SingleChart>
   )
 }
+
+const Wrapper = styled('div')(() => ({
+  position: 'relative',
+  padding: '1.5rem',
+  '@media (width<= 1200px)': {
+    padding: '.5rem',
+  },
+}))
+
+const ChartsWrapper = styled('div')(() => ({
+  display: 'grid',
+  padding: '2rem 0',
+  gridTemplateColumns: 'repeat(auto-fit,minmax(400px,1fr))',
+  gap: '3rem',
+  textAlign: 'center',
+}))
+
+const IconButton = styled(IconBtn)(() => ({
+  color: 'var(--error)',
+  visibility: 'hidden',
+}))
+
 const SingleChart = styled('div')(() => ({
   borderRadius: 'var(--light-radius)',
   background: 'var(--card-bg)',
@@ -229,10 +221,14 @@ const SingleChart = styled('div')(() => ({
     },
     form: {
       padding: '0 1rem 1.5rem',
-
       display: 'flex',
       justifyContent: 'space-between',
       gap: '3rem',
+    },
+  },
+  ':hover': {
+    '.delete': {
+      visibility: 'visible',
     },
   },
 }))

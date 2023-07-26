@@ -1,14 +1,6 @@
-import React, { useContext, createContext, useState, useEffect } from 'react'
-import { useLocalStorage } from '../hook'
+import React, { useContext, createContext, useState } from 'react'
 import { db } from '../firebase'
-import {
-  collection,
-  addDoc,
-  doc,
-  updateDoc,
-  deleteDoc,
-  getDocs,
-} from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 const GlobalContext = createContext()
 
 const GlobalProvider = ({ children }) => {
@@ -36,24 +28,20 @@ const GlobalProvider = ({ children }) => {
 
   const goalCollectionRef = collection(db, 'Goal')
 
-  // await addDoc(todoCollectionRef, {
-  //     text: inputText,
-  //     isCompleted: false,
-  //     isImportant: special ? true : false,
-  //     note: '',
-  //     createdAt: new Date().getTime().toString(),
-  //     doneAt: '',
-  //   })
+  const [goalList, setGoalList] = useState([])
+  const [goalListLoading, setGoalListLoading] = useState(true)
 
-  // await getDocs(todoCollectionRef)
-
-  //  await updateDoc(specificItem, {
-  //   isCompleted: true,
-  //   doneAt: new Date().getTime().toString(),
-  // })
-
-  //  await deleteDoc(specificItem)
-
+  const getGoal = async () => {
+    setGoalListLoading(true)
+    const data = await getDocs(goalCollectionRef)
+    setGoalList(
+      data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    )
+    setGoalListLoading(false)
+  }
   return (
     <GlobalContext.Provider
       value={{
@@ -71,6 +59,9 @@ const GlobalProvider = ({ children }) => {
         handleOpenGoal,
         handleCloseGoal,
         goalCollectionRef,
+        getGoal,
+        goalList,
+        goalListLoading,
       }}>
       {children}
     </GlobalContext.Provider>

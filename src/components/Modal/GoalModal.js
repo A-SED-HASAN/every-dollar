@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { styled } from '@mui/material/styles'
-
 import {
   Modal,
   FormControl,
@@ -10,10 +8,10 @@ import {
   InputAdornment,
   Input,
   FormHelperText,
-  IconButton,
   Divider,
   Select,
   MenuItem,
+  CircularProgress,
 } from '@mui/material'
 import {
   CloseOutlinedIcon,
@@ -23,16 +21,19 @@ import {
 } from '../../assets/icons'
 import { ResetBtn } from '../Assistance/Btns'
 import { useGlobalContext } from '../../context/GlobalContext'
-
 import { colorsForSlt, shapes } from '../../assets/constants'
 import { useForm, Controller } from 'react-hook-form'
 import moment from 'moment/moment'
-
 import { addDoc } from 'firebase/firestore'
+
+import { IconBtn } from '../../global'
 
 export default function GoalModal() {
   const [date, setDate] = useState(null)
-  const { handleCloseGoal, openGoal, goalCollectionRef } = useGlobalContext()
+  const [loading, setLoading] = useState(false)
+
+  const { handleCloseGoal, openGoal, goalCollectionRef, getGoal } =
+    useGlobalContext()
 
   const {
     control,
@@ -49,11 +50,12 @@ export default function GoalModal() {
   })
 
   const onSubmit = async (data) => {
+    setLoading(true)
     const newData = { ...data, date: date, pay: 0 }
-    await addDoc(goalCollectionRef, {
-      newData,
-    })
+    await addDoc(goalCollectionRef, newData)
     handleCloseGoal()
+    getGoal()
+    setLoading(false)
   }
 
   return (
@@ -93,7 +95,6 @@ export default function GoalModal() {
           <Controller
             rules={{
               required: true,
-              // pattern: /d+/,
             }}
             name='goalAmount'
             control={control}
@@ -187,7 +188,9 @@ export default function GoalModal() {
             </FormControl>
           </div>
           <Divider>
-            <ResetBtn type='submit'>save</ResetBtn>
+            <ResetBtn type='submit'>
+              {loading ? <CircularProgress /> : 'save'}
+            </ResetBtn>
           </Divider>
         </form>
       </ContentWrapper>
@@ -230,15 +233,6 @@ const ContentWrapper = styled('article')(() => ({
       fontWeight: '500',
       color: 'var(--text-300)',
     },
-  },
-}))
-
-const IconBtn = styled(IconButton)(() => ({
-  ':hover': {
-    color: 'var(--error)',
-  },
-  '*': {
-    cursor: 'pointer',
   },
 }))
 

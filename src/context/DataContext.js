@@ -5,10 +5,12 @@ import { useLocalStorage } from '../hook'
 
 import { db } from '../firebase'
 import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
+import { useAuthContext } from './AuthContext.js'
 
 const DataContext = createContext()
-
 const DataProvider = ({ children }) => {
+  const { authUser } = useAuthContext()
+
   const [monthExpanded, setMonthExpanded] = useState(false)
 
   const toggleExpandMonth = () => {
@@ -30,34 +32,28 @@ const DataProvider = ({ children }) => {
   const Date = `${thisYear}-${thisMonth}`
 
   const [allDate, setAllDate] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const budgetCollectionRef = collection(db, 'Budget')
-  const [loading, setLoading] = useState(false)
-  const getAllDate = async () => {
-    setLoading(true)
-    const data = await getDocs(budgetCollectionRef)
-    setAllDate(
-      data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }))
-    )
-    setList(false)
-  }
+  const budgetCollectionRef = collection(db, `${authUser?.uid}:BUDGET`)
 
   const allDateMaker = async () => {
-    getAllDate()
-    if (!loading) {
-      const initWithDate = { date: Date, array: [] }
-      if (
-        allDate.find((item) => {
-          return item.date === Date
-        })
-      ) {
-        return
-      }
-      await addDoc(budgetCollectionRef, initWithDate)
+    const data = await getDocs(budgetCollectionRef)
+    const list = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }))
+    setAllDate(list)
+    const initWithDate = { date: Date, array: [] }
+    if (
+      list.find((item) => {
+        return item.date === Date
+      })
+    ) {
+      setLoading(false)
+      return
     }
+    await addDoc(budgetCollectionRef, initWithDate)
+    setLoading(false)
   }
   useEffect(() => {
     allDateMaker()
@@ -65,13 +61,24 @@ const DataProvider = ({ children }) => {
   }, [Date])
 
   const makeNewBudget = async () => {
-    const specificDate = allDate.find((item) => {
-      return item.date === Date
-    })
-    const specificItem = doc(db, 'Budget', specificDate.id)
-    await updateDoc(specificItem, {
-      array: init,
-    })
+    try {
+      const specificDate = allDate.find((item) => {
+        return item.date === Date
+      })
+      if (specificDate) {
+        const specificItem = doc(
+          db,
+          `${authUser?.uid}:BUDGET`,
+          specificDate?.id
+        )
+        await updateDoc(specificItem, {
+          array: init,
+        })
+      } else {
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const specificList = allDate.find((item) => {
@@ -204,41 +211,39 @@ const DataProvider = ({ children }) => {
   const [pieTitle, setPieTitle] = useState('')
   const [pieValue, setPieValue] = useState('')
 
-  return (
-    <DataContext.Provider
-      value={{
-        monthExpanded,
-        toggleExpandMonth,
-        thisMonth,
-        thisYear,
-        setThisYear,
-        setThisMonth,
-        name,
-        addItemHandler,
-        list,
-        deleteSingle,
-        addGroupHandler,
-        resetBudget,
-        inputHandler,
-        makeDataForChart,
-        pieTitle,
-        setPieTitle,
-        pieValue,
-        setPieValue,
-        calculateBalance,
-        deleteGroup,
-        giveInfo,
-        info,
-        resetPlan,
-        setResetPlan,
-        resetBudgetJustValue,
-        makeNewBudget,
-        allDate,
-        specificList,
-      }}>
-      {children}
-    </DataContext.Provider>
-  )
+  const ctxVal = {
+    monthExpanded,
+    toggleExpandMonth,
+    thisMonth,
+    thisYear,
+    setThisYear,
+    setThisMonth,
+    name,
+    addItemHandler,
+    list,
+    deleteSingle,
+    addGroupHandler,
+    resetBudget,
+    inputHandler,
+    makeDataForChart,
+    pieTitle,
+    setPieTitle,
+    pieValue,
+    setPieValue,
+    calculateBalance,
+    deleteGroup,
+    giveInfo,
+    info,
+    resetPlan,
+    setResetPlan,
+    resetBudgetJustValue,
+    makeNewBudget,
+    allDate,
+    specificList,
+    loading,
+  }
+  
+  return <DataContext.Provider value={ctxVal}>{children}</DataContext.Provider>
 }
 
 export const useDataContext = () => {

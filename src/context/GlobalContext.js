@@ -1,9 +1,13 @@
 import React, { useContext, createContext, useState } from 'react'
 import { db } from '../firebase'
 import { collection, getDocs } from 'firebase/firestore'
+import { useAuthContext } from './AuthContext.js'
+
 const GlobalContext = createContext()
 
 const GlobalProvider = ({ children }) => {
+  const { authUser } = useAuthContext()
+
   const [openDelete, setOpenDelete] = useState(false)
 
   const handleOpenDelete = () => setOpenDelete(true)
@@ -26,7 +30,7 @@ const GlobalProvider = ({ children }) => {
   // eslint-disable-next-line
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-  const goalCollectionRef = collection(db, 'Goal')
+  const goalCollectionRef = collection(db, `${authUser?.uid}:GOAL`)
 
   const [goalList, setGoalList] = useState([])
   const [goalListLoading, setGoalListLoading] = useState(true)

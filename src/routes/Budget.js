@@ -6,6 +6,7 @@ import {
   DeleteModal,
   ResetBtn,
   Top,
+  LoadingCenter,
   ResetModal,
 } from '../components'
 import { useDataContext } from '../context/DataContext'
@@ -14,9 +15,12 @@ import { useGlobalContext } from '../context/GlobalContext'
 import { empty } from '../assets/images'
 import { Button } from '@mui/material'
 const Budget = () => {
-  const { addGroupHandler, name, makeNewBudget, specificList } =
+  const { addGroupHandler, name, makeNewBudget, specificList, loading } =
     useDataContext()
   const { handleOpenReset } = useGlobalContext()
+  if (loading) {
+    return <LoadingCenter />
+  }
   return (
     <Wrapper>
       <DeleteModal />

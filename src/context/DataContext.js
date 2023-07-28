@@ -17,14 +17,19 @@ const DataProvider = ({ children }) => {
     setMonthExpanded((prev) => !prev)
   }
 
-  const [thisMonth, setThisMonth] = useLocalStorage(
-    'thisMonth',
+  // eslint-disable-next-line
+  const [monthNow, setMonthNow] = useLocalStorage(
+    'monthNow',
     +moment().format('M')
   )
-  const [thisYear, setThisYear] = useLocalStorage(
-    'thisYear',
+
+  // eslint-disable-next-line
+  const [yearNow, setYearNow] = useLocalStorage(
+    'yearNow',
     +moment().format('YYYY')
   )
+  const [thisMonth, setThisMonth] = useLocalStorage('thisMonth', monthNow)
+  const [thisYear, setThisYear] = useLocalStorage('thisYear', yearNow)
 
   const { name } = monthsName.find((item) => {
     return item.id === thisMonth
@@ -32,116 +37,192 @@ const DataProvider = ({ children }) => {
   const Date = `${thisYear}-${thisMonth}`
 
   const [allDate, setAllDate] = useState([])
+
   const [loading, setLoading] = useState(true)
+  const [listLoading, setListLoading] = useState(false)
 
-  const budgetCollectionRef = collection(db, `${authUser?.uid}:BUDGET`)
+  const collectionName = `${authUser?.uid}:BUDGET`
+  const budgetCollectionRef = collection(db, collectionName)
 
-  const allDateMaker = async () => {
+  const getAllDate = async () => {
+    setListLoading(true)
     const data = await getDocs(budgetCollectionRef)
     const list = data.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }))
     setAllDate(list)
+    setListLoading(false)
+  }
+
+  const changeMonthMakeDate = async () => {
+    setListLoading(true)
+    const data = await getDocs(budgetCollectionRef)
     const initWithDate = { date: Date, array: [] }
     if (
-      list.find((item) => {
-        return item.date === Date
-      })
+      data.docs
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+        .find((item) => {
+          return item.date === Date
+        })
     ) {
+      setListLoading(false)
       setLoading(false)
       return
     }
     await addDoc(budgetCollectionRef, initWithDate)
     setLoading(false)
+
+    getAllDate()
   }
   useEffect(() => {
-    allDateMaker()
+    changeMonthMakeDate()
     // eslint-disable-next-line
   }, [Date])
-
+  useEffect(() => {
+    getAllDate()
+    changeMonthMakeDate()
+    // eslint-disable-next-line
+  }, [])
   const makeNewBudget = async () => {
+    setListLoading(true)
     try {
       const specificDate = allDate.find((item) => {
         return item.date === Date
       })
       if (specificDate) {
-        const specificItem = doc(
-          db,
-          `${authUser?.uid}:BUDGET`,
-          specificDate?.id
-        )
+        const specificItem = doc(db, collectionName, specificDate?.id)
         await updateDoc(specificItem, {
           array: init,
         })
-      } else {
       }
     } catch (error) {
       console.log(error)
     }
+    setListLoading(false)
+    getAllDate()
   }
 
   const specificList = allDate.find((item) => {
     return item.date === `${thisYear}-${thisMonth}`
   })
 
-  const [list, setList] = useLocalStorage('list', specificList?.array)
+  const addItemHandler = async (title, id) => {
+    setListLoading(true)
 
-  const addItemHandler = (title, id) => {
-    const specific = list?.array.find((item) => {
+    const { array, id: ID } = specificList
+    const specificItem = array.find((item) => {
       return item.title === title && item.id === id
     })
-    console.log(specific)
+    const newArray = [
+      ...specificItem.array,
+      {
+        title:
+          title === 'income'
+            ? `paycheck ${specificItem?.array.length + 1}`
+            : 'label',
+        value: 0,
+      },
+    ]
 
-    specific.array.push({
-      title:
-        title === 'income' ? `paycheck ${specific?.array.length + 1}` : 'label',
-      value: 0,
+    // eslint-disable-next-line
+    array.find((item) => {
+      if (item.title === title && item.id === id) item.array = newArray
     })
 
-    setList([...specificList?.array])
+    const specificItemInDb = doc(db, collectionName, ID)
+    await updateDoc(specificItemInDb, { array: array })
+    getAllDate()
   }
-  const deleteSingle = (title, index, id) => {
+
+  const deleteSingle = async (title, index, id) => {
+    setListLoading(true)
+
+    const { array, id: ID } = specificList
+
     const specific = specificList.array.find((item) => {
       return item.title === title && item.id === id
     })
     const newArray = specific.array.filter((_, i) => {
       return i !== index
     })
-
     specific.array = newArray
-    setList([...specificList?.array])
+
+    // eslint-disable-next-line
+    array.find((item) => {
+      if (item.title === title && item.id === id) item.array = specific.array
+    })
+    const specificItemInDb = doc(db, collectionName, ID)
+    await updateDoc(specificItemInDb, { array: array })
+    getAllDate()
   }
-  const addGroupHandler = () => {
+
+  const addGroupHandler = async () => {
+    setListLoading(true)
+    const { id: ID } = specificList
+
     specificList.array.push({
-      id: list?.length + 1,
+      id: specificList.array?.length + 1,
       title: 'untitled',
       array: [],
     })
-    setList([...specificList?.array])
+
+    const specificItemInDb = doc(db, collectionName, ID)
+    await updateDoc(specificItemInDb, { array: specificList.array })
+    getAllDate()
   }
-  const resetBudget = () => {
-    specificList.array = init
-    setList([...specificList.array])
+
+  const resetBudget = async () => {
+    setListLoading(true)
+    const { id: ID } = specificList
+    const specificItemInDb = doc(db, collectionName, ID)
+    await updateDoc(specificItemInDb, { array: init })
+    getAllDate()
   }
-  const resetBudgetJustValue = () => {
+
+  const resetBudgetJustValue = async () => {
+    setListLoading(true)
+    const { array, id: ID } = specificList
     // eslint-disable-next-line
-    specificList.array.map((item) => {
+    array.map((item) => {
       item.array.map((item) => {
         return (item.value = 0)
       })
     })
-    setList([...specificList?.array])
+
+    const specificItemInDb = doc(db, collectionName, ID)
+    await updateDoc(specificItemInDb, { array: array })
+    getAllDate()
+    setListLoading(false)
   }
-  const deleteGroup = (id) => {
+
+  const deleteGroup = async (id) => {
+    setListLoading(true)
+
+    const { id: ID } = specificList
     const newList = specificList.array.filter((item) => {
       return item.id !== id
     })
+
     specificList.array = newList
 
-    setList([...specificList?.array])
+    const specificItemInDb = doc(db, collectionName, ID)
+    await updateDoc(specificItemInDb, { array: specificList.array })
+    getAllDate()
   }
-  const inputHandler = (e) => {
+  const blurHandler = async () => {
+    setListLoading(true)
+    const { array, id: ID } = specificList
+    const specificItemInDb = doc(db, collectionName, ID)
+    await updateDoc(specificItemInDb, { array: array })
+    getAllDate()
+    setLoading(false)
+  }
+
+  const inputHandler = async (e) => {
     const inpVal = e.target.value
 
     const [id, index, price] = e.target.name.split('-')
@@ -159,7 +240,13 @@ const DataProvider = ({ children }) => {
       array[index].title = inpVal
     }
 
-    setList([...specificList?.array])
+    // eslint-disable-next-line
+    allDate.find((item) => {
+      if (item.id === specificList.id) {
+        item.array = specificList.array
+      }
+    })
+    setAllDate([...allDate])
   }
 
   const makeDataForChart = () => {
@@ -212,6 +299,8 @@ const DataProvider = ({ children }) => {
   const [pieValue, setPieValue] = useState('')
 
   const ctxVal = {
+    monthNow,
+    yearNow,
     monthExpanded,
     toggleExpandMonth,
     thisMonth,
@@ -220,7 +309,6 @@ const DataProvider = ({ children }) => {
     setThisMonth,
     name,
     addItemHandler,
-    list,
     deleteSingle,
     addGroupHandler,
     resetBudget,
@@ -241,8 +329,10 @@ const DataProvider = ({ children }) => {
     allDate,
     specificList,
     loading,
+    listLoading,
+    blurHandler,
   }
-  
+
   return <DataContext.Provider value={ctxVal}>{children}</DataContext.Provider>
 }
 

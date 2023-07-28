@@ -17,7 +17,7 @@ import { useGlobalContext } from '../../context/GlobalContext'
 const Card = ({ title, month, array, id, index }) => {
   const { addItemHandler, name, makeDataForChart, giveInfo } = useDataContext()
   const { handleOpenDelete } = useGlobalContext()
-  //make this global
+
   const [remaining, setRemaining] = useState(false)
 
   return (

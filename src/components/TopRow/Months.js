@@ -1,8 +1,6 @@
-import React from 'react'
-
+import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import { Tooltip, Chip } from '@mui/material'
-import moment from 'moment'
 
 import {
   KeyboardArrowRightOutlinedIcon,
@@ -12,8 +10,9 @@ import {
   RestoreOutlinedIcon,
 } from '../../assets/icons'
 import { SingleMonth } from '../'
-import { monthsName } from '../../assets/constants'
 import { useDataContext } from '../../context/DataContext.js'
+import { paginate } from '../../functions'
+import { IconBtn } from '../../global'
 const Months = () => {
   const {
     thisMonth,
@@ -23,7 +22,31 @@ const Months = () => {
     toggleExpandMonth,
     monthExpanded,
     name,
+    allDate,
+    monthNow,
+    yearNow,
   } = useDataContext()
+
+  const [page, setPage] = useState(0)
+  const [monthRender, setMonthRender] = useState([])
+
+  const existDate = allDate.map((item) => {
+    const splitDate = item.date.split('-')
+    return { id: item.id, month: splitDate[1], year: splitDate[0] }
+  })
+
+  existDate.sort((a, b) => {
+    if (a.year !== b.year) {
+      return a.year - b.year
+    } else {
+      return a.month - b.month
+    }
+  })
+
+  useEffect(() => {
+    setMonthRender(paginate(existDate)[page])
+    // eslint-disable-next-line
+  }, [page, allDate])
 
   const makeItSafe = (num) => {
     if (num > 12) {
@@ -36,9 +59,6 @@ const Months = () => {
     }
     return num
   }
-
-  let monthNow = +moment().format('M')
-  let yearNow = +moment().format('YYYY')
 
   const backToday = () => {
     setThisMonth(monthNow)
@@ -65,11 +85,22 @@ const Months = () => {
       </div>
       {monthExpanded && (
         <div className='month-expand'>
-          <KeyboardArrowLeftOutlinedIcon />
-          {monthsName.map((item) => {
+          <IconButton
+            sx={{ visibility: page > 0 ? 'visible' : 'hidden' }}
+            onClick={() => setPage(page - 1)}>
+            <KeyboardArrowLeftOutlinedIcon />
+          </IconButton>
+          {monthRender.map((item) => {
             return <SingleMonth key={item.id} {...item} />
           })}
-          <KeyboardArrowRightOutlinedIcon />
+          <IconButton
+            sx={{
+              visibility:
+                page < paginate(existDate).length - 1 ? 'visible' : 'hidden',
+            }}
+            onClick={() => setPage(page + 1)}>
+            <KeyboardArrowRightOutlinedIcon />
+          </IconButton>
         </div>
       )}
       <div className='flex'>
@@ -116,6 +147,13 @@ const Months = () => {
 }
 
 export default Months
+
+const IconButton = styled(IconBtn)(() => ({
+  color: 'var(--bg-s-800)',
+  ':hover': {
+    color: 'var(--bg-s-850)',
+  },
+}))
 
 const Cheap = styled(Chip)(() => ({
   position: 'absolute',
@@ -176,7 +214,6 @@ const Wrapper = styled('div')(() => ({
     },
   },
   '.month-expand': {
-    flexWrap: 'wrap',
     borderRadius: 'var(--radius)',
     padding: '1rem',
     background: 'var(--card-bg)',
@@ -187,6 +224,7 @@ const Wrapper = styled('div')(() => ({
     left: '-1%',
     display: 'flex',
     justifyContent: 'space-between',
+
     alignItems: 'center',
 
     zIndex: '100',

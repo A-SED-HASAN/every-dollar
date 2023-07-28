@@ -1,3 +1,5 @@
+import { monthsName } from '../assets/constants'
+
 export const formatMoney = (amount) => {
   const formatter = new Intl.NumberFormat('en-US', {
     notation: 'compact',
@@ -62,4 +64,22 @@ export const star = () => (x, y, width, height) => {
   path.push(['Z'])
   return path
 }
- 
+
+export const monthNameFinder = (monthNumber) => {
+  const { name } = monthsName.find((item) => item.id === +monthNumber)
+  return name.slice(0, 3)
+}
+
+export const paginate = (data) => {
+  const itemsPerPage = 5
+  const numberOfPages = Math.ceil(data.length / itemsPerPage)
+
+  const newData = Array.from({ length: numberOfPages }, (_, index) => {
+    const start = index * itemsPerPage
+    return data.slice(start, start + itemsPerPage)
+  })
+
+  return newData
+}
+
+export default paginate

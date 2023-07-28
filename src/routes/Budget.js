@@ -14,15 +14,23 @@ import { AddOutlinedIcon, RotateLeftOutlinedIcon } from '../assets/icons'
 import { useGlobalContext } from '../context/GlobalContext'
 import { empty } from '../assets/images'
 import { Button } from '@mui/material'
+import { CircleLoader } from '../global'
+
 const Budget = () => {
-  const { addGroupHandler, name, makeNewBudget, specificList, loading } =
-    useDataContext()
+  const {
+    addGroupHandler,
+    name,
+    makeNewBudget,
+    specificList,
+    loading,
+    listLoading,
+  } = useDataContext()
   const { handleOpenReset } = useGlobalContext()
   if (loading) {
     return <LoadingCenter />
   }
   return (
-    <Wrapper>
+    <Wrapper className={listLoading ? 'loading' : null}>
       <DeleteModal />
       <ResetModal />
 
@@ -48,9 +56,13 @@ const Budget = () => {
             <p>{name.slice(0, 3)}</p>
           </div>
           <p>Hey there, looks like you need a budget for {name}.</p>
-          <Button variant='contained' onClick={makeNewBudget}>
-            start planning for {name}
-          </Button>
+          {listLoading ? (
+            <CircleLoader />
+          ) : (
+            <Button variant='contained' onClick={makeNewBudget}>
+              start planning for {name}
+            </Button>
+          )}
         </EmptyWrapper>
       )}
     </Wrapper>

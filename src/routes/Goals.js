@@ -11,6 +11,7 @@ import { deleteDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { RemoveOutlinedIcon } from '../assets/icons'
 import { IconBtn } from '../global'
+import { useAuthContext } from '../context/AuthContext'
 
 const GoalLiquid = ({ percent, shape, color }) => {
   const config = {
@@ -85,6 +86,8 @@ export default function Goals() {
 
 const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
   const { getGoal } = useGlobalContext()
+  const { authUser } = useAuthContext()
+
   const [showPay, setShowPay] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -98,7 +101,7 @@ const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
   const onSubmit = async (data) => {
     setLoading(true)
     const payAmount = +data.payAmount
-    const specificItem = doc(db, 'Goal', id)
+    const specificItem = doc(db, `${authUser?.uid}:GOAL`, id)
     let val = 0
     if (payAmount + pay > goalAmount) {
       val = goalAmount
@@ -114,7 +117,7 @@ const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
   }
   const deleteHandler = async () => {
     setLoading(true)
-    const specificItem = doc(db, 'Goal', id)
+    const specificItem = doc(db, `${authUser?.uid}:GOAL`, id)
     await deleteDoc(specificItem)
     getGoal()
     setLoading(false)

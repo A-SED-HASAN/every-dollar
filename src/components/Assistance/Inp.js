@@ -1,12 +1,12 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import { useDataContext } from '../../context/DataContext'
-import { formatMoney } from '../../functions'
 const Inp = ({ seconde, value, name, className }) => {
-  const { inputHandler } = useDataContext()
+  const { inputHandler, blurHandler } = useDataContext()
 
   return (
     <Input
+      onBlurCapture={blurHandler}
       className={className}
       style={{ background: value === 0 && 'var(--bg-main)' }}
       seconde={seconde}

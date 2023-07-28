@@ -19,27 +19,29 @@ const RightCard = () => {
 
   return (
     <Wrapper>
-      <Tabs
-        sx={{ borderBottom: 1, borderColor: 'divider' }}
-        centered
-        value={value}
-        onChange={handleChange}>
-        <TabBtn
-          disableRipple
-          icon={<DonutLargeOutlinedIcon className='icon' />}
-          label='summary'
-        />
-        <TabBtn
-          disableRipple
-          icon={<AttachMoneyOutlinedIcon className='icon' />}
-          label='transactions'
-        />
-        <TabBtn
-          disableRipple
-          icon={<AccountBalanceOutlinedIcon className='icon' />}
-          label='accounts'
-        />
-      </Tabs>
+      <div className='wrapper'>
+        <Tabs
+          sx={{ borderBottom: 1, borderColor: 'divider' }}
+          centered
+          value={value}
+          onChange={handleChange}>
+          <TabBtn
+            disableRipple
+            icon={<DonutLargeOutlinedIcon className='icon' />}
+            label='summary'
+          />
+          <TabBtn
+            disableRipple
+            icon={<AttachMoneyOutlinedIcon className='icon' />}
+            label='transactions'
+          />
+          <TabBtn
+            disableRipple
+            icon={<AccountBalanceOutlinedIcon className='icon' />}
+            label='accounts'
+          />
+        </Tabs>
+      </div>
 
       <main>
         {value === 0 && <Summary />}
@@ -53,6 +55,7 @@ const RightCard = () => {
 export default RightCard
 
 const TabBtn = styled(Tab)(() => ({
+  width: '30%',
   padding: '2rem',
   color: 'var(--text-200)',
   fontWeight: '600',

@@ -117,12 +117,13 @@ const Chart = ({ pieTitle, pieValue, data }) => {
     // },
     // animation: false,
 
-    animation: {
-      appear: {
-        animation: 'grow-in-xy', // Effects of the first animation
-        duration: 500, // Duration of the first animation
-      },
-    },
+    animation: false,
+    // {
+    //   appear: {
+    //     animation: 'grow-in-xy', // Effects of the first animation
+    //     duration: 500, // Duration of the first animation
+    //   },
+    // },
 
     // 'fade-in'
     // 'fade-out'

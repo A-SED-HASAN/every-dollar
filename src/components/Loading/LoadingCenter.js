@@ -1,12 +1,12 @@
-import { CircularProgress } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import React from 'react'
+import { CircleLoader } from '../../global'
 
 const LoadingCenter = () => {
   return (
     <Wrapper>
       <div>
-        <CircularProgress sx={{ color: 'var(--bg-s-800)' }} size='4rem' />
+        <CircleLoader />
         loading ...
       </div>
     </Wrapper>

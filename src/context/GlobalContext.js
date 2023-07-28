@@ -28,7 +28,7 @@ const GlobalProvider = ({ children }) => {
   const handleCloseGoal = () => setOpenGoal(false)
 
   // eslint-disable-next-line
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(true)
 
   const goalCollectionRef = collection(db, `${authUser?.uid}:GOAL`)
 
@@ -50,6 +50,7 @@ const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         drawerOpen,
+        setDrawerOpen,
         openDelete,
         handleCloseDelete,
         handleOpenDelete,

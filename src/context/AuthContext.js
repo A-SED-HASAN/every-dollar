@@ -14,7 +14,6 @@ const AuthProvider = ({ children }) => {
   const [password, setPassword] = useState('')
 
   const [authUser, setAuthUser] = useLocalStorage('authUser', null)
-
   const [error, setError] = useState('')
   const [pending, setPending] = useState(true)
   useEffect(() => {

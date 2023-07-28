@@ -10,6 +10,7 @@ const Main = () => {
 
   useEffect(() => {
     nav('budget')
+    // eslint-disable-next-line
   }, [])
   return (
     <Wrapper>

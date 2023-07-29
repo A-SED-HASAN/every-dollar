@@ -42,6 +42,7 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import EditLocationOutlinedIcon from '@mui/icons-material/EditLocationOutlined'
 import DiamondOutlinedIcon from '@mui/icons-material/DiamondOutlined'
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
 export {
   SearchOutlinedIcon,
   HomeOutlinedIcon,
@@ -87,5 +88,5 @@ export {
   FavoriteBorderOutlinedIcon,
   EditLocationOutlinedIcon,
   DiamondOutlinedIcon,
+  ErrorOutlineOutlinedIcon,
 }
-

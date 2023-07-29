@@ -9,6 +9,7 @@ import Navbar from './LeftSide/Navbar'
 import Remain from './TopRow/Remain'
 import Months from './TopRow/Months'
 import SingleMonth from './TopRow/SingleMonth'
+import JustYear from './TopRow/JustYear'
 import Top from './TopRow'
 
 import RightDrawer from './RightSide/RightDrawer'
@@ -54,4 +55,5 @@ export {
   ResetModal,
   MiniCard,
   LoadingCenter,
+  JustYear,
 }

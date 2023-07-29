@@ -58,7 +58,7 @@ const DataProvider = ({ children }) => {
   const changeMonthMakeDate = async () => {
     setListLoading(true)
     const data = await getDocs(budgetCollectionRef)
-    const initWithDate = { date: Date, array: [] }
+    const initWithDate = { date: Date, array: [], income: 0, spent: 0 }
     if (
       data.docs
         .map((doc) => ({
@@ -78,29 +78,36 @@ const DataProvider = ({ children }) => {
 
     getAllDate()
   }
+
   useEffect(() => {
     changeMonthMakeDate()
+    spentAndIncome()
+
     // eslint-disable-next-line
   }, [Date])
+
   useEffect(() => {
     getAllDate()
     changeMonthMakeDate()
     // eslint-disable-next-line
   }, [])
+
   const makeNewBudget = async () => {
     setListLoading(true)
-    try {
-      const specificDate = allDate.find((item) => {
-        return item.date === Date
-      })
-      if (specificDate) {
-        const specificItem = doc(db, collectionName, specificDate?.id)
-        await updateDoc(specificItem, {
-          array: init,
+    if (authUser) {
+      try {
+        const specificDate = allDate.find((item) => {
+          return item.date === Date
         })
+        if (specificDate) {
+          const specificItem = doc(db, collectionName, specificDate?.id)
+          await updateDoc(specificItem, {
+            array: init,
+          })
+        }
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
     setListLoading(false)
     getAllDate()
@@ -175,6 +182,8 @@ const DataProvider = ({ children }) => {
     getAllDate()
   }
 
+  const [resetPlan, setResetPlan] = useState(null)
+
   const resetBudget = async () => {
     setListLoading(true)
     const { id: ID } = specificList
@@ -213,6 +222,7 @@ const DataProvider = ({ children }) => {
     await updateDoc(specificItemInDb, { array: specificList.array })
     getAllDate()
   }
+
   const blurHandler = async () => {
     setListLoading(true)
     const { array, id: ID } = specificList
@@ -284,16 +294,33 @@ const DataProvider = ({ children }) => {
       },
       { sum: 0 }
     )
-    return !isNaN(makeDataForChart()[0]?.value * 2 - sum)
-      ? makeDataForChart()[0]?.value * 2 - sum
-      : 0
+    const income = makeDataForChart()[0]?.value
+
+    return {
+      balance: !isNaN(income * 2 - sum) ? income * 2 - sum : 0,
+      income: income,
+      spent: sum - income,
+    }
   }
+
+  const spentAndIncome = async () => {
+    if (!listLoading && specificList?.array && calculateBalance().income) {
+      const specificItemInDb = doc(db, collectionName, specificList.id)
+      await updateDoc(specificItemInDb, {
+        spent: calculateBalance().spent,
+        income: calculateBalance().income,
+      })
+    }
+  }
+  useEffect(() => {
+    spentAndIncome()
+    // eslint-disable-next-line
+  }, [calculateBalance().balance])
+
   const [info, setInfo] = useLocalStorage('info', null)
   const giveInfo = (title, subTitle, index, id) => {
     setInfo({ title, subTitle, index, id })
   }
-
-  const [resetPlan, setResetPlan] = useState(null)
 
   const [pieTitle, setPieTitle] = useState('')
   const [pieValue, setPieValue] = useState('')

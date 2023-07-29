@@ -71,7 +71,9 @@ export const monthNameFinder = (monthNumber) => {
 }
 
 export const paginate = (data) => {
-  const itemsPerPage = 5
+  const width = window.innerWidth
+  const itemsPerPage = Math.floor(width / 150)
+
   const numberOfPages = Math.ceil(data.length / itemsPerPage)
 
   const newData = Array.from({ length: numberOfPages }, (_, index) => {

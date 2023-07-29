@@ -13,7 +13,7 @@ import { SingleMonth } from '../'
 import { useDataContext } from '../../context/DataContext.js'
 import { paginate } from '../../functions'
 import { IconBtn } from '../../global'
-const Months = () => {
+const Months = ({ justYear }) => {
   const {
     thisMonth,
     setThisYear,
@@ -74,7 +74,7 @@ const Months = () => {
     <Wrapper>
       <div className='container' onClick={toggleExpandMonth}>
         <h1>
-          <span className='month'>{name}</span>
+          {!justYear && <span className='month'>{name}</span>}
           <span className='year'> {thisYear}</span>
         </h1>
         {monthExpanded ? (
@@ -107,11 +107,14 @@ const Months = () => {
         {_ForNotToday && (
           <Tooltip title='jump today' arrow>
             <Btn variant='outlined' text onClick={backToday}>
-              Today
+              {justYear ? 'This year' : 'Today'}
             </Btn>
           </Tooltip>
         )}
-        <Tooltip placement='left' title='previous month' arrow>
+        <Tooltip
+          placement='left'
+          title={`previous ${justYear ? 'year' : 'month'}`}
+          arrow>
           <Btn
             variant='outlined'
             left
@@ -121,7 +124,10 @@ const Months = () => {
             <KeyboardArrowLeftOutlinedIcon fontSize='small' />
           </Btn>
         </Tooltip>
-        <Tooltip placement='right' title='next month' arrow>
+        <Tooltip
+          placement='right'
+          title={`next ${justYear ? 'year' : 'month'}`}
+          arrow>
           <Btn
             right
             variant='outlined'
@@ -138,7 +144,7 @@ const Months = () => {
             color='warning'
             icon={<RestoreOutlinedIcon />}
             label={`You are viewing a${_ForPastOrFuture ? ' past ' : ' future '}
-            month.`}
+         ${justYear ? ' year' : 'month'} `}
           />
         )}
       </div>
@@ -196,6 +202,7 @@ const Wrapper = styled('div')(() => ({
   alignItems: 'center',
   padding: '.4rem 0',
   '.container': {
+    cursor: 'pointer',
     borderRadius: 'var(--radius)',
     display: 'flex',
     alignItems: 'center',
@@ -208,6 +215,9 @@ const Wrapper = styled('div')(() => ({
         fontWeight: '400',
         color: 'var(--text-300)',
       },
+    },
+    '*': {
+      cursor: 'pointer',
     },
     ':hover': {
       background: 'var(--text-50)',

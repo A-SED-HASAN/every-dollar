@@ -7,7 +7,7 @@ const Top = () => {
   return (
     <>
       <Months />
-      <Remain amount={calculateBalance()} />
+      <Remain amount={calculateBalance().balance} />
     </>
   )
 }

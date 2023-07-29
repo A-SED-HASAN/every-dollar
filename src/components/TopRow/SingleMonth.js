@@ -4,19 +4,31 @@ import { monthNameFinder } from '../../functions'
 import { useDataContext } from '../../context/DataContext'
 
 const SingleMonth = ({ month, year }) => {
-  const { toggleExpandMonth, setThisYear, setThisMonth, monthNow, yearNow } =
-    useDataContext()
+  const {
+    toggleExpandMonth,
+    setThisYear,
+    setThisMonth,
+    monthNow,
+    yearNow,
+    thisMonth,
+    thisYear,
+  } = useDataContext()
 
   const changeDateHandler = () => {
     setThisYear(+year)
     setThisMonth(+month)
     toggleExpandMonth()
   }
+
+  const _toady = monthNow === +month && yearNow === +year
+  const thisDate = thisMonth === +month && thisYear === +year
+
   return (
     <Wrapper onClick={changeDateHandler}>
       <h5>{monthNameFinder(month)}</h5>
       <p>{year}</p>
-      {monthNow === +month && yearNow === +year && <span>today</span>}
+      {_toady && <span>today</span>}
+      {thisDate && !_toady && <span>this !</span>}
     </Wrapper>
   )
 }

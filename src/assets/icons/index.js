@@ -43,6 +43,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import EditLocationOutlinedIcon from '@mui/icons-material/EditLocationOutlined'
 import DiamondOutlinedIcon from '@mui/icons-material/DiamondOutlined'
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 export {
   SearchOutlinedIcon,
   HomeOutlinedIcon,
@@ -89,4 +91,6 @@ export {
   EditLocationOutlinedIcon,
   DiamondOutlinedIcon,
   ErrorOutlineOutlinedIcon,
+  AccountBalanceWalletOutlinedIcon,
+  ArrowBackOutlinedIcon,
 }

@@ -2,6 +2,7 @@ import React, { useContext, createContext, useState } from 'react'
 import { db } from '../firebase'
 import { collection, getDocs } from 'firebase/firestore'
 import { useAuthContext } from './AuthContext.js'
+import { useLocalStorage } from '../hook'
 
 const GlobalContext = createContext()
 
@@ -27,9 +28,6 @@ const GlobalProvider = ({ children }) => {
   const handleOpenGoal = () => setOpenGoal(true)
   const handleCloseGoal = () => setOpenGoal(false)
 
-  // eslint-disable-next-line
-  const [drawerOpen, setDrawerOpen] = useState(true)
-
   const goalCollectionRef = collection(db, `${authUser?.uid}:GOAL`)
 
   const [goalList, setGoalList] = useState([])
@@ -46,6 +44,15 @@ const GlobalProvider = ({ children }) => {
     )
     setGoalListLoading(false)
   }
+
+  const [drawerOpen, setDrawerOpen] = useState(true)
+  const drawerToggleHandler = () => {
+    setDrawerOpen((prev) => !prev)
+  }
+
+  const [isBarChart, setIsBarChart] = useLocalStorage('isBarChart', true)
+  const toggleChartMode = () => setIsBarChart((prev) => !prev)
+
   return (
     <GlobalContext.Provider
       value={{
@@ -67,6 +74,9 @@ const GlobalProvider = ({ children }) => {
         getGoal,
         goalList,
         goalListLoading,
+        drawerToggleHandler,
+        isBarChart,
+        toggleChartMode,
       }}>
       {children}
     </GlobalContext.Provider>

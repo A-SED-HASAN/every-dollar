@@ -90,7 +90,7 @@ const DataProvider = ({ children }) => {
     getAllDate()
     changeMonthMakeDate()
     // eslint-disable-next-line
-  }, [])
+  }, [authUser])
 
   const makeNewBudget = async () => {
     setListLoading(true)

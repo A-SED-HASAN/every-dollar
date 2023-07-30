@@ -1,131 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { Column, getCanvasPattern } from '@ant-design/plots'
-import { useDataContext } from '../context/DataContext'
-import { formatMoney, monthNameFinder } from '../functions'
-import { LoadingCenter, JustYear } from '../components'
+import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
-import { ErrorOutlineOutlinedIcon } from '../assets/icons'
-
-const ColChart = ({ data }) => {
-  // const pattern = (datum, color) =>
-  //   getCanvasPattern({
-  //     type: datum.name === 'spent' ? 'dot' : 'line',
-  //     cfg: {
-  //       backgroundColor: color,
-  //     },
-  //   })
-
-  const config = {
-    data,
-    isGroup: true,
-    xField: 'month',
-    yField: 'value',
-    seriesField: 'name',
-    dodgePadding: 10,
-    intervalPadding: 50,
-    //space between columns
-    columnWidthRatio: 1,
-
-    //space between bars
-    marginRatio: 0.1,
-
-    color: ({ name }) => {
-      if (name === 'income') {
-        return '#48ce65'
-      }
-      return '#e64b40'
-    },
-
-    label: {
-      position: 'top',
-      content: (item) => {
-        return formatMoney(item.value)
-      },
-      // 'top', 'middle', 'bottom'
-      // style: {
-      //   fill: '#000',
-      //   opacity: 1,
-      // },
-
-      layout: [
-        {
-          type: 'interval-adjust-position',
-        },
-        {
-          type: 'interval-hide-overlap',
-        },
-        {
-          type: 'adjust-color',
-        },
-      ],
-    },
-
-    columnStyle: {
-      radius: [5, 5, 0, 0],
-      cursor: 'pointer',
-      lineWidth: 0,
-      shadowColor: 'rgba(0,0,0,.2)',
-      shadowBlur: 1,
-      shadowOffsetX: 1,
-      shadowOffsetY: 1,
-    },
-
-    // scrollbar: {
-    //   type: 'horizontal',
-    // },
-
-    legend: {
-      position: 'top',
-      // marker: (text, index, item) => {
-      //   const color = item.style.fill
-      //   return {
-      //     style: {
-      //       fill: pattern(
-      //         {
-      //           name: text,
-      //         },
-      //         color
-      //       ),
-      //       r: 8,
-      //     },
-      //   }
-      // },
-    },
-    // meta: {
-    //   type: {
-    //     alias: 'alias',
-    //   },
-    //   sales: {
-    //     alias: 'val',
-    //   },
-    // },
-    // pattern,
-    // columnBackground: {
-    //   // style: {
-    //   //   fill: 'blue',
-    //   // },
-    // },
-    tooltip: {
-      formatter: (datum) => ({
-        name: datum.name,
-        value: formatMoney(datum.value),
-      }),
-    },
-    interactions: [
-      {
-        type: 'element-highlight-by-color',
-      },
-      {
-        type: 'element-link',
-      },
-    ],
-  }
-  return <Column {...config} />
-}
+import { Button } from '@mui/material'
+import { useDataContext } from '../context/DataContext'
+import { monthNameFinder } from '../functions'
+import { LoadingCenter, JustYear, InsBar, InsLine } from '../components'
+import {
+  ErrorOutlineOutlinedIcon,
+  ArrowBackOutlinedIcon,
+} from '../assets/icons'
+import { useGlobalContext } from '../context/GlobalContext'
 
 const Insights = () => {
   const { allDate, loading, thisYear } = useDataContext()
-
+  const { isBarChart } = useGlobalContext()
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -160,18 +48,25 @@ const Insights = () => {
 
   return (
     <Wrapper>
+      <JustYear />
       {_isDataEmpty.length > 0 ? (
         <ChartWrapper>
-          <JustYear />
-          <ColChart data={data} />
+          {isBarChart ? <InsBar data={data} /> : <InsLine data={data} />}
         </ChartWrapper>
       ) : (
         <ErrorWrapper>
           <div>
-            <h1>add at least one month budget to track !</h1>
+            <h1>
+              add at least one month to ¨ {thisYear} ¨ budget's to track !
+            </h1>
             <ErrorOutlineOutlinedIcon
               sx={{ fontSize: '9rem', color: 'var(--error)' }}
             />
+            <Link to='budget'>
+              <Btn variant='outlined' startIcon={<ArrowBackOutlinedIcon />}>
+                back to budget for planning
+              </Btn>
+            </Link>
           </div>
         </ErrorWrapper>
       )}
@@ -180,25 +75,43 @@ const Insights = () => {
 }
 
 export default Insights
+const Btn = styled(Button)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '1rem',
+  color: 'var(--bg-s-700)',
+  border: '1px solid var(--bg-s-700)',
+  padding: '1rem 2rem',
+  textTransform: 'capitalize',
+  fontSize: '1rem',
+  ':hover': {
+    color: 'var(--bg-s-800)',
+    border: '1px solid var(--bg-s-800)',
+  },
+  '*': {
+    cursor: 'pointer',
+  },
+}))
 
 const Wrapper = styled('div')(() => ({
   padding: '1.5rem',
+  maxHeight: '100vh',
 
-  // background: 'red',
+  // width: open ? 'calc(100vw - 240px)' : 'calc(100vw - 65px)',
 }))
 const ChartWrapper = styled('div')(() => ({
-  // background: 'blue',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-
-  height: '100%',
+  height: 'calc(100vh - 150px)',
 }))
 
 const ErrorWrapper = styled('div')(() => ({
   width: '100%',
-  height: '100%',
+  height: 'calc(100vh - 150px)',
   display: 'grid',
   placeItems: 'center',
   textAlign: 'center',
+  div: { display: 'grid', placeItems: 'center', gap: '1rem' },
 }))

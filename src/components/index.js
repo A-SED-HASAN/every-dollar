@@ -34,6 +34,8 @@ import { InsLine } from './Chart/InsLine'
 import { BuPie } from './Chart/BuPie'
 import { BuRadar } from './Chart/BuRadar'
 
+import { RoTree } from './Graph/RoTree'
+
 export {
   Card,
   Row,
@@ -63,4 +65,5 @@ export {
   BuRadar,
   InsBar,
   InsLine,
+  RoTree,
 }

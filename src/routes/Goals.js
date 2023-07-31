@@ -12,6 +12,7 @@ import { db } from '../firebase'
 import { RemoveOutlinedIcon } from '../assets/icons'
 import { IconBtn } from '../global'
 import { useAuthContext } from '../context/AuthContext'
+import { useDataContext } from '../context/DataContext'
 
 const GoalLiquid = ({ percent, shape, color }) => {
   const config = {
@@ -87,7 +88,7 @@ export default function Goals() {
 const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
   const { getGoal } = useGlobalContext()
   const { authUser } = useAuthContext()
-
+  const { playMoney } = useDataContext()
   const [showPay, setShowPay] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -100,6 +101,7 @@ const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
 
   const onSubmit = async (data) => {
     setLoading(true)
+    playMoney()
     const payAmount = +data.payAmount
     const specificItem = doc(db, `${authUser?.uid}:GOAL`, id)
     let val = 0

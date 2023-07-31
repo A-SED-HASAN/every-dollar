@@ -34,13 +34,13 @@ export const BuPie = ({ pieTitle, pieValue, data }) => {
   const config = {
     appendPadding: 10,
     data,
-    angleField: 'value',
+    angleField: 'planned',
     colorField: 'type',
     color: colors,
     radius: 1,
     innerRadius: 0.77,
     meta: {
-      value: {
+      planned: {
         formatter: (v) => `${v} $`,
       },
     },
@@ -52,7 +52,7 @@ export const BuPie = ({ pieTitle, pieValue, data }) => {
 
       itemValue: {
         formatter: (_, item) => {
-          return calcPercentValue(data, item.value)
+          return calcPercentValue(data, item.planned)
         },
         style: (_, index) => {
           return {
@@ -101,7 +101,7 @@ export const BuPie = ({ pieTitle, pieValue, data }) => {
         customHtml: (container, view, datum, data) => {
           const { width } = container.getBoundingClientRect()
           const text = datum
-            ? `${formatMoney(datum.value)}`
+            ? `${formatMoney(datum.planned)}`
             : `${formatMoney(pieValue)}`
           return renderStatistic(width, text, {
             fontSize: 32,

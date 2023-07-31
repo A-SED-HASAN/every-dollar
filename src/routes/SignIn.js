@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { auth } from '../firebase'
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth'
+
 import { styled } from '@mui/material/styles'
 import { ramseyBlue, everyDollar } from '../assets/images'
 import {
@@ -26,24 +32,43 @@ const SignIn = () => {
     setEmail,
     password,
     setPassword,
-    existingUser,
-    newUser,
+    setAuthUser,
     error,
     setError,
-    authUser,
     pending,
   } = useAuthContext()
+  
+  const nav = useNavigate()
 
-  const [showPassword, setShowPassword] = useState(false)
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show)
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault()
+  const existingUser = (e) => {
+    e.preventDefault()
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setAuthUser(userCredential.user)
+        nav('/budget')
+      })
+      .catch((error) => {
+        setError(error.code.slice(5))
+      })
   }
 
-  const [hasAccount, setHasAccount] = useState(true)
+  const newUser = (e) => {
+    e.preventDefault()
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setAuthUser(userCredential.user)
+        nav('/budget')
+      })
+      .catch((error) => {
+        setError(error.code.slice(5))
+      })
+  }
 
-  const nav = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
+  const handleClickShowPassword = () => setShowPassword((prev) => !prev)
+  const handleMouseDownPassword = (e) => e.preventDefault()
+
+  const [hasAccount, setHasAccount] = useState(true)
 
   useEffect(() => {
     setError('')
@@ -70,17 +95,7 @@ const SignIn = () => {
             {error}
           </Alert>
         )}
-        <form
-          onSubmit={(e) => {
-            if (hasAccount) {
-              existingUser(e)
-              if (authUser) {
-                nav('/budget')
-              }
-            } else {
-              newUser(e)
-            }
-          }}>
+        <form onSubmit={(e) => (hasAccount ? existingUser(e) : newUser(e))}>
           <FormControl
             sx={{
               margin: '1rem 0',

@@ -3,13 +3,13 @@ import { styled } from '@mui/material/styles'
 import { Divider } from '@mui/material'
 import { formatMoney, formatPercent } from '../../functions'
 import { useDataContext } from '../../context/DataContext'
-const Row = ({ type, planned, value }) => {
+const Row = ({ type, isPlanned, planned }) => {
   const { makeDataForChart, setPieTitle, pieTitle, setPieValue } =
     useDataContext()
-  const incomeValue = makeDataForChart()[0].value
+  const incomeValue = makeDataForChart()[0].planned
 
   return (
-    <Wrapper planned={planned}>
+    <Wrapper planned={isPlanned}>
       <div className={`grid ${pieTitle === type ? 'active' : null}`}>
         <span
           onClick={() => {
@@ -20,16 +20,16 @@ const Row = ({ type, planned, value }) => {
                 return type
               }
             })
-            setPieValue(value)
+            setPieValue(planned)
           }}>
           {type}
         </span>
         <span className='num' style={{ justifySelf: 'start' }}>
-          {formatMoney(value)}
+          {formatMoney(planned)}
         </span>
-        {planned && (
+        {isPlanned && (
           <span className='num' style={{ justifySelf: 'end' }}>
-            {formatPercent(value / incomeValue, true)}
+            {formatPercent(planned / incomeValue, true)}
           </span>
         )}
       </div>

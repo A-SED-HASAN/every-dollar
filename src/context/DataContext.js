@@ -2,13 +2,14 @@ import React, { useContext, createContext, useState, useEffect } from 'react'
 import moment from 'moment/moment'
 import { init, monthsName } from '../assets/constants'
 import { useLocalStorage } from '../hook'
-
 import { db } from '../firebase'
 import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from './AuthContext.js'
-
+import { money } from '../assets/sound'
+import useSound from 'use-sound'
 const DataContext = createContext()
 const DataProvider = ({ children }) => {
+  const [playMoney] = useSound(money)
   const { authUser } = useAuthContext()
 
   const [monthExpanded, setMonthExpanded] = useState(false)
@@ -114,7 +115,7 @@ const DataProvider = ({ children }) => {
   }
 
   const specificList = allDate.find((item) => {
-    return item.date === `${thisYear}-${thisMonth}`
+    return item.date === Date
   })
 
   const addItemHandler = async (title, id) => {
@@ -131,7 +132,8 @@ const DataProvider = ({ children }) => {
           title === 'income'
             ? `paycheck ${specificItem?.array.length + 1}`
             : 'label',
-        value: 0,
+        planned: 0,
+        ROS: 0,
       },
     ]
 
@@ -192,13 +194,16 @@ const DataProvider = ({ children }) => {
     getAllDate()
   }
 
+
   const resetBudgetJustValue = async () => {
     setListLoading(true)
     const { array, id: ID } = specificList
     // eslint-disable-next-line
     array.map((item) => {
+      // eslint-disable-next-line
       item.array.map((item) => {
-        return (item.value = 0)
+        item.ROS = 0
+        item.planned = 0
       })
     })
 
@@ -224,6 +229,7 @@ const DataProvider = ({ children }) => {
   }
 
   const blurHandler = async () => {
+    playMoney()
     setListLoading(true)
     const { array, id: ID } = specificList
     const specificItemInDb = doc(db, collectionName, ID)
@@ -244,7 +250,7 @@ const DataProvider = ({ children }) => {
       specificList.array[id - 1].title = inpVal
     }
     if (index && price) {
-      if (!isNaN(inpVal)) array[index].value = inpVal
+      if (!isNaN(inpVal)) array[index].planned = inpVal
     }
     if (index && !price) {
       array[index].title = inpVal
@@ -265,8 +271,8 @@ const DataProvider = ({ children }) => {
     specificList?.array.map((item) => {
       const { sum } = item?.array.reduce(
         (total, item) => {
-          const { value } = item
-          total.sum += +value
+          const { planned } = item
+          total.sum += +planned
 
           return total
         },
@@ -277,7 +283,7 @@ const DataProvider = ({ children }) => {
           item.title.length > 11
             ? `${item.title.slice(0, 11)} ...`
             : item.title,
-        value: sum,
+        planned: sum,
       })
     })
 
@@ -287,14 +293,14 @@ const DataProvider = ({ children }) => {
   const calculateBalance = () => {
     const { sum } = makeDataForChart().reduce(
       (total, item) => {
-        const { value } = item
-        total.sum += +value
+        const { planned } = item
+        total.sum += +planned
 
         return total
       },
       { sum: 0 }
     )
-    const income = makeDataForChart()[0]?.value
+    const income = makeDataForChart()[0]?.planned
 
     return {
       balance: !isNaN(income * 2 - sum) ? income * 2 - sum : 0,
@@ -302,7 +308,6 @@ const DataProvider = ({ children }) => {
       spent: sum - income,
     }
   }
-
   const spentAndIncome = async () => {
     if (!listLoading && specificList?.array && calculateBalance().income) {
       const specificItemInDb = doc(db, collectionName, specificList.id)
@@ -326,6 +331,7 @@ const DataProvider = ({ children }) => {
   const [pieValue, setPieValue] = useState('')
 
   const ctxVal = {
+    playMoney,
     monthNow,
     yearNow,
     monthExpanded,

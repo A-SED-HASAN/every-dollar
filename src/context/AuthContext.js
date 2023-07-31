@@ -1,8 +1,6 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'
 import { auth } from '../firebase'
 import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
 } from 'firebase/auth'
@@ -16,6 +14,7 @@ const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useLocalStorage('authUser', null)
   const [error, setError] = useState('')
   const [pending, setPending] = useState(true)
+
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -32,28 +31,6 @@ const AuthProvider = ({ children }) => {
     // eslint-disable-next-line
   }, [])
 
-  const existingUser = (e) => {
-    e.preventDefault()
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setAuthUser(userCredential.user)
-      })
-      .catch((error) => {
-        setError(error.code.slice(5))
-      })
-  }
-
-  const newUser = (e) => {
-    e.preventDefault()
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setAuthUser(userCredential.user)
-      })
-      .catch((error) => {
-        setError(error.code.slice(5))
-      })
-  }
-
   const userWantExit = () => {
     signOut(auth)
       .then(() => console.log('out'))
@@ -66,8 +43,6 @@ const AuthProvider = ({ children }) => {
         setEmail,
         password,
         setPassword,
-        existingUser,
-        newUser,
         authUser,
         setAuthUser,
         error,

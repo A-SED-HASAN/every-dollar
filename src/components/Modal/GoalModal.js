@@ -38,7 +38,9 @@ export default function GoalModal() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {
+      errors: { goalName, goalAmount, color, shape },
+    },
   } = useForm({
     defaultValues: {
       goalName: '',
@@ -74,9 +76,9 @@ export default function GoalModal() {
             control={control}
             render={({ field }) => (
               <FormControl fullWidth variant='standard' {...field}>
-                <Label color={errors.goalName ? 'error' : ''}>goal Name</Label>
+                <Label color={goalName ? 'error' : ''}>goal Name</Label>
                 <Inp
-                  color={errors.goalName ? 'error' : ''}
+                  color={goalName ? 'error' : ''}
                   disableUnderline
                   endAdornment={
                     <InputAdornment position='end'>
@@ -84,7 +86,7 @@ export default function GoalModal() {
                     </InputAdornment>
                   }
                 />
-                {errors.goalName && (
+                {goalName && (
                   <FormHelperText sx={{ color: 'var(--error)' }}>
                     it's required !
                   </FormHelperText>
@@ -93,19 +95,15 @@ export default function GoalModal() {
             )}
           />
           <Controller
-            rules={{
-              required: true,
-            }}
+            rules={{ required: true }}
             name='goalAmount'
             control={control}
             render={({ field }) => (
               <FormControl fullWidth variant='standard' {...field}>
-                <Label color={errors.goalAmount ? 'error' : ''}>
-                  goal Amount
-                </Label>
+                <Label color={goalAmount ? 'error' : ''}>goal Amount</Label>
                 <Inp
                   type='number'
-                  color={errors.goalAmount ? 'error' : ''}
+                  color={goalAmount ? 'error' : ''}
                   disableUnderline
                   endAdornment={
                     <InputAdornment position='end'>
@@ -113,7 +111,7 @@ export default function GoalModal() {
                     </InputAdornment>
                   }
                 />
-                {errors.goalAmount && (
+                {goalAmount && (
                   <FormHelperText sx={{ color: 'var(--error)' }}>
                     it's required !
                   </FormHelperText>
@@ -121,13 +119,15 @@ export default function GoalModal() {
               </FormControl>
             )}
           />
+
           <Controller
+            rules={{ required: true }}
             name='color'
             control={control}
             render={({ field }) => (
               <FormControl fullWidth variant='standard'>
-                <Label>color</Label>
-                <Slt disableUnderline {...field}>
+                <Label color={color ? 'error' : ''}>color</Label>
+                <Slt disableUnderline {...field} color={color ? 'error' : ''}>
                   <MenuItem value=''>
                     <em>None</em>
                   </MenuItem>
@@ -143,17 +143,23 @@ export default function GoalModal() {
                     )
                   })}
                 </Slt>
+                {color && (
+                  <FormHelperText sx={{ color: 'var(--error)' }}>
+                    it's required !
+                  </FormHelperText>
+                )}
               </FormControl>
             )}
           />
 
           <Controller
+            rules={{ required: true }}
             name='shape'
             control={control}
             render={({ field }) => (
               <FormControl fullWidth variant='standard'>
-                <Label>shape</Label>
-                <Slt disableUnderline {...field}>
+                <Label color={shape ? 'error' : ''}>shape</Label>
+                <Slt color={shape ? 'error' : ''} disableUnderline {...field}>
                   <MenuItem value=''>
                     <em>None</em>
                   </MenuItem>
@@ -167,6 +173,11 @@ export default function GoalModal() {
                     )
                   })}
                 </Slt>
+                {shape && (
+                  <FormHelperText sx={{ color: 'var(--error)' }}>
+                    it's required !
+                  </FormHelperText>
+                )}
               </FormControl>
             )}
           />

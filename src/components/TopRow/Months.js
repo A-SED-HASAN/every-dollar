@@ -17,7 +17,7 @@ import { useDataContext } from '../../context/DataContext.js'
 import { paginate } from '../../functions'
 import { IconBtn } from '../../global'
 import { useGlobalContext } from '../../context/GlobalContext'
-const Months = ({ justYear, data }) => {
+export default function Months({ justYear, data }) {
   const {
     thisMonth,
     setThisYear,
@@ -148,13 +148,19 @@ const Months = ({ justYear, data }) => {
             <KeyboardArrowRightOutlinedIcon fontSize='small' />
           </Btn>
         </Tooltip>
-        {window.innerWidth <= 900 && !justYear && (
+        {window.innerWidth <= 900 &&
+        !justYear &&
+        specificList?.array.length === 0 ? (
+          <Btn
+            disabled={true}
+            onClick={drawerToggleHandler}
+            variant='outlined'
+            icon>
+            <AccountBalanceWalletOutlinedIcon fontSize='small' />
+          </Btn>
+        ) : (
           <Tooltip title={`${drawerOpen ? 'close' : 'open'} summary`} arrow>
-            <Btn
-              disabled={specificList?.array.length === 0}
-              onClick={drawerToggleHandler}
-              variant='outlined'
-              icon>
+            <Btn onClick={drawerToggleHandler} variant='outlined' icon>
               <AccountBalanceWalletOutlinedIcon fontSize='small' />
             </Btn>
           </Tooltip>
@@ -197,9 +203,6 @@ const Months = ({ justYear, data }) => {
     </Wrapper>
   )
 }
-
-export default Months
-
 const IconButton = styled(IconBtn)(() => ({
   color: 'var(--bg-s-800)',
   ':hover': {

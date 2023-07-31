@@ -15,7 +15,7 @@ const Summary = () => {
   const dataMustRendered = makeDataForChart().filter((item) => {
     return item.type !== 'income'
   })
-  const incomeValue = makeDataForChart()[0]?.value
+  const incomeValue = makeDataForChart()[0]?.planned
 
   return (
     <Wrapper>
@@ -35,7 +35,7 @@ const Summary = () => {
       {value === 0 && (
         <article>
           {dataMustRendered.map((item, index) => {
-            return <Row key={index} {...item} planned />
+            return <Row key={index} {...item} isPlanned />
           })}
         </article>
       )}

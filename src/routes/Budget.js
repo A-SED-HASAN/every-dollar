@@ -33,7 +33,6 @@ const Budget = () => {
     <Wrapper className={listLoading ? 'loading' : null}>
       <DeleteModal />
       <ResetModal />
-
       <Top />
       {specificList?.array.length > 0 ? (
         <>

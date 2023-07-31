@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import { Navbar, RightDrawer } from './'
-import { useHref, useNavigate } from 'react-router-dom'
+import { Outlet, useHref, useNavigate, Routes, Route } from 'react-router-dom'
 
-import { Budget, Goals, Insights } from '../routes'
+import { Budget, Goals, Insights, Settings, RoadMap } from '../routes'
 const Main = () => {
   const href = useHref().slice(1)
   const nav = useNavigate()
@@ -15,11 +15,20 @@ const Main = () => {
   return (
     <Wrapper>
       <Navbar />
-      {href === 'budget' && <Budget />}
+      <Routes>
+        <Route path='/budget' element={<Budget />} />
+        <Route path='/paycheck-planning' />
+        <Route path='/goals' element={<Goals />} />
+        <Route path='/roadMap' element={<RoadMap />} />
+        <Route path='/insights' element={<Insights />} />
+        <Route path='/ramsey-pros' />
+        <Route path='/learn' />
+        <Route path='/ask-a-coach' />
+        <Route path='/settings' element={<Settings />} />
+      </Routes>
       {href === 'budget' && <RightDrawer />}
 
-      {href === 'goals' && <Goals />}
-      {href === 'insights' && <Insights />}
+      <Outlet />
     </Wrapper>
   )
 }

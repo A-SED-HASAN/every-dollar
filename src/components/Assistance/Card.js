@@ -60,10 +60,13 @@ const Card = ({ title, month, array, id, index }) => {
                   <Inp value={item.title} name={`${id}-${index}`} />
                   <Inp
                     seconde
-                    value={item.value}
+                    value={item.planned}
                     name={`${id}-${index}-price`}
                   />
-                  <span className='remain end'>{formatMoney(0)}</span>
+                  <span
+                    className={`remain end ${item.ROS < 0 ? 'u-zero' : null}`}>
+                    {formatMoney(item.ROS)}
+                  </span>
                 </div>
                 <Divider />
               </span>
@@ -74,9 +77,14 @@ const Card = ({ title, month, array, id, index }) => {
               add {month ? 'income ' : 'item'}
             </h4>
             {array.length > 0 && (
-              <span>{formatMoney(makeDataForChart()[index]?.value)}</span>
+              <span>{formatMoney(makeDataForChart()[index]?.planned)}</span>
             )}
-            {id > 1 && (
+            {id === 1 ? (
+              array.length > 0 && (
+                //here a condition for coloring
+                <span className='end u-zero'>{formatMoney(-1 ^ 10)}</span>
+              )
+            ) : (
               <Tooltip arrow title='delete group'>
                 <Btn
                   className='end'
@@ -204,6 +212,9 @@ const AccordionDetails = styled(MuiAccordionDetails)(
       fontWeight: '700',
       fontSize: '1.1rem',
       color: 'var(--text-700)',
+    },
+    '.u-zero': {
+      color: 'var(--error)!important',
     },
   })
 )

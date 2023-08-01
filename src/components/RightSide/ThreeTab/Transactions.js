@@ -21,9 +21,9 @@ const Transactions = () => {
   const handleChange = (_, newValue) => {
     setValue(newValue)
   }
-  // useEffect(() => {
-  //   getTrans()
-  // }, [])
+  useEffect(() => {
+    getTrans()
+  }, [])
 
   return (
     <Wrapper>

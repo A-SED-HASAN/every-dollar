@@ -213,9 +213,6 @@ const AccordionDetails = styled(MuiAccordionDetails)(
       fontSize: '1.1rem',
       color: 'var(--text-700)',
     },
-    '.u-zero': {
-      color: 'var(--error)!important',
-    },
   })
 )
 

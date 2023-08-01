@@ -149,22 +149,14 @@ export default function Months({ justYear, data }) {
           </Btn>
         </Tooltip>
         {window.innerWidth <= 900 &&
-        !justYear &&
-        specificList?.array.length === 0 ? (
-          <Btn
-            disabled={true}
-            onClick={drawerToggleHandler}
-            variant='outlined'
-            icon>
-            <AccountBalanceWalletOutlinedIcon fontSize='small' />
-          </Btn>
-        ) : (
-          <Tooltip title={`${drawerOpen ? 'close' : 'open'} summary`} arrow>
-            <Btn onClick={drawerToggleHandler} variant='outlined' icon>
-              <AccountBalanceWalletOutlinedIcon fontSize='small' />
-            </Btn>
-          </Tooltip>
-        )}
+          !justYear &&
+          specificList?.array.length > 0 && (
+            <Tooltip title={`${drawerOpen ? 'close' : 'open'} summary`} arrow>
+              <Btn onClick={drawerToggleHandler} variant='outlined' icon>
+                <AccountBalanceWalletOutlinedIcon fontSize='small' />
+              </Btn>
+            </Tooltip>
+          )}
         {justYear && (
           <Tooltip title={`${isBarChart ? 'bar' : 'line'} chart`} arrow>
             <Btn onClick={toggleChartMode} variant='outlined' icon>
@@ -221,9 +213,7 @@ const Cheap = styled(Chip)(() => ({
   fontSize: '.7rem',
 }))
 
-const Btn = styled('button')(({ left, right, text, icon, disabled }) => ({
-  opacity: disabled && '.5',
-  pointerEvents: disabled && 'none',
+const Btn = styled('button')(({ left, right, text, icon }) => ({
   border: '2px solid var(--bg-s-800)',
   borderLeft: right && 'none',
   color: 'var(--bg-s-800)',

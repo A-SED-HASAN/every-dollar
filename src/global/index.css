@@ -100,3 +100,6 @@ body {
   opacity: 0.5;
   pointer-events: none;
 }
+.u-zero {
+  color: var(--error) !important;
+}

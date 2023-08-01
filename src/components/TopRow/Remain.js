@@ -5,12 +5,13 @@ import { formatMoney } from '../../functions'
 const Remain = ({ amount }) => {
   return (
     <Wrapper>
-      <p>
-        <span style={{ color: amount < 0 && 'var(--error)' }}>
+      <div>
+        <p className='number' style={{ color: amount < 0 && 'var(--error)' }}>
           {formatMoney(amount)}
-        </span>
-        {amount >= 0 ? ' left to' : ' over'} budget
-      </p>
+        </p>
+        <p className='text'> {amount >= 0 ? ' left to' : ' over'} budget</p>
+      </div>
+
       <Divider />
     </Wrapper>
   )
@@ -19,13 +20,19 @@ const Remain = ({ amount }) => {
 export default Remain
 
 const Wrapper = styled('div')(() => ({
-  p: {
-    color: 'var(--text-600)',
-    fontWeight: '500',
+  div: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '.2rem',
     paddingBottom: '1rem',
   },
-  span: {
-    color: 'var(--text-800)',
+  p: {
+    color: 'var(--text-500)',
+    fontWeight: '500',
+  },
+  '.number': {
+    color: 'var(--text-700)',
     fontWeight: '700',
+    fontSize: '1.1rem',
   },
 }))

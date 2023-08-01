@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import moment from 'moment/moment'
 
 import {
   Modal,
@@ -9,36 +10,61 @@ import {
   Button,
   InputLabel,
   OutlinedInput,
+  TextField,
+  Autocomplete,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useForm, Controller } from 'react-hook-form'
-import SplitAdder from '../Assistance/SplitAdder'
-import moment from 'moment/moment'
+import { formatMoney } from '../../functions'
+import { useDataContext } from '../../context/DataContext'
+import { addDoc } from 'firebase/firestore'
 
 export default function TransactionModal() {
-  const { handleCloseTrans, openTrans } = useGlobalContext()
+  const { handleCloseTrans, openTrans, transCollectionRef } = useGlobalContext()
+  const { specificList } = useDataContext()
 
   const [date, setDate] = useState(null)
+  const [value, setValue] = useState('income')
+  const [budgetItem, setBudgetItem] = useState([])
+  const options = []
 
-  const { control, handleSubmit } = useForm({
+  specificList?.array.map((item) => {
+    item.array.map((item) => {
+      options.push({ title: item.title, value: item.planned - item.ROS })
+    })
+  })
+
+  const {
+    control,
+    handleSubmit,
+    formState: {
+      errors: { title },
+    },
+  } = useForm({
     defaultValues: {
       title: '',
       amount: '',
       whereSpend_income: '',
-      where: '',
-      budgetItem: {},
+      budgetItem: '',
     },
   })
 
-  const onSubmit = (data) => {
-    data.date = date
-    console.log(data)
-    handleCloseTrans()
+  const onSubmit = async (data) => {
+    if (budgetItem.length > 0) {
+      // setLoading(true)
+
+      //هم بگرد روز رو اضافه کن هم تو لیست ترنس ها وارد کن
+      const newData = { ...data, date: date, budgetItem: budgetItem }
+      await addDoc(transCollectionRef, newData)
+
+      console.log(data)
+      handleCloseTrans()
+      // setLoading(false)
+    }
   }
 
-  const [value, setValue] = useState('income')
   return (
     <Modal open={openTrans} onClose={handleCloseTrans}>
       <ContentWrapper value={value}>
@@ -72,6 +98,7 @@ export default function TransactionModal() {
 
           <main>
             <Controller
+              rules={{ required: true }}
               name='amount'
               control={control}
               render={({ field }) => (
@@ -87,6 +114,7 @@ export default function TransactionModal() {
                 sx={{ maxWidth: '192px' }}
               />
               <Controller
+                rules={{ required: true }}
                 name='whereSpend_income'
                 control={control}
                 render={({ field }) => (
@@ -115,7 +143,32 @@ export default function TransactionModal() {
                 )}
               />
             </div>
-            <SplitAdder />
+
+            <Autocomplete
+              multiple
+              onChange={(_, values) => {
+                setBudgetItem(values)
+              }}
+              options={options}
+              getOptionLabel={(option) =>
+                `${option.title} - ( ${formatMoney(option.value)} )`
+              }
+              filterSelectedOptions
+              renderOption={(props, option) => (
+                <Row {...props}>
+                  <span className='title'> {option.title}</span>
+                  <span className='value'>{formatMoney(option.value)}</span>
+                </Row>
+              )}
+              renderInput={(params) => (
+                <TextField
+                  color={budgetItem.length === 0 && 'error'}
+                  {...params}
+                  label="choose budget item's"
+                  placeholder='more ???'
+                />
+              )}
+            />
           </main>
 
           <footer>
@@ -161,6 +214,10 @@ const ContentWrapper = styled('article')(({ value }) => ({
       padding: '1rem 2rem ',
       h1: {
         fontSize: '2rem',
+
+        '@media (width<= 600px)': {
+          fontSize: '1.5rem',
+        },
       },
     },
 
@@ -179,5 +236,29 @@ const ContentWrapper = styled('article')(({ value }) => ({
       justifyContent: 'end',
       padding: '0 2rem 2rem',
     },
+  },
+}))
+
+const Row = styled('li')(() => ({
+  color: 'var(--text-700)',
+  '.title': {
+    width: '70%',
+    color: 'var(--text-800)',
+    fontWeight: '500',
+  },
+  '.value': {
+    textAlign: 'end',
+    width: '30%',
+    fontWeight: '600',
+  },
+  ':hover': {
+    color: 'var(--bg-s-800)',
+    '.title': {
+      fontWeight: '600',
+      color: 'var(--bg-s-800)',
+    },
+  },
+  '*': {
+    cursor: 'pointer',
   },
 }))

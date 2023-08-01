@@ -194,7 +194,6 @@ const DataProvider = ({ children }) => {
     getAllDate()
   }
 
-
   const resetBudgetJustValue = async () => {
     setListLoading(true)
     const { array, id: ID } = specificList
@@ -227,9 +226,9 @@ const DataProvider = ({ children }) => {
     await updateDoc(specificItemInDb, { array: specificList.array })
     getAllDate()
   }
-
+  const [playSound, setPlaySound] = useState(false)
   const blurHandler = async () => {
-    playMoney()
+    playSound && playMoney()
     setListLoading(true)
     const { array, id: ID } = specificList
     const specificItemInDb = doc(db, collectionName, ID)
@@ -240,6 +239,7 @@ const DataProvider = ({ children }) => {
 
   const inputHandler = async (e) => {
     const inpVal = e.target.value
+    setPlaySound(false)
 
     const [id, index, price] = e.target.name.split('-')
 
@@ -250,7 +250,10 @@ const DataProvider = ({ children }) => {
       specificList.array[id - 1].title = inpVal
     }
     if (index && price) {
-      if (!isNaN(inpVal)) array[index].planned = inpVal
+      if (!isNaN(inpVal)) {
+        array[index].planned = inpVal
+        setPlaySound(true)
+      }
     }
     if (index && !price) {
       array[index].title = inpVal

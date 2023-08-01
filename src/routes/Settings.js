@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
-import { Button, Divider, Link } from '@mui/material'
+import {
+  Button,
+  Divider,
+  Link,
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+} from '@mui/material'
 import { useAuthContext } from '../context/AuthContext.js'
 import { user } from '../assets/images'
 import moment from 'moment/moment.js'
 import { useDataContext } from '../context/DataContext.js'
 import { LoadingCenter } from '../components'
-
+import { useForm, Controller } from 'react-hook-form'
+import { updateProfile } from 'firebase/auth'
 export default function Settings() {
   const { authUser } = useAuthContext()
   const { loading } = useDataContext()
@@ -14,10 +22,32 @@ export default function Settings() {
   const { email, displayName, emailVerified, reloadUserInfo } = authUser
 
   const [showChanges, setShowChanges] = useState(false)
+
+  const {
+    control,
+    handleSubmit,
+    formState: {
+      errors: { name },
+    },
+  } = useForm({
+    defaultValues: {
+      name: '',
+    },
+  })
+
+  const onSubmit = async (data) => {
+    updateProfile(authUser, {
+      displayName: data.name,
+    })
+      .then(() => {
+        setShowChanges(false)
+      })
+      .catch((error) => {})
+  }
+
   if (loading) {
     return <LoadingCenter />
   }
-
   return (
     <Wrapper>
       <h1>Settings </h1>
@@ -49,25 +79,21 @@ export default function Settings() {
             </div>
           </SeCard>
           {showChanges && (
-            <SeCard bold color='blue' title='change '>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Est
-              repellat odit nemo quod assumenda soluta, id facere quia similique
-              dolor placeat, quidem ut repudiandae corporis? Quia numquam
-              accusantium nulla dolores corrupti eaque impedit, modi soluta
-              magnam, voluptatem quisquam, quam optio! Consequatur laudantium
-              vero doloremque fugit quae. Maiores dolores sed nulla. Lorem ipsum
-              dolor sit amet consectetur adipisicing elit. Nobis reprehenderit
-              totam quaerat reiciendis fugiat quae ea sit nisi! Dolores
-              distinctio corrupti, libero at consequuntur quasi nobis eius
-              fugit? Repellat aliquam nulla iste, quo maxime reiciendis illo
-              dolores rem quis sunt cumque obcaecati. Praesentium pariatur
-              obcaecati, fuga natus non at esse voluptatem enim velit doloremque
-              eaque expedita. Exercitationem aliquam cupiditate laboriosam eum
-              omnis quidem obcaecati voluptate, recusandae nam. Voluptates nisi
-              inventore dolores temporibus, porro consequatur at in ipsam ipsa
-              quasi atque vel maiores est nulla saepe earum architecto iure fuga
-              ex fugiat! Aut, deleniti omnis officia quia ipsa delectus placeat
-              velit!
+            <SeCard bold color='blue' title='change profile info'>
+              <form className='form' onSubmit={handleSubmit(onSubmit)}>
+                <Controller
+                  name='name'
+                  control={control}
+                  render={({ field }) => (
+                    <FormControl variant='outlined' fullWidth {...field}>
+                      <InputLabel htmlFor='name'>name</InputLabel>
+                      <OutlinedInput id='name' label='name' />
+                    </FormControl>
+                  )}
+                />
+                <p>password and ....</p>
+                <Btn type='submit'>submit</Btn>
+              </form>
             </SeCard>
           )}
         </div>
@@ -164,6 +190,12 @@ const SeCardWrapper = styled('div')(({ color, bold }) => ({
         color: 'var(--bg-s-700)',
       },
     },
+  },
+  '.form': {
+    marginTop: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
   },
 }))
 

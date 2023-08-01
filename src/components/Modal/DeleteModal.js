@@ -3,10 +3,13 @@ import { styled } from '@mui/material/styles'
 import { Modal, Divider, Button } from '@mui/material'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { useDataContext } from '../../context/DataContext'
+import useSound from 'use-sound'
+import { deleteModal } from '../../assets/sound'
 
 const DeleteModal = () => {
   const { openDelete, handleCloseDelete } = useGlobalContext()
   const { info, deleteGroup, deleteSingle } = useDataContext()
+  const [play] = useSound(deleteModal)
 
   const deleteHandler = () => {
     if (info) {
@@ -17,8 +20,8 @@ const DeleteModal = () => {
       } else {
         deleteGroup(id)
       }
-
       handleCloseDelete()
+      play()
     }
   }
   return (
@@ -26,7 +29,7 @@ const DeleteModal = () => {
       <ContentWrapper>
         <p>
           Are you sure you want to <span className='error'>delete </span>
-          {info?.subTitle ? `${info.subTitle}` : `${info?.title}`} ?
+          {info?.subTitle ? `¨${info.subTitle}¨` : `¨${info?.title}¨`} ?
         </p>
         <Divider />
         <div className='btn-container'>

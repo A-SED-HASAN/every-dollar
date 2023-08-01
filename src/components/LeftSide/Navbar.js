@@ -26,6 +26,7 @@ export default function MiniDrawer() {
   }
   useEffect(() => {
     if (window.innerWidth < 1330) setOpen(false)
+    // eslint-disable-next-line
   }, [window.innerWidth])
   return (
     <Drawer sx={{ zIndex: '100' }} variant='permanent' open={open}>
@@ -68,7 +69,7 @@ export default function MiniDrawer() {
           <AccAvatar name={`${authUser.email}`} />
           {open && (
             <Tooltip title={authUser.email} arrow>
-              <p> {authUser.email.split('@')[0]}</p>
+              <p> {authUser.displayName}</p>
             </Tooltip>
           )}
           <Btn size='small' color='error' onClick={userWantExit}>

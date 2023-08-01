@@ -17,7 +17,7 @@ export default function SearchInput() {
 }
 
 const Wrapper = styled('form')(() => ({
-  marginTop: '1rem',
+  margin: '1rem ',
   padding: '2px 4px',
   display: 'flex',
   alignItems: 'center',

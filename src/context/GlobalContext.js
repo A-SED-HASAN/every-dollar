@@ -53,6 +53,23 @@ const GlobalProvider = ({ children }) => {
   const [isBarChart, setIsBarChart] = useLocalStorage('isBarChart', true)
   const toggleChartMode = () => setIsBarChart((prev) => !prev)
 
+  const transCollectionRef = collection(db, `${authUser?.uid}:TRANS`)
+
+  const [transList, setTransList] = useState([])
+  const [transListLoading, setTransListLoading] = useState(true)
+
+  const getTrans = async () => {
+    setTransListLoading(true)
+    const data = await getDocs(transCollectionRef)
+    setTransList(
+      data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    )
+    setTransListLoading(false)
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -77,6 +94,10 @@ const GlobalProvider = ({ children }) => {
         drawerToggleHandler,
         isBarChart,
         toggleChartMode,
+        transCollectionRef,
+        transList,
+        transListLoading,
+        getTrans,
       }}>
       {children}
     </GlobalContext.Provider>

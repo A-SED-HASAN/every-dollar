@@ -3,7 +3,6 @@ import {
   FolderOpenIcon,
   CurrencyExchangeOutlinedIcon,
   RadioButtonCheckedOutlinedIcon,
-  ShowChartOutlinedIcon,
   BarChartOutlinedIcon,
   PeopleOutlinedIcon,
   VideoLibraryOutlinedIcon,
@@ -17,6 +16,7 @@ import {
   FavoriteBorderOutlinedIcon,
   EditLocationOutlinedIcon,
   DiamondOutlinedIcon,
+  ViewCompactOutlinedIcon,
 } from '../icons'
 
 export const navigation = [
@@ -39,12 +39,17 @@ export const navigation = [
     to: 'goals',
     icon: <RadioButtonCheckedOutlinedIcon />,
   },
-  { id: 4, title: 'roadmap', to: 'roadmap', icon: <ShowChartOutlinedIcon /> },
+  {
+    id: 4,
+    title: 'tree map',
+    to: 'tree-map',
+    icon: <ViewCompactOutlinedIcon />,
+  },
   { id: 5, title: 'insights', to: 'insights', icon: <BarChartOutlinedIcon /> },
   {
     id: 6,
-    title: 'ramesy pros',
-    to: 'ramesy-pros',
+    title: 'ramsey pros',
+    to: 'ramsey-pros',
     icon: <PeopleOutlinedIcon />,
   },
   { id: 7, title: 'learn', to: 'learn', icon: <VideoLibraryOutlinedIcon /> },

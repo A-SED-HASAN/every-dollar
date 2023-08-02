@@ -1,5 +1,8 @@
 import { monthsName } from '../assets/constants'
 
+export const lengthChecker = (string, length=11) => {
+  return string.length > length ? `${string.slice(0, length)} ...` : string
+}
 export const formatMoney = (amount) => {
   const formatter = new Intl.NumberFormat('en-US', {
     notation: 'compact',
@@ -83,5 +86,3 @@ export const paginate = (data) => {
 
   return newData
 }
-
-export default paginate

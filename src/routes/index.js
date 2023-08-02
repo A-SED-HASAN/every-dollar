@@ -5,7 +5,7 @@ import Budget from './Budget'
 import Insights from './Insights'
 import Goals from './Goals'
 import Settings from './Settings'
-import RoadMap from './RoadMap'
+import TreeMap from './TreeMap'
 
 export {
   SignIn,
@@ -15,5 +15,5 @@ export {
   Insights,
   Goals,
   Settings,
-  RoadMap,
+  TreeMap,
 }

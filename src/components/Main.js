@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles'
 import { Navbar, RightDrawer } from './'
 import { Outlet, useHref, useNavigate, Routes, Route } from 'react-router-dom'
 
-import { Budget, Goals, Insights, Settings, RoadMap } from '../routes'
+import { Budget, Goals, Insights, Settings, TreeMap } from '../routes'
 const Main = () => {
   const href = useHref().slice(1)
   const nav = useNavigate()
@@ -19,7 +19,7 @@ const Main = () => {
         <Route path='/budget' element={<Budget />} />
         <Route path='/paycheck-planning' />
         <Route path='/goals' element={<Goals />} />
-        <Route path='/roadMap' element={<RoadMap />} />
+        <Route path='/tree-map' element={<TreeMap />} />
         <Route path='/insights' element={<Insights />} />
         <Route path='/ramsey-pros' />
         <Route path='/learn' />

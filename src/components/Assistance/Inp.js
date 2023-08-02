@@ -24,7 +24,7 @@ const Input = styled('input')(({ seconde }) => ({
   border: '1px solid var(--card-bg)',
   width: seconde ? '50%' : '100%',
   minWidth: '100px',
-  maxWidth: '300px',
+  maxWidth: '190px',
   outline: 'none',
   textAlign: seconde && 'center',
   backgroundColor: 'var(--card-bg)',

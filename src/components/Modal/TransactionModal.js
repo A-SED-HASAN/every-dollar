@@ -12,6 +12,7 @@ import {
   OutlinedInput,
   TextField,
   Autocomplete,
+  FormHelperText,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useGlobalContext } from '../../context/GlobalContext'
@@ -27,10 +28,11 @@ export default function TransactionModal() {
 
   const [date, setDate] = useState(null)
   const [value, setValue] = useState('income')
-  const [budgetItem, setBudgetItem] = useState([])
+  const [budgetItemArray, setBudgetItemArray] = useState([])
   const options = []
-
+  // eslint-disable-next-line
   specificList?.array.map((item) => {
+    // eslint-disable-next-line
     item.array.map((item) => {
       options.push({ title: item.title, value: item.planned - item.ROS })
     })
@@ -40,7 +42,7 @@ export default function TransactionModal() {
     control,
     handleSubmit,
     formState: {
-      errors: { title },
+      errors: { title, amount, whereSpend_income },
     },
   } = useForm({
     defaultValues: {
@@ -48,23 +50,24 @@ export default function TransactionModal() {
       amount: '',
       whereSpend_income: '',
       budgetItem: '',
+      date: '',
     },
   })
 
   const onSubmit = async (data) => {
-    if (budgetItem.length > 0) {
-      // setLoading(true)
+    console.log(title, amount)
+    // if (budgetItemArray.length > 0) {
+    // setLoading(true)
 
-      //هم بگرد روز رو اضافه کن هم تو لیست ترنس ها وارد کن
-      const newData = { ...data, date: date, budgetItem: budgetItem }
-      await addDoc(transCollectionRef, newData)
+    //هم بگرد روز رو اضافه کن هم تو لیست ترنس ها وارد کن
+    const newData = { ...data, date: date, budgetItem: budgetItemArray }
+    await addDoc(transCollectionRef, newData)
 
-      console.log(data)
-      handleCloseTrans()
-      // setLoading(false)
-    }
+    console.log(data)
+    // handleCloseTrans()
+    // setLoading(false)
+    // }
   }
-
   return (
     <Modal open={openTrans} onClose={handleCloseTrans}>
       <ContentWrapper value={value}>
@@ -105,14 +108,26 @@ export default function TransactionModal() {
                 <FormControl variant='outlined' {...field}>
                   <InputLabel htmlFor='amount'>amount</InputLabel>
                   <OutlinedInput id='amount' label='amount' />
+                  {amount && (
+                    <FormHelperText sx={{ color: 'var(--error)' }}>
+                      amount is required !
+                    </FormHelperText>
+                  )}
                 </FormControl>
               )}
             />
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <DatePicker
-                onChange={(e) => setDate(moment(e).format('D-M-YYYY'))}
-                sx={{ maxWidth: '192px' }}
-              />
+              <FormControl>
+                <DatePicker
+                  onChange={(e) => setDate(moment(e).format('D-M-YYYY'))}
+                  sx={{ maxWidth: '192px' }}
+                />
+                {date && (
+                  <FormHelperText sx={{ color: 'var(--error)' }}>
+                    date is required !
+                  </FormHelperText>
+                )}
+              </FormControl>
               <Controller
                 rules={{ required: true }}
                 name='whereSpend_income'
@@ -139,36 +154,48 @@ export default function TransactionModal() {
                   }
                   ?`}
                     />
+                    {whereSpend_income && (
+                      <FormHelperText sx={{ color: 'var(--error)' }}>
+                        where you got / spent is required !
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 )}
               />
             </div>
 
-            <Autocomplete
-              multiple
-              onChange={(_, values) => {
-                setBudgetItem(values)
-              }}
-              options={options}
-              getOptionLabel={(option) =>
-                `${option.title} - ( ${formatMoney(option.value)} )`
-              }
-              filterSelectedOptions
-              renderOption={(props, option) => (
-                <Row {...props}>
-                  <span className='title'> {option.title}</span>
-                  <span className='value'>{formatMoney(option.value)}</span>
-                </Row>
+            <FormControl>
+              <Autocomplete
+                multiple
+                onChange={(_, values) => {
+                  setBudgetItemArray(values)
+                }}
+                options={options}
+                getOptionLabel={(option) =>
+                  `${option.title} - ( ${formatMoney(option.value)} )`
+                }
+                filterSelectedOptions
+                renderOption={(props, option) => (
+                  <Row {...props}>
+                    <span className='title'> {option.title}</span>
+                    <span className='value'>{formatMoney(option.value)}</span>
+                  </Row>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    color={budgetItemArray.length === 0 && 'error'}
+                    {...params}
+                    label="choose budget item's"
+                    placeholder='more ???'
+                  />
+                )}
+              />
+              {budgetItemArray.length === 0 && (
+                <FormHelperText sx={{ color: 'var(--error)' }}>
+                  choose budget item('s)
+                </FormHelperText>
               )}
-              renderInput={(params) => (
-                <TextField
-                  color={budgetItem.length === 0 && 'error'}
-                  {...params}
-                  label="choose budget item's"
-                  placeholder='more ???'
-                />
-              )}
-            />
+            </FormControl>
           </main>
 
           <footer>
@@ -225,7 +252,7 @@ const ContentWrapper = styled('article')(({ value }) => ({
       overflow: 'auto',
       maxHeight: '80vh',
       display: 'flex',
-      gap: '1rem',
+      gap: '.5rem',
       flexDirection: 'column',
       padding: ' 2rem ',
     },

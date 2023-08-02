@@ -26,9 +26,7 @@ export default function Settings() {
   const {
     control,
     handleSubmit,
-    formState: {
-      errors: { name },
-    },
+    // formState: { errors },
   } = useForm({
     defaultValues: {
       name: '',

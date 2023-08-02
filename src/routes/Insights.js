@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
-import { Button } from '@mui/material'
 import { useDataContext } from '../context/DataContext'
 import { monthNameFinder } from '../functions'
-import { LoadingCenter, JustYear, InsBar, InsLine } from '../components'
 import {
-  ErrorOutlineOutlinedIcon,
-  ArrowBackOutlinedIcon,
-} from '../assets/icons'
+  LoadingCenter,
+  JustYear,
+  InsBar,
+  InsLine,
+  EmptyChart,
+} from '../components'
+
 import { useGlobalContext } from '../context/GlobalContext'
 
 const Insights = () => {
@@ -54,64 +55,23 @@ const Insights = () => {
           {isBarChart ? <InsBar data={data} /> : <InsLine data={data} />}
         </ChartWrapper>
       ) : (
-        <ErrorWrapper>
-          <div>
-            <h1>
-              add at least one month to ¨ {thisYear} ¨ budget's to track !
-            </h1>
-            <ErrorOutlineOutlinedIcon
-              sx={{ fontSize: '9rem', color: 'var(--error)' }}
-            />
-            <Link to='budget'>
-              <Btn variant='outlined' startIcon={<ArrowBackOutlinedIcon />}>
-                back to budget for planning
-              </Btn>
-            </Link>
-          </div>
-        </ErrorWrapper>
+        <EmptyChart
+          errorText={`add at least one month to ¨ ${thisYear} ¨ budget's to track !`}
+        />
       )}
     </Wrapper>
   )
 }
 
 export default Insights
-const Btn = styled(Button)(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '1rem',
-  color: 'var(--bg-s-700)',
-  border: '1px solid var(--bg-s-700)',
-  padding: '1rem 2rem',
-  textTransform: 'capitalize',
-  fontSize: '1rem',
-  ':hover': {
-    color: 'var(--bg-s-800)',
-    border: '1px solid var(--bg-s-800)',
-  },
-  '*': {
-    cursor: 'pointer',
-  },
-}))
 
 const Wrapper = styled('div')(() => ({
   padding: '1.5rem',
   maxHeight: '100vh',
-
-  // width: open ? 'calc(100vw - 240px)' : 'calc(100vw - 65px)',
 }))
 const ChartWrapper = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
   height: 'calc(100vh - 150px)',
-}))
-
-const ErrorWrapper = styled('div')(() => ({
-  width: '100%',
-  height: 'calc(100vh - 150px)',
-  display: 'grid',
-  placeItems: 'center',
-  textAlign: 'center',
-  div: { display: 'grid', placeItems: 'center', gap: '1rem' },
 }))

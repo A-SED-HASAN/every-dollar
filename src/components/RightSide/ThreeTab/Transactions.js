@@ -23,6 +23,7 @@ const Transactions = () => {
   }
   useEffect(() => {
     getTrans()
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -116,8 +117,8 @@ const Row = ({ amount, date, title, budgetItem, whereSpend_income }) => {
   return (
     <RowWrapper>
       <div className='date'>
-        {/* <span>{monthNameFinder(month)}</span>
-        <span>{day}</span> */}
+        <span>{monthNameFinder(month)}</span>
+        <span>{day}</span>
       </div>
       <div className='spend-income'>
         <span>{whereSpend_income}</span>

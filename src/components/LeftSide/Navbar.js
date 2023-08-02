@@ -20,7 +20,10 @@ export default function MiniDrawer() {
   const [open, setOpen] = useState(false)
 
   const handleDrawer = () => {
-    if (window.innerWidth >= 1330) {
+    if (
+      window.innerWidth >= 1330 &&
+      !(href === 'tree-map' || href === 'insights')
+    ) {
       setOpen((prev) => !prev)
     }
   }
@@ -55,13 +58,12 @@ export default function MiniDrawer() {
           {navigation.map((item) => {
             const { id, title, icon, to, disIcon } = item
             return (
-              <LinkRow
-                key={id}
-                to={to}
-                className={`${href === to ? 'active' : null}`}>
-                {href === to ? icon : disIcon || icon}
-                {open && title}
-              </LinkRow>
+              <Tooltip key={id} title={!open && title} placement='right' arrow>
+                <LinkRow to={to} className={`${href === to ? 'active' : null}`}>
+                  {href === to ? icon : disIcon || icon}
+                  {open && title}
+                </LinkRow>
+              </Tooltip>
             )
           })}
         </div>

@@ -45,6 +45,7 @@ import DiamondOutlinedIcon from '@mui/icons-material/DiamondOutlined'
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined'
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
+import ViewCompactOutlinedIcon from '@mui/icons-material/ViewCompactOutlined'
 export {
   SearchOutlinedIcon,
   HomeOutlinedIcon,
@@ -93,4 +94,5 @@ export {
   ErrorOutlineOutlinedIcon,
   AccountBalanceWalletOutlinedIcon,
   ArrowBackOutlinedIcon,
+  ViewCompactOutlinedIcon,
 }

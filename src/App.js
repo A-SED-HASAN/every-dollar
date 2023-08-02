@@ -19,7 +19,7 @@ const App = () => {
           <Route path='/budget' />
           <Route path='/paycheck-planning' />
           <Route path='/goals' />
-          <Route path='/roadMap' />
+          <Route path='/tree-map' />
           <Route path='/insights' />
           <Route path='/ramsey-pros' />
           <Route path='/learn' />

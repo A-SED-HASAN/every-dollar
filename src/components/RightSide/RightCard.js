@@ -92,6 +92,6 @@ const Wrapper = styled('div')(() => ({
 
   main: {
     overflow: 'auto',
-    maxHeight: 'calc(100% - 112px)',
+    maxHeight: 'calc(100% - 102px)',
   },
 }))

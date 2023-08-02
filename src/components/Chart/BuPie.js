@@ -44,6 +44,16 @@ export const BuPie = ({ pieTitle, pieValue, data }) => {
         formatter: (v) => `${v} $`,
       },
     },
+    pattern: {
+      type: 'dot',
+      cfg: {
+        size: 1,
+        padding: 8,
+        rotation: 0,
+        fill: '#FFF',
+        isStagger: true,
+      },
+    },
 
     legend: {
       position: 'bottom',

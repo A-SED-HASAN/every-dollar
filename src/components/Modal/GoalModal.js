@@ -88,7 +88,7 @@ export default function GoalModal() {
                 />
                 {goalName && (
                   <FormHelperText sx={{ color: 'var(--error)' }}>
-                    it's required !
+                    goal Name is required !
                   </FormHelperText>
                 )}
               </FormControl>
@@ -113,7 +113,7 @@ export default function GoalModal() {
                 />
                 {goalAmount && (
                   <FormHelperText sx={{ color: 'var(--error)' }}>
-                    it's required !
+                    goal Amount is required !
                   </FormHelperText>
                 )}
               </FormControl>
@@ -145,7 +145,7 @@ export default function GoalModal() {
                 </Slt>
                 {color && (
                   <FormHelperText sx={{ color: 'var(--error)' }}>
-                    it's required !
+                    color is required !
                   </FormHelperText>
                 )}
               </FormControl>
@@ -175,7 +175,7 @@ export default function GoalModal() {
                 </Slt>
                 {shape && (
                   <FormHelperText sx={{ color: 'var(--error)' }}>
-                    it's required !
+                    shape is required !
                   </FormHelperText>
                 )}
               </FormControl>

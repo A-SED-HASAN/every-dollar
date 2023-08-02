@@ -7,6 +7,8 @@ import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from './AuthContext.js'
 import { money } from '../assets/sound'
 import useSound from 'use-sound'
+import { lengthChecker } from '../functions'
+
 const DataContext = createContext()
 const DataProvider = ({ children }) => {
   const [playMoney] = useSound(money)
@@ -282,10 +284,7 @@ const DataProvider = ({ children }) => {
         { sum: 0 }
       )
       ChartData.push({
-        type:
-          item.title.length > 11
-            ? `${item.title.slice(0, 11)} ...`
-            : item.title,
+        type: lengthChecker(item.title),
         planned: sum,
       })
     })

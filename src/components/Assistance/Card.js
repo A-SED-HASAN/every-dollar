@@ -137,6 +137,7 @@ const AccordionSummary = styled((props) => (
   padding: '.7rem 1rem',
   flexDirection: 'row-reverse',
   display: 'flex',
+  alignItems: 'center',
   '&.MuiAccordionSummary-root': {
     background: 'var(--card-bg)',
     borderRadius: 'var(--light-radius)',
@@ -149,6 +150,7 @@ const AccordionSummary = styled((props) => (
     display: 'grid',
     gridTemplateColumns: '3fr 1fr .6fr',
     color: 'var(--text-500)',
+    alignItems: 'center',
     fontWeight: '600',
     fontSize: '.9rem',
     div: {

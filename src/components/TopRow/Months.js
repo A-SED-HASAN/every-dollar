@@ -11,13 +11,15 @@ import {
   AccountBalanceWalletOutlinedIcon,
   BarChartOutlinedIcon,
   ShowChartOutlinedIcon,
+  AttachMoneyOutlinedIcon,
+  MoneyOffOutlinedIcon,
 } from '../../assets/icons'
 import { SingleMonth } from '../'
 import { useDataContext } from '../../context/DataContext.js'
 import { paginate } from '../../functions'
 import { IconBtn } from '../../global'
 import { useGlobalContext } from '../../context/GlobalContext'
-export default function Months({ justYear, data }) {
+export default function Months({ justYear, data, treeMap }) {
   const {
     thisMonth,
     setThisYear,
@@ -32,8 +34,14 @@ export default function Months({ justYear, data }) {
     specificList,
   } = useDataContext()
 
-  const { drawerToggleHandler, drawerOpen, isBarChart, toggleChartMode } =
-    useGlobalContext()
+  const {
+    drawerToggleHandler,
+    drawerOpen,
+    isBarChart,
+    toggleChartMode,
+    isIncomeInc,
+    toggleIsIncomeInc,
+  } = useGlobalContext()
 
   const [page, setPage] = useState(0)
 
@@ -164,6 +172,19 @@ export default function Months({ justYear, data }) {
                 <BarChartOutlinedIcon fontSize='small' />
               ) : (
                 <ShowChartOutlinedIcon fontSize='small' />
+              )}
+            </Btn>
+          </Tooltip>
+        )}
+        {treeMap && (
+          <Tooltip
+            title={`${isIncomeInc ? 'income Include' : "just spent's "}`}
+            arrow>
+            <Btn onClick={toggleIsIncomeInc} variant='outlined' icon>
+              {isIncomeInc ? (
+                <AttachMoneyOutlinedIcon fontSize='small' />
+              ) : (
+                <MoneyOffOutlinedIcon fontSize='small' />
               )}
             </Btn>
           </Tooltip>

@@ -62,7 +62,7 @@ export const BuPie = ({ pieTitle, pieValue, data }) => {
 
       itemValue: {
         formatter: (_, item) => {
-          return calcPercentValue(data, item.planned)
+          return calcPercentValue(data, item.name)
         },
         style: (_, index) => {
           return {

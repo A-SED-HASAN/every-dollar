@@ -1,8 +1,9 @@
 import { monthsName } from '../assets/constants'
 
-export const lengthChecker = (string, length=11) => {
+export const lengthChecker = (string, length = 11) => {
   return string.length > length ? `${string.slice(0, length)} ...` : string
 }
+
 export const formatMoney = (amount) => {
   const formatter = new Intl.NumberFormat('en-US', {
     notation: 'compact',
@@ -25,10 +26,10 @@ export const formatPercent = (amount, parentheses) => {
 }
 
 export const calcPercentValue = (data, type) => {
-  const total = data.reduce((a, b) => a + b.value, 0)
+  const total = data.reduce((a, b) => a + b.planned, 0)
   const items = data.filter((d) => d.type === type)
   return items.length
-    ? formatPercent(items.reduce((a, b) => a + b.value, 0) / total)
+    ? formatPercent(items.reduce((a, b) => a + b.planned, 0) / total)
     : '-'
 }
 

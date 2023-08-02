@@ -53,6 +53,9 @@ const GlobalProvider = ({ children }) => {
   const [isBarChart, setIsBarChart] = useLocalStorage('isBarChart', true)
   const toggleChartMode = () => setIsBarChart((prev) => !prev)
 
+  const [isIncomeInc, setIsIncomeInc] = useLocalStorage('isIncomeInc', true)
+  const toggleIsIncomeInc = () => setIsIncomeInc((prev) => !prev)
+
   const transCollectionRef = collection(db, `${authUser?.uid}:TRANS`)
 
   const [transList, setTransList] = useState([])
@@ -98,6 +101,8 @@ const GlobalProvider = ({ children }) => {
         transList,
         transListLoading,
         getTrans,
+        isIncomeInc,
+        toggleIsIncomeInc,
       }}>
       {children}
     </GlobalContext.Provider>

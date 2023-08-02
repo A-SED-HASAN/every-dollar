@@ -3,18 +3,22 @@ import { styled } from '@mui/material/styles'
 import { useDataContext } from '../context/DataContext.js'
 import { EmptyChart, LoadingCenter } from '../components/index.js'
 import { Tree, Top } from '../components/index.js'
+import { useGlobalContext } from '../context/GlobalContext.js'
 export default function TreeMap() {
   const { loading, specificList, name } = useDataContext()
+  const { isIncomeInc } = useGlobalContext()
   const children = []
   // eslint-disable-next-line
   specificList?.array.map((item) => {
     const array = []
     let sum = 0
-    // eslint-disable-next-line
-    item.array.map((item) => {
-      sum += +item.planned
-      array.push({ name: item.title, value: item.planned })
-    })
+    if (isIncomeInc || item.title !== 'income') {
+      // eslint-disable-next-line
+      item.array.map((item) => {
+        sum += +item.planned
+        array.push({ name: item.title, value: item.planned })
+      })
+    }
     if (sum) {
       children.push({
         name: item.title,
@@ -34,7 +38,7 @@ export default function TreeMap() {
   }
   return (
     <Wrapper>
-      <Top />
+      <Top treeMap />
       <ChartWrapper>
         {children.length === 0 ? (
           <EmptyChart

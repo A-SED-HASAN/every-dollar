@@ -2,7 +2,7 @@ import React from 'react'
 import Months from './Months'
 import Remain from './Remain'
 import { useDataContext } from '../../context/DataContext'
-const Top = () => {
+const Top = ({ treeMap }) => {
   const { calculateBalance, allDate } = useDataContext()
 
   const existDate = allDate.map((item) => {
@@ -19,7 +19,7 @@ const Top = () => {
   })
   return (
     <>
-      <Months data={existDate} />
+      <Months data={existDate} treeMap={treeMap} />
       <Remain amount={calculateBalance().balance} />
     </>
   )

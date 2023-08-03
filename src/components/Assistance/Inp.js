@@ -2,15 +2,17 @@ import React from 'react'
 import { styled } from '@mui/material/styles'
 import { useDataContext } from '../../context/DataContext'
 const Inp = ({ seconde, value, name, className }) => {
-  const { inputHandler, blurHandler } = useDataContext()
+  const { inputHandler, blurHandler, listLoading } = useDataContext()
 
   return (
     <Input
+      disabled={listLoading}
       onBlurCapture={blurHandler}
       className={className}
       style={{ background: value === 0 && 'var(--bg-main)' }}
       seconde={seconde}
       onChange={(e) => inputHandler(e)}
+      onFocus={(e) => e.target.select()}
       value={value}
       type='text'
       name={name}

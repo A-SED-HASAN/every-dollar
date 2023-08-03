@@ -103,3 +103,6 @@ body {
 .u-zero {
   color: var(--error) !important;
 }
+.t-zero {
+  color: var(--bg-p-700) !important;
+}

@@ -7,7 +7,7 @@ import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from './AuthContext.js'
 import { money } from '../assets/sound'
 import useSound from 'use-sound'
-import { lengthChecker } from '../functions'
+import { isNanChecker, lengthChecker } from '../functions'
 
 const DataContext = createContext()
 const DataProvider = ({ children }) => {
@@ -237,6 +237,7 @@ const DataProvider = ({ children }) => {
     await updateDoc(specificItemInDb, { array: array })
     getAllDate()
     setLoading(false)
+    setPlaySound(false)
   }
 
   const inputHandler = async (e) => {
@@ -251,11 +252,13 @@ const DataProvider = ({ children }) => {
     if (!index && !price) {
       specificList.array[id - 1].title = inpVal
     }
-    if (index && price) {
-      if (!isNaN(inpVal)) {
-        array[index].planned = inpVal
-        setPlaySound(true)
+
+    if (index && price && !isNaN(inpVal)) {
+      array[index].planned = inpVal
+      if (inpVal === '') {
+        array[index].planned = 0
       }
+      setPlaySound(true)
     }
     if (index && !price) {
       array[index].title = inpVal
@@ -305,13 +308,17 @@ const DataProvider = ({ children }) => {
     const income = makeDataForChart()[0]?.planned
 
     return {
-      balance: !isNaN(income * 2 - sum) ? income * 2 - sum : 0,
+      balance: isNanChecker(income * 2 - sum),
       income: income,
       spent: sum - income,
     }
   }
   const spentAndIncome = async () => {
-    if (!listLoading && specificList?.array && calculateBalance().income) {
+    if (
+      calculateBalance().income !== undefined &&
+      !listLoading &&
+      specificList?.array
+    ) {
       const specificItemInDb = doc(db, collectionName, specificList.id)
       await updateDoc(specificItemInDb, {
         spent: calculateBalance().spent,

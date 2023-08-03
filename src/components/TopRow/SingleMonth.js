@@ -35,7 +35,9 @@ const SingleMonth = ({ month, year, justYear }) => {
       onClick={() => {
         justYear ? changeJustYearHandler() : changeDateHandler()
       }}>
-      <h5>{!justYear ? monthNameFinder(month) : year}</h5>
+      <h5 style={{ padding: justYear ? '.3rem .2rem' : '0' }}>
+        {!justYear ? monthNameFinder(month) : year}
+      </h5>
       {!justYear && <p>{year}</p>}
       {!justYear
         ? _today && <span>today</span>

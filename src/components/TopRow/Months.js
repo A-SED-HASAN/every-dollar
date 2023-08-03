@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import { Tooltip, Chip } from '@mui/material'
-
 import {
   KeyboardArrowRightOutlinedIcon,
   KeyboardArrowLeftOutlinedIcon,
@@ -15,10 +14,12 @@ import {
   MoneyOffOutlinedIcon,
 } from '../../assets/icons'
 import { SingleMonth } from '../'
-import { useDataContext } from '../../context/DataContext.js'
 import { paginate } from '../../functions'
 import { IconBtn } from '../../global'
+
+import { useDataContext } from '../../context/DataContext.js'
 import { useGlobalContext } from '../../context/GlobalContext'
+
 export default function Months({ justYear, data, treeMap }) {
   const {
     thisMonth,
@@ -63,7 +64,6 @@ export default function Months({ justYear, data, treeMap }) {
     }
     return num
   }
-
   const backToday = () => {
     setThisMonth(monthNow)
     setThisYear(yearNow)
@@ -71,6 +71,7 @@ export default function Months({ justYear, data, treeMap }) {
   const backThisYear = () => {
     setThisYear(yearNow)
   }
+
   let _ForNotToday = monthNow !== thisMonth || yearNow !== thisYear
   let _ForNotThisYear = yearNow !== thisYear
 
@@ -158,6 +159,7 @@ export default function Months({ justYear, data, treeMap }) {
         </Tooltip>
         {window.innerWidth <= 900 &&
           !justYear &&
+          !treeMap &&
           specificList?.array.length > 0 && (
             <Tooltip title={`${drawerOpen ? 'close' : 'open'} summary`} arrow>
               <Btn onClick={drawerToggleHandler} variant='outlined' icon>
@@ -258,6 +260,9 @@ const Btn = styled('button')(({ left, right, text, icon }) => ({
   '*': {
     cursor: 'pointer',
   },
+  '@media (width<= 540px)': {
+    padding: '.2rem',
+  },
 }))
 
 const Wrapper = styled('div')(() => ({
@@ -286,6 +291,11 @@ const Wrapper = styled('div')(() => ({
     },
     ':hover': {
       background: 'var(--text-50)',
+    },
+    '@media (width<= 540px)': {
+      h1: {
+        fontSize: '4vw',
+      },
     },
   },
   '.month-expand': {

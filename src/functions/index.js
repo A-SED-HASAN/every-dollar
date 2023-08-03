@@ -70,8 +70,8 @@ export const star = () => (x, y, width, height) => {
 }
 
 export const monthNameFinder = (monthNumber) => {
-  const { name } = monthsName.find((item) => item.id === +monthNumber)
-  return name.slice(0, 3)
+  const specific = monthsName.find((item) => item.id === +monthNumber)
+  return specific?.name.slice(0, 3)
 }
 
 export const paginate = (data) => {
@@ -87,3 +87,16 @@ export const paginate = (data) => {
 
   return newData
 }
+
+export const posORneg = (number, reverse) => {
+  if (reverse) {
+    return number === 0 ? null : number < 0 ? 't-zero' : 'u-zero'
+  } else {
+    return number === 0 ? null : number < 0 ? 'u-zero' : 't-zero'
+  }
+}
+
+export const isNanChecker = (number) => (!isNaN(number) ? number : 0)
+
+export const arrowDirection = (number) =>
+  number === 0 ? null : number < 0 ? '⇣' : '⇡'

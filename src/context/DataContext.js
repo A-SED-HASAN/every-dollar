@@ -60,26 +60,26 @@ const DataProvider = ({ children }) => {
 
   const changeMonthMakeDate = async () => {
     setListLoading(true)
-    const data = await getDocs(budgetCollectionRef)
-    const initWithDate = { date: Date, array: [], income: 0, spent: 0 }
-    if (
-      data.docs
-        .map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-        .find((item) => {
-          return item.date === Date
-        })
-    ) {
-      setListLoading(false)
-      setLoading(false)
-      return
-    }
-    await addDoc(budgetCollectionRef, initWithDate)
-    setLoading(false)
+    if (authUser) {
+      const data = await getDocs(budgetCollectionRef)
+      const initWithDate = { date: Date, array: [], income: 0, spent: 0 }
+      if (
+        data.docs
+          .map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+          .find((item) => item.date === Date)
+      ) {
+        setListLoading(false)
+        setLoading(false)
+        return
+      }
+      await addDoc(budgetCollectionRef, initWithDate)
 
-    getAllDate()
+      getAllDate()
+    }
+    setLoading(false)
   }
 
   useEffect(() => {

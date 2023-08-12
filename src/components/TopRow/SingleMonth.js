@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles'
 import { monthNameFinder } from '../../functions'
 import { useDataContext } from '../../context/DataContext'
 
-const SingleMonth = ({ month, year, justYear }) => {
+export default function SingleMonth({ month, year, justYear }) {
   const {
     toggleExpandMonth,
     setThisYear,
@@ -48,8 +48,6 @@ const SingleMonth = ({ month, year, justYear }) => {
     </Wrapper>
   )
 }
-
-export default SingleMonth
 
 const Wrapper = styled('article')(() => ({
   position: 'relative',

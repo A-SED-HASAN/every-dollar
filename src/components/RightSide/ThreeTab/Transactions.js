@@ -12,6 +12,10 @@ import { SearchInput } from '../..'
 import { useGlobalContext } from '../../../context/GlobalContext'
 import { LoadingCenter } from '../..'
 import { formatMoney, monthNameFinder } from '../../../functions'
+import { useAuthContext } from '../../../context/AuthContext'
+import { deleteDoc, doc } from 'firebase/firestore'
+import { db } from '../../../firebase'
+
 const Transactions = () => {
   const { handleOpenTrans, transList, transListLoading, getTrans } =
     useGlobalContext()
@@ -25,6 +29,7 @@ const Transactions = () => {
     getTrans()
     // eslint-disable-next-line
   }, [])
+
 
   return (
     <Wrapper>
@@ -44,6 +49,10 @@ const Transactions = () => {
       <TransListWrapper>
         {transListLoading ? (
           <LoadingCenter />
+        ) : transList.length === 0 ? (
+          <h1 style={{ textAlign: 'center' }}>
+            <i>no Transaction</i>
+          </h1>
         ) : (
           transList.map((item) => {
             return <Row key={item.id} {...item} />
@@ -112,8 +121,18 @@ const FaBtn = styled(Fab)(() => ({
   },
 }))
 
-const Row = ({ amount, date, title, budgetItem, whereSpend_income }) => {
+const Row = ({ id, amount, date, title, budgetItem, whereSpend_income }) => {
   const [day, month] = date.split('-')
+  const { getTrans } = useGlobalContext()
+  const { authUser } = useAuthContext()
+  const [loading, setLoading] = useState(false)
+  const deleteSingleTrans = async (id) => {
+    setLoading(true)
+    const specificItem = doc(db, `${authUser?.uid}:TRANS`, id)
+    await deleteDoc(specificItem)
+    setLoading(false)
+    getTrans()
+  }
   return (
     <RowWrapper>
       <div className='date'>
@@ -121,9 +140,9 @@ const Row = ({ amount, date, title, budgetItem, whereSpend_income }) => {
         <span>{day}</span>
       </div>
       <div className='spend-income'>
-        <span>{whereSpend_income}</span>
+        <span>{loading ? 'loading ...' : whereSpend_income}</span>
         <span className='amount'>{formatMoney(amount)}</span>
-        <IconButton className='delete'>
+        <IconButton className='delete' onClick={() => deleteSingleTrans(id)}>
           <DeleteOutlineOutlinedIcon sx={{ fontSize: '1rem' }} />
         </IconButton>
       </div>

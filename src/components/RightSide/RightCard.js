@@ -1,22 +1,21 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
-
-import { Tab, Tabs } from '@mui/material'
-
+import { Tab, Tabs, Avatar, Badge } from '@mui/material'
 import {
   DonutLargeOutlinedIcon,
   AttachMoneyOutlinedIcon,
   AccountBalanceOutlinedIcon,
 } from '../../assets/icons'
-// import { formatMoney } from '../../functions'
 import { Accounts, Summary, Transactions } from '../'
+import { useGlobalContext } from '../../context/GlobalContext'
 
-const RightCard = () => {
+export default function RightCard() {
   const [value, setValue] = useState(0)
   const handleChange = (_, newValue) => {
     setValue(newValue)
   }
 
+  const { transList } = useGlobalContext()
   return (
     <Wrapper>
       <div className='wrapper'>
@@ -32,7 +31,27 @@ const RightCard = () => {
           />
           <TabBtn
             disableRipple
-            icon={<AttachMoneyOutlinedIcon className='icon' />}
+            icon={
+              <Badge
+                sx={{
+                  '.MuiBadge-anchorOriginBottomRight': {
+                    left: '48%',
+                  },
+                }}
+                invisible={transList.length === 0}
+                overlap='circular'
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                badgeContent={
+                  <SmallNumber
+                    sx={{
+                      background: value === 1 && 'var(--bg-s-800)',
+                    }}>
+                    {transList.length}
+                  </SmallNumber>
+                }>
+                <AttachMoneyOutlinedIcon className='icon' />
+              </Badge>
+            }
             label='transactions'
           />
           <TabBtn
@@ -52,7 +71,13 @@ const RightCard = () => {
   )
 }
 
-export default RightCard
+const SmallNumber = styled(Avatar)(() => ({
+  width: 23,
+  height: 23,
+  border: '2px solid var(--card-bg)',
+  fontSize: '1rem',
+  background: 'var(--text-50)',
+}))
 
 const TabBtn = styled(Tab)(() => ({
   width: '30%',
@@ -60,6 +85,7 @@ const TabBtn = styled(Tab)(() => ({
   color: 'var(--text-200)',
   fontWeight: '600',
   textTransform: 'capitalize',
+
   '.icon': {
     background: 'var(--text-50)',
     color: 'var(--text-600)',

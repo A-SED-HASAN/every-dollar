@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
-const EmptyChart = ({ errorText }) => {
+export default function EmptyChart({ errorText }) {
   return (
     <ErrorWrapper>
       <div>
@@ -25,7 +25,6 @@ const EmptyChart = ({ errorText }) => {
   )
 }
 
-export default EmptyChart
 const Btn = styled(Button)(() => ({
   display: 'flex',
   alignItems: 'center',

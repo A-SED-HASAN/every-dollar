@@ -23,7 +23,8 @@ import { useDataContext } from '../../context/DataContext'
 import { addDoc } from 'firebase/firestore'
 
 export default function TransactionModal() {
-  const { handleCloseTrans, openTrans, transCollectionRef } = useGlobalContext()
+  const { handleCloseTrans, openTrans, transCollectionRef, getTrans } =
+    useGlobalContext()
   const { specificList } = useDataContext()
 
   const [date, setDate] = useState(null)
@@ -42,11 +43,11 @@ export default function TransactionModal() {
     control,
     handleSubmit,
     formState: {
-      errors: { title, amount, whereSpend_income },
+      errors: { amount, whereSpend_income },
     },
   } = useForm({
     defaultValues: {
-      title: '',
+      title: value,
       amount: '',
       whereSpend_income: '',
       budgetItem: '',
@@ -55,18 +56,16 @@ export default function TransactionModal() {
   })
 
   const onSubmit = async (data) => {
-    console.log(title, amount)
-    // if (budgetItemArray.length > 0) {
     // setLoading(true)
 
     //هم بگرد روز رو اضافه کن هم تو لیست ترنس ها وارد کن
+
     const newData = { ...data, date: date, budgetItem: budgetItemArray }
     await addDoc(transCollectionRef, newData)
 
-    console.log(data)
-    // handleCloseTrans()
+    getTrans()
+    handleCloseTrans()
     // setLoading(false)
-    // }
   }
   return (
     <Modal open={openTrans} onClose={handleCloseTrans}>
@@ -122,7 +121,7 @@ export default function TransactionModal() {
                   onChange={(e) => setDate(moment(e).format('D-M-YYYY'))}
                   sx={{ maxWidth: '192px' }}
                 />
-                {date && (
+                {!date && (
                   <FormHelperText sx={{ color: 'var(--error)' }}>
                     date is required !
                   </FormHelperText>

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import { Navbar, RightDrawer } from './'
-import { Outlet, useHref, useNavigate, Routes, Route } from 'react-router-dom'
+import { Outlet, useHref, useNavigate } from 'react-router-dom'
 
-import { Budget, Goals, Insights, Settings, TreeMap } from '../routes'
-const Main = () => {
+export default function Main() {
   const href = useHref().slice(1)
   const nav = useNavigate()
 
@@ -15,25 +14,11 @@ const Main = () => {
   return (
     <Wrapper>
       <Navbar />
-      <Routes>
-        <Route path='/budget' element={<Budget />} />
-        <Route path='/paycheck-planning' />
-        <Route path='/goals' element={<Goals />} />
-        <Route path='/tree-map' element={<TreeMap />} />
-        <Route path='/insights' element={<Insights />} />
-        <Route path='/ramsey-pros' />
-        <Route path='/learn' />
-        <Route path='/ask-a-coach' />
-        <Route path='/settings' element={<Settings />} />
-      </Routes>
-      {href === 'budget' && <RightDrawer />}
-
       <Outlet />
+      {href === 'budget' && <RightDrawer />}
     </Wrapper>
   )
 }
-
-export default Main
 
 const Wrapper = styled('div')(() => ({
   width: '100%',

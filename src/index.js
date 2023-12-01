@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 
 //date picker
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -13,7 +13,7 @@ import App from './App'
 
 import './global/index.css'
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const root = createRoot(document.getElementById('root'))
 root.render(
   <LocalizationProvider dateAdapter={AdapterMoment}>
     <AuthProvider>

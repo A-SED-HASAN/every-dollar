@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Main } from './components'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
@@ -12,7 +11,7 @@ import {
   Insights,
   Settings,
   TreeMap,
-} from './routes'
+} from './pages'
 
 export default function App() {
   return (
@@ -24,7 +23,8 @@ export default function App() {
             <PrivateRoute>
               <Main />
             </PrivateRoute>
-          }>
+          }
+        >
           <Route path='/budget' element={<Budget />} />
           <Route path='/paycheck-planning' />
           <Route path='/goals' element={<Goals />} />

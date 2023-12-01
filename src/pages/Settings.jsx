@@ -9,10 +9,10 @@ import {
   InputLabel,
 } from '@mui/material'
 import { useAuthContext } from '../context/AuthContext.js'
-import { user } from '../assets/images'
+import { user } from '../assets/images/index.js'
 import moment from 'moment/moment.js'
 import { useDataContext } from '../context/DataContext.js'
-import { LoadingCenter } from '../components'
+import { LoadingCenter } from '../components/index.js'
 import { useForm, Controller } from 'react-hook-form'
 import { updateProfile } from 'firebase/auth'
 export default function Settings() {

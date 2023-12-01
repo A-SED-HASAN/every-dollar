@@ -26,7 +26,7 @@ import {
 import { useAuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { Loading } from '../components'
-const SignIn = () => {
+export default function SignIn() {
   const {
     email,
     setEmail,
@@ -37,7 +37,7 @@ const SignIn = () => {
     setError,
     pending,
   } = useAuthContext()
-  
+
   const nav = useNavigate()
 
   const existingUser = (e) => {
@@ -101,7 +101,8 @@ const SignIn = () => {
               margin: '1rem 0',
               width: '100%',
             }}
-            variant='outlined'>
+            variant='outlined'
+          >
             <InputLabel htmlFor='outlined-adornment-email'>email</InputLabel>
             <OutlinedInp
               value={email}
@@ -117,7 +118,8 @@ const SignIn = () => {
           </FormControl>
           <FormControl
             sx={{ margin: '1rem 0', width: '100%' }}
-            variant='outlined'>
+            variant='outlined'
+          >
             <InputLabel htmlFor='outlined-adornment-password'>
               Password
             </InputLabel>
@@ -132,7 +134,8 @@ const SignIn = () => {
                     aria-label='toggle password visibility'
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
-                    edge='end'>
+                    edge='end'
+                  >
                     {showPassword ? (
                       <VisibilityOffOutlinedIcon />
                     ) : (
@@ -174,8 +177,6 @@ const SignIn = () => {
     </Wrapper>
   )
 }
-
-export default SignIn
 
 const LinkBtn = styled(Link)(({ weight }) => ({
   color: 'var(--bg-s-700)',

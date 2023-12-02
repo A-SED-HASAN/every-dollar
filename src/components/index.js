@@ -1,42 +1,24 @@
-import Card from './Assistance/Card'
-import Row from './Assistance/Row'
-import AccAvatar from './Assistance/AccAvatar'
-import SearchInput from './Assistance/SearchInput'
-import MiniCard from './Assistance/MiniCard'
+import { Card, Row, AccAvatar, SearchInput, MiniCard, Inp } from './Assistance'
 
-import Navbar from './LeftSide/Navbar'
+import { Remain, Top, JustYear, Months, SingleMonth } from './TopRow'
 
-import Remain from './TopRow/Remain'
-import Months from './TopRow/Months'
-import SingleMonth from './TopRow/SingleMonth'
-import JustYear from './TopRow/JustYear'
-import Top from './TopRow'
+import { InsBar, InsLine, BuPie, Tree } from './Chart'
 
-import RightDrawer from './RightSide/RightDrawer'
-import RightCard from './RightSide/RightCard'
+import { RightCard, RightDrawer } from './RightSide'
 
-import Accounts from './RightSide/ThreeTab/Accounts'
-import Summary from './RightSide/ThreeTab/Summary'
-import Transactions from './RightSide/ThreeTab/Transactions'
+import { Accounts, Summary, Transactions } from './RightSide/ThreeTab'
 
-import Main from './Main'
-import Loading from './Loading/Loading'
-import LoadingCenter from './Loading/LoadingCenter'
+import { Loading, LoadingCenter } from './Loading'
 
-import GoalModal from './Modal/GoalModal'
-import DeleteModal from './Modal/DeleteModal'
-import ResetModal from './Modal/ResetModal'
-
-import { ResetBtn, AddBtn } from './Assistance/Btns'
-
-import { InsBar } from './Chart/InsBar'
-import { InsLine } from './Chart/InsLine'
-import { BuPie } from './Chart/BuPie'
-import { Tree } from './Chart/Tree'
+import { GoalModal, DeleteModal, ResetModal } from './Modal'
 
 import EmptyChart from './Error/EmptyChart'
 
+import Navbar from './LeftSide/Navbar'
+
+import Main from './Main'
 export {
+  Inp,
   Card,
   Row,
   AccAvatar,
@@ -53,8 +35,6 @@ export {
   Loading,
   SearchInput,
   Top,
-  ResetBtn,
-  AddBtn,
   GoalModal,
   DeleteModal,
   ResetModal,

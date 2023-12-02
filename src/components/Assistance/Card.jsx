@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
+
 import MuiAccordion from '@mui/material/Accordion'
 import MuiAccordionSummary from '@mui/material/AccordionSummary'
 import MuiAccordionDetails from '@mui/material/AccordionDetails'
+
 import {
   KeyboardArrowDownOutlinedIcon,
   DeleteOutlineOutlinedIcon,
 } from '../../assets/icons'
 import { Button, Divider, SvgIcon, Tooltip } from '@mui/material'
-import Inp from './Inp'
+import { Inp } from '../'
 import { buck } from '../../assets/images'
 import { formatMoney } from '../../functions'
-import { useDataContext } from '../../context/DataContext'
-import { useGlobalContext } from '../../context/GlobalContext'
+import { useDataContext, useGlobalContext } from '../../context'
 
-const Card = ({ title, month, array, id, index }) => {
+export default function Card({ title, month, array, id, index }) {
   const { addItemHandler, name, makeDataForChart, giveInfo } = useDataContext()
   const { handleOpenDelete } = useGlobalContext()
 
@@ -43,7 +44,8 @@ const Card = ({ title, month, array, id, index }) => {
         <AccordionDetails
           month={month ? 'true' : 'false'}
           remaining={remaining ? 'true' : 'false'}
-          length={array.length}>
+          length={array.length}
+        >
           {array.map((item, index) => {
             return (
               <span key={index}>
@@ -64,7 +66,8 @@ const Card = ({ title, month, array, id, index }) => {
                     name={`${id}-${index}-price`}
                   />
                   <span
-                    className={`remain end ${item.ROS < 0 ? 'u-zero' : null}`}>
+                    className={`remain end ${item.ROS < 0 ? 'u-zero' : null}`}
+                  >
                     {formatMoney(item.ROS)}
                   </span>
                 </div>
@@ -91,7 +94,8 @@ const Card = ({ title, month, array, id, index }) => {
                   onClick={() => {
                     handleOpenDelete()
                     giveInfo(title, null, null, id)
-                  }}>
+                  }}
+                >
                   <SvgIcon>
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 18'>
                       <path
@@ -99,7 +103,8 @@ const Card = ({ title, month, array, id, index }) => {
                         stroke='currentColor'
                         strokeLinecap='square'
                         strokeWidth='1.25'
-                        d='M4.273 3.727V2a1 1 0 0 1 1-1h3.454a1 1 0 0 1 1 1v1.727M13 5.91v10.455a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5.909m6 2.727v5.455M4.273 8.636v5.455m5.454-5.455v5.455M13 3.727H1'></path>
+                        d='M4.273 3.727V2a1 1 0 0 1 1-1h3.454a1 1 0 0 1 1 1v1.727M13 5.91v10.455a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5.909m6 2.727v5.455M4.273 8.636v5.455m5.454-5.455v5.455M13 3.727H1'
+                      ></path>
                     </svg>
                   </SvgIcon>
                 </Btn>
@@ -112,7 +117,6 @@ const Card = ({ title, month, array, id, index }) => {
   )
 }
 
-export default Card
 const Btn = styled(Button)(() => ({
   color: 'var(--error)',
   marginLeft: 'auto',
@@ -141,6 +145,7 @@ const AccordionSummary = styled((props) => (
   '&.MuiAccordionSummary-root': {
     background: 'var(--card-bg)',
     borderRadius: 'var(--light-radius)',
+    '*': { cursor: 'pointer' },
   },
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
     transform: 'rotate(.5turn)',

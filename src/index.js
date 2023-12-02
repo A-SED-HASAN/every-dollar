@@ -1,14 +1,8 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-
-//date picker
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
-
-import { DataProvider } from './context/DataContext'
-import { AuthProvider } from './context/AuthContext'
-import { GlobalProvider } from './context/GlobalContext'
-
+import { DataProvider, AuthProvider, GlobalProvider } from './context'
 import App from './App'
 
 import './global/index.css'

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
-import { useDataContext } from '../context/DataContext'
+import { useDataContext, useGlobalContext } from '../context'
 import { monthNameFinder } from '../functions'
 import {
   LoadingCenter,
@@ -10,9 +10,7 @@ import {
   EmptyChart,
 } from '../components'
 
-import { useGlobalContext } from '../context/GlobalContext'
-
-const Insights = () => {
+export default function Insights() {
   const { allDate, loading, thisYear } = useDataContext()
   const { isBarChart } = useGlobalContext()
   const [data, setData] = useState([])
@@ -62,8 +60,6 @@ const Insights = () => {
     </Wrapper>
   )
 }
-
-export default Insights
 
 const Wrapper = styled('div')(() => ({
   padding: '1.5rem',

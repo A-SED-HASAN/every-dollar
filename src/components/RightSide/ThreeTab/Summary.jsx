@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Tabs } from '@mui/material'
 import { BuPie, Row } from '../..'
 import { styled } from '@mui/material/styles'
-import { useDataContext } from '../../../context/DataContext'
+import { useDataContext } from '../../../context'
 import { summaryValues_tabs } from '../../../assets/constants'
 import { TabBtn } from '../../../global'
 
-const Summary = () => {
+export default function Summary() {
   const { makeDataForChart, pieTitle, pieValue } = useDataContext()
   const [value, setValue] = useState(0)
   const handleChange = (_, newValue) => {
@@ -42,7 +42,6 @@ const Summary = () => {
     </Wrapper>
   )
 }
-export default Summary
 
 const Wrapper = styled('div')(() => ({
   padding: '1.3rem',

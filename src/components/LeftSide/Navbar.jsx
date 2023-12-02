@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { Link, useHref } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 
 import MuiDrawer from '@mui/material/Drawer'
 import { Button, Divider, Tooltip } from '@mui/material'
-import { Link, useHref } from 'react-router-dom'
 
 import { navigation } from '../../assets/constants'
 import { dollarImg } from '../../assets/images'
 import { LogoutOutlinedIcon } from '../../assets/icons'
-import { useAuthContext } from '../../context/AuthContext'
-
+import { useAuthContext } from '../../context'
 import { AccAvatar } from '../'
+
 const drawerWidth = 240
 
 export default function MiniDrawer() {

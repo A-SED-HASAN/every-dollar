@@ -1,8 +1,8 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuthContext } from '../context/AuthContext'
+import { useAuthContext } from '../context'
 
-const PrivateRoute = ({ children }) => {
+export default function PrivateRoute({ children }) {
   const { authUser } = useAuthContext()
 
   if (!authUser) {
@@ -11,4 +11,3 @@ const PrivateRoute = ({ children }) => {
     return children
   }
 }
-export default PrivateRoute

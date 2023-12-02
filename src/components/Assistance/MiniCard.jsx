@@ -2,7 +2,7 @@ import React from 'react'
 import { styled } from '@mui/material/styles'
 import { CheckCircleOutlineOutlinedIcon } from '../../assets/icons'
 
-const MiniCard = ({ children, selected, onClick }) => {
+export default function MiniCard({ children, selected, onClick }) {
   return (
     <Wrapper selected={selected} onClick={onClick}>
       <span>
@@ -17,8 +17,6 @@ const MiniCard = ({ children, selected, onClick }) => {
     </Wrapper>
   )
 }
-
-export default MiniCard
 
 const Wrapper = styled('div')(({ selected }) => ({
   borderRadius: 'var(--radius)',

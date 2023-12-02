@@ -7,7 +7,7 @@ import {
   AccountBalanceOutlinedIcon,
 } from '../../assets/icons'
 import { Accounts, Summary, Transactions } from '../'
-import { useGlobalContext } from '../../context/GlobalContext'
+import { useGlobalContext } from '../../context'
 
 export default function RightCard() {
   const [value, setValue] = useState(0)
@@ -23,7 +23,8 @@ export default function RightCard() {
           sx={{ borderBottom: 1, borderColor: 'divider' }}
           centered
           value={value}
-          onChange={handleChange}>
+          onChange={handleChange}
+        >
           <TabBtn
             disableRipple
             icon={<DonutLargeOutlinedIcon className='icon' />}
@@ -45,10 +46,12 @@ export default function RightCard() {
                   <SmallNumber
                     sx={{
                       background: value === 1 && 'var(--bg-s-800)',
-                    }}>
+                    }}
+                  >
                     {transList.length}
                   </SmallNumber>
-                }>
+                }
+              >
                 <AttachMoneyOutlinedIcon className='icon' />
               </Badge>
             }

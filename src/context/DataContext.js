@@ -4,13 +4,13 @@ import { init, monthsName } from '../assets/constants'
 import { useLocalStorage } from '../hook'
 import { db } from '../firebase'
 import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore'
-import { useAuthContext } from './AuthContext.js'
+import { useAuthContext } from './'
 import { money } from '../assets/sound'
 import useSound from 'use-sound'
 import { isNanChecker, lengthChecker } from '../functions'
 
-const DataContext = createContext()
-const DataProvider = ({ children }) => {
+export const DataContext = createContext()
+export const DataProvider = ({ children }) => {
   const [playMoney] = useSound(money)
   const { authUser } = useAuthContext()
 
@@ -378,8 +378,4 @@ const DataProvider = ({ children }) => {
   return <DataContext.Provider value={ctxVal}>{children}</DataContext.Provider>
 }
 
-export const useDataContext = () => {
-  return useContext(DataContext)
-}
-
-export { DataContext, DataProvider }
+export const useDataContext = () => useContext(DataContext)

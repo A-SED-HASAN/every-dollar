@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import { dollarLoad, ramseyWhite } from '../../assets/images'
-const Loading = () => {
+export default function Loading() {
   return (
     <Wrapper>
       <div>
@@ -15,8 +15,6 @@ const Loading = () => {
     </Wrapper>
   )
 }
-
-export default Loading
 
 const Wrapper = styled('section')(() => ({
   display: 'grid',

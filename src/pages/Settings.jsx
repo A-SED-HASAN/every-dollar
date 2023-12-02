@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import moment from 'moment/moment.js'
+import { useForm, Controller } from 'react-hook-form'
+import { updateProfile } from 'firebase/auth'
+
 import { styled } from '@mui/material/styles'
 import {
   Button,
@@ -8,13 +12,9 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material'
-import { useAuthContext } from '../context/AuthContext.js'
-import { user } from '../assets/images/index.js'
-import moment from 'moment/moment.js'
-import { useDataContext } from '../context/DataContext.js'
-import { LoadingCenter } from '../components/index.js'
-import { useForm, Controller } from 'react-hook-form'
-import { updateProfile } from 'firebase/auth'
+import { useAuthContext, useDataContext } from '../context'
+import { user } from '../assets/images'
+import { LoadingCenter } from '../components'
 export default function Settings() {
   const { authUser } = useAuthContext()
   const { loading } = useDataContext()
@@ -103,14 +103,16 @@ export default function Settings() {
 
             <Btn
               variant='contained'
-              onClick={() => setShowChanges((prev) => !prev)}>
+              onClick={() => setShowChanges((prev) => !prev)}
+            >
               manage your account
             </Btn>
           </SeCard>
 
           <SeCard
             color='blue'
-            title='Budget Easier and Faster with Premium Features'>
+            title='Budget Easier and Faster with Premium Features'
+          >
             <div className='info'>
               <p>
                 Stream transactions from your bank to your budget, monitor bank
@@ -129,7 +131,8 @@ export default function Settings() {
                   fontSize: '1.1rem',
                   color: 'var(--bg-s-700)',
                   cursor: 'pointer',
-                }}>
+                }}
+              >
                 Redeem Your Voucher
               </Link>
             </div>

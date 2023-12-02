@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import { monthNameFinder } from '../../functions'
-import { useDataContext } from '../../context/DataContext'
+import { useDataContext } from '../../context'
 
 export default function SingleMonth({ month, year, justYear }) {
   const {
@@ -34,7 +34,8 @@ export default function SingleMonth({ month, year, justYear }) {
     <Wrapper
       onClick={() => {
         justYear ? changeJustYearHandler() : changeDateHandler()
-      }}>
+      }}
+    >
       <h5 style={{ padding: justYear ? '.3rem .2rem' : '0' }}>
         {!justYear ? monthNameFinder(month) : year}
       </h5>

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
-import { Btn } from './SignIn'
-const Error = () => {
+import { PrimaryBtn } from '../components/Styled/Button'
+export default function Error() {
   return (
     <Wrapper>
       <div>
@@ -12,23 +12,22 @@ const Error = () => {
           this as a fallback.
         </p>
         <Link to='/budget' style={{ width: '30vw' }}>
-          <Btn
+          <PrimaryBtn
             sx={{
               background: 'var(--text-600)',
               ':hover': { background: 'var(--text-700)' },
             }}
             fullWidth
             size='large'
-            variant='contained'>
+            variant='contained'
+          >
             Back
-          </Btn>
+          </PrimaryBtn>
         </Link>
       </div>
     </Wrapper>
   )
 }
-
-export default Error
 
 const Wrapper = styled('section')(() => ({
   display: 'grid',

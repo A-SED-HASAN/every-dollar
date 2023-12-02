@@ -12,13 +12,11 @@ import {
   ShowChartOutlinedIcon,
   AttachMoneyOutlinedIcon,
   MoneyOffOutlinedIcon,
-} from '../../assets/icons'
+} from '../../assets/icons/index.js'
 import { SingleMonth } from '../'
 import { paginate } from '../../functions'
 import { IconBtn } from '../../global'
-
-import { useDataContext } from '../../context/DataContext.js'
-import { useGlobalContext } from '../../context/GlobalContext'
+import { useDataContext, useGlobalContext } from '../../context'
 
 export default function Months({ justYear, data, treeMap }) {
   const {
@@ -95,7 +93,8 @@ export default function Months({ justYear, data, treeMap }) {
         <div className='month-expand'>
           <IconButton
             sx={{ visibility: page > 0 ? 'visible' : 'hidden' }}
-            onClick={() => setPage(page - 1)}>
+            onClick={() => setPage(page - 1)}
+          >
             <KeyboardArrowLeftOutlinedIcon />
           </IconButton>
           {dataRender.map((item) => {
@@ -106,7 +105,8 @@ export default function Months({ justYear, data, treeMap }) {
               visibility:
                 page < paginate(data).length - 1 ? 'visible' : 'hidden',
             }}
-            onClick={() => setPage(page + 1)}>
+            onClick={() => setPage(page + 1)}
+          >
             <KeyboardArrowRightOutlinedIcon />
           </IconButton>
         </div>
@@ -130,7 +130,8 @@ export default function Months({ justYear, data, treeMap }) {
         <Tooltip
           placement='left'
           title={`previous ${justYear ? 'year' : 'month'}`}
-          arrow>
+          arrow
+        >
           <Btn
             variant='outlined'
             left
@@ -138,14 +139,16 @@ export default function Months({ justYear, data, treeMap }) {
               justYear
                 ? setThisYear(thisYear - 1)
                 : setThisMonth(makeItSafe(thisMonth - 1))
-            }}>
+            }}
+          >
             <KeyboardArrowLeftOutlinedIcon fontSize='small' />
           </Btn>
         </Tooltip>
         <Tooltip
           placement='right'
           title={`next ${justYear ? 'year' : 'month'}`}
-          arrow>
+          arrow
+        >
           <Btn
             right
             variant='outlined'
@@ -153,7 +156,8 @@ export default function Months({ justYear, data, treeMap }) {
               justYear
                 ? setThisYear(thisYear + 1)
                 : setThisMonth(makeItSafe(thisMonth + 1))
-            }}>
+            }}
+          >
             <KeyboardArrowRightOutlinedIcon fontSize='small' />
           </Btn>
         </Tooltip>
@@ -181,7 +185,8 @@ export default function Months({ justYear, data, treeMap }) {
         {treeMap && (
           <Tooltip
             title={`${isIncomeInc ? 'income Include' : "just spent's "}`}
-            arrow>
+            arrow
+          >
             <Btn onClick={toggleIsIncomeInc} variant='outlined' icon>
               {isIncomeInc ? (
                 <AttachMoneyOutlinedIcon fontSize='small' />

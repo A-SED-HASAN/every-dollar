@@ -2,8 +2,8 @@ import React from 'react'
 import { styled } from '@mui/material/styles'
 import { Divider } from '@mui/material'
 import { formatMoney, formatPercent } from '../../functions'
-import { useDataContext } from '../../context/DataContext'
-const Row = ({ type, isPlanned, planned }) => {
+import { useDataContext } from '../../context'
+export default function Row({ type, isPlanned, planned }) {
   const { makeDataForChart, setPieTitle, pieTitle, setPieValue } =
     useDataContext()
   const incomeValue = makeDataForChart()[0].planned
@@ -21,7 +21,8 @@ const Row = ({ type, isPlanned, planned }) => {
               }
             })
             setPieValue(planned)
-          }}>
+          }}
+        >
           {type}
         </span>
         <span className='num' style={{ justifySelf: 'start' }}>
@@ -37,8 +38,6 @@ const Row = ({ type, isPlanned, planned }) => {
     </Wrapper>
   )
 }
-
-export default Row
 
 const Wrapper = styled('div')(({ planned }) => ({
   padding: '.3rem ',

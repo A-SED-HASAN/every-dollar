@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TextField, Autocomplete, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
-import { useDataContext } from '../../context/DataContext'
+import { useDataContext } from '../../context'
 import { RemoveOutlinedIcon } from '../../assets/icons'
 export default function ControllableStates() {
   const { list } = useDataContext()

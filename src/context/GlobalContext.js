@@ -1,12 +1,12 @@
 import React, { useContext, createContext, useState } from 'react'
 import { db } from '../firebase'
 import { collection, getDocs } from 'firebase/firestore'
-import { useAuthContext } from './AuthContext.js'
+import { useAuthContext } from './'
 import { useLocalStorage } from '../hook'
 
-const GlobalContext = createContext()
+export const GlobalContext = createContext()
 
-const GlobalProvider = ({ children }) => {
+export const GlobalProvider = ({ children }) => {
   const { authUser } = useAuthContext()
 
   const [openDelete, setOpenDelete] = useState(false)
@@ -103,14 +103,11 @@ const GlobalProvider = ({ children }) => {
         getTrans,
         isIncomeInc,
         toggleIsIncomeInc,
-      }}>
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   )
 }
 
-export const useGlobalContext = () => {
-  return useContext(GlobalContext)
-}
-
-export { GlobalContext, GlobalProvider }
+export const useGlobalContext = () => useContext(GlobalContext)

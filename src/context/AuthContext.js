@@ -1,13 +1,10 @@
 import React, { useContext, createContext, useState, useEffect } from 'react'
 import { auth } from '../firebase'
-import {
-  onAuthStateChanged,
-  signOut,
-} from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { useLocalStorage } from '../hook'
-const AuthContext = createContext()
+export const AuthContext = createContext()
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -49,14 +46,11 @@ const AuthProvider = ({ children }) => {
         setError,
         pending,
         userWantExit,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
 }
 
-export const useAuthContext = () => {
-  return useContext(AuthContext)
-}
-
-export { AuthContext, AuthProvider }
+export const useAuthContext = () => useContext(AuthContext)

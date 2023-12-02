@@ -19,7 +19,7 @@ import {
   MoneyOutlinedIcon,
   InvertColorsOutlinedIcon,
 } from '../../assets/icons'
-import { ResetBtn } from '../Assistance/Btns'
+import { ResetBtn } from '../Styled/Button'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { colorsForSlt, shapes } from '../../assets/constants'
 import { useForm, Controller } from 'react-hook-form'

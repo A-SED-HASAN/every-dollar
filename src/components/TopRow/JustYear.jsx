@@ -1,10 +1,9 @@
 import React from 'react'
 import { Divider } from '@mui/material'
-import { styled } from '@mui/material/styles'
 import { Months } from '..'
 import { useDataContext } from '../../context/DataContext'
 
-const JustYear = () => {
+export default function JustYear() {
   const { allDate } = useDataContext()
 
   const uniqueYears = [
@@ -22,13 +21,9 @@ const JustYear = () => {
   })
 
   return (
-    <Wrapper>
+    <>
       <Months justYear data={uniqueYears} />
       <Divider sx={{ margin: '1.5rem 0' }} />
-    </Wrapper>
+    </>
   )
 }
-
-export default JustYear
-
-const Wrapper = styled('div')(() => ({}))

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { auth } from '../firebase'
 import {
   signInWithEmailAndPassword,
@@ -13,7 +14,6 @@ import {
   InputLabel,
   InputAdornment,
   FormControl,
-  Button,
   Link,
   Divider,
   Alert,
@@ -23,9 +23,10 @@ import {
   VisibilityOutlinedIcon,
   VisibilityOffOutlinedIcon,
 } from '../assets/icons'
-import { useAuthContext } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../context'
 import { Loading } from '../components'
+import { PrimaryBtn } from '../components/Styled/Button'
+
 export default function SignIn() {
   const {
     email,
@@ -76,6 +77,7 @@ export default function SignIn() {
     setPassword('')
     // eslint-disable-next-line
   }, [hasAccount])
+
   if (pending) {
     return <Loading />
   }
@@ -147,9 +149,9 @@ export default function SignIn() {
               label='Password'
             />
           </FormControl>
-          <Btn type='submit' variant='contained' fullWidth>
+          <PrimaryBtn type='submit' variant='contained' fullWidth>
             {hasAccount ? 'sign in' : 'create'}
-          </Btn>
+          </PrimaryBtn>
         </form>
 
         {hasAccount && (
@@ -161,9 +163,9 @@ export default function SignIn() {
         {hasAccount && (
           <>
             <Divider sx={{ fontWeight: '700', mt: 2 }}> OR</Divider>
-            <Btn type='button' variant='outlined' fullWidth>
+            <PrimaryBtn type='button' variant='outlined' fullWidth>
               login with SSO
-            </Btn>
+            </PrimaryBtn>
           </>
         )}
       </div>
@@ -197,20 +199,7 @@ const OutlinedInp = styled(OutlinedInput)(() => ({
     cursor: 'pointer',
   },
 }))
-export const Btn = styled(Button)(({ variant }) => ({
-  background: variant === 'contained' ? 'var(--bg-s-800)' : 'transparent',
-  margin: variant === 'outlined' ? '2rem 0' : '1rem 0',
-  padding: '.6rem 0',
-  fontWeight: '700',
-  textTransform: 'capitalize',
-  fontSize: '1rem',
-  ':hover': {
-    background: variant === 'outlined' ? 'var(--bg-s-50)' : 'var(--bg-s-700)',
-  },
-  '*': {
-    cursor: 'pointer',
-  },
-}))
+
 const Wrapper = styled('section')(({ hasAccount }) => ({
   position: 'relative',
   display: 'grid',

@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Liquid } from '@ant-design/plots'
-import { AddBtn, GoalModal, LoadingCenter } from '../components'
-import { styled } from '@mui/material/styles'
-import { formatMoney, heart, star } from '../functions'
-import { useGlobalContext } from '../context/GlobalContext'
-import { Button, Divider, FormControl } from '@mui/material'
-import { Inp, Label } from '../components/Modal/GoalModal'
 import { useForm, Controller } from 'react-hook-form'
-import { deleteDoc, updateDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase'
+import { Liquid } from '@ant-design/plots'
+import { styled } from '@mui/material/styles'
+import { deleteDoc, updateDoc, doc } from 'firebase/firestore'
+import { Button, Divider, FormControl } from '@mui/material'
+import { GoalModal, LoadingCenter } from '../components'
+import { formatMoney, heart, star } from '../functions'
 import { RemoveOutlinedIcon } from '../assets/icons'
 import { IconBtn } from '../global'
-import { useAuthContext } from '../context/AuthContext'
-import { useDataContext } from '../context/DataContext'
-
+import { useAuthContext, useDataContext, useGlobalContext } from '../context'
+import { Inp, Label } from '../components/Modal/GoalModal'
+import { AddBtn } from '../components/Styled/Button'
 const GoalLiquid = ({ percent, shape, color }) => {
   const config = {
     percent: percent,
@@ -153,7 +151,8 @@ const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
             <Btn
               style={{ visibility: percent < 1 ? 'visible' : 'hidden' }}
               variant='outlined'
-              onClick={() => setShowPay(true)}>
+              onClick={() => setShowPay(true)}
+            >
               Wanna pay ?
             </Btn>
           )}
@@ -179,7 +178,8 @@ const SingleGoal = ({ goalName, goalAmount, color, shape, date, pay, id }) => {
             <Btn
               variant='outlined'
               type='submit'
-              onClick={() => setShowPay(true)}>
+              onClick={() => setShowPay(true)}
+            >
               pay
             </Btn>
           </form>

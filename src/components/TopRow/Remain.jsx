@@ -8,8 +8,9 @@ import {
   monthNameFinder,
   posORneg,
 } from '../../functions'
-import { useDataContext } from '../../context/DataContext'
-const Remain = ({ amount }) => {
+import { useDataContext } from '../../context'
+
+export default function Remain({ amount }) {
   const { monthExpanded, specificList, allDate, thisYear, thisMonth } =
     useDataContext()
 
@@ -93,8 +94,6 @@ const Remain = ({ amount }) => {
     </Wrapper>
   )
 }
-
-export default Remain
 
 const Wrapper = styled('div')(() => ({
   '.container': {

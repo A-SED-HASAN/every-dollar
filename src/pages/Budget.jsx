@@ -1,22 +1,20 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import {
-  AddBtn,
   Card,
   DeleteModal,
-  ResetBtn,
   Top,
   LoadingCenter,
   ResetModal,
 } from '../components'
-import { useDataContext } from '../context/DataContext'
+import { useDataContext, useGlobalContext } from '../context'
 import { AddOutlinedIcon, RotateLeftOutlinedIcon } from '../assets/icons'
-import { useGlobalContext } from '../context/GlobalContext'
 import { empty } from '../assets/images'
 import { Button } from '@mui/material'
 import { CircleLoader } from '../global'
+import { ResetBtn, AddBtn } from '../components/Styled/Button'
 
-const Budget = () => {
+export default function Budget() {
   const {
     addGroupHandler,
     name,
@@ -44,7 +42,8 @@ const Budget = () => {
           </AddBtn>
           <ResetBtn
             onClick={handleOpenReset}
-            startIcon={<RotateLeftOutlinedIcon />}>
+            startIcon={<RotateLeftOutlinedIcon />}
+          >
             reset budget
           </ResetBtn>
         </>
@@ -67,8 +66,6 @@ const Budget = () => {
     </Wrapper>
   )
 }
-
-export default Budget
 
 const Wrapper = styled('div')(() => ({
   width: '100%',

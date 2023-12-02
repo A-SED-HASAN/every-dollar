@@ -1,9 +1,8 @@
 import React from 'react'
 import { Box, Drawer } from '@mui/material'
-import { RightCard } from '../'
+import { RightCard } from '..'
 import { styled } from '@mui/material/styles'
-import { useGlobalContext } from '../../context/GlobalContext'
-import { useDataContext } from '../../context/DataContext'
+import { useGlobalContext, useDataContext } from '../../context'
 
 export default function RightDrawer() {
   const { drawerOpen, setDrawerOpen } = useGlobalContext()
@@ -17,7 +16,8 @@ export default function RightDrawer() {
         onClose={() => setDrawerOpen(false)}
         variant={width < 900 ? 'temporary' : 'persistent'}
         anchor='right'
-        open={specificList?.array.length > 0 ? drawerOpen : false}>
+        open={specificList?.array.length > 0 ? drawerOpen : false}
+      >
         <RightCard />
       </DrawerWrapper>
     </Box>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
-import { useDataContext } from '../../context/DataContext'
-const Inp = ({ seconde, value, name, className }) => {
+import { useDataContext } from '../../context'
+export default function Inp({ seconde, value, name, className }) {
   const { inputHandler, blurHandler, listLoading } = useDataContext()
 
   return (
@@ -19,8 +19,6 @@ const Inp = ({ seconde, value, name, className }) => {
     />
   )
 }
-
-export default Inp
 
 const Input = styled('input')(({ seconde }) => ({
   border: '1px solid var(--card-bg)',

@@ -1,9 +1,8 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
-import { useDataContext } from '../context/DataContext.js'
-import { LoadingCenter } from '../components/index.js'
-import { RoTree, Top } from '../components/index.js'
-import { formatMoney } from '../functions/index.js'
+import { useDataContext } from '../context'
+import { LoadingCenter, RoTree, Top } from '../components'
+import { formatMoney } from '../functions'
 export default function RoadMap() {
   const { loading, specificList } = useDataContext()
 

@@ -3,20 +3,18 @@ import { styled } from '@mui/material/styles'
 import { IconBtn, TabBtn } from '../../../global'
 import { Tabs, Fab, Zoom, Tooltip } from '@mui/material'
 import { transactionsValues_tabs } from '../../../assets/constants'
-import TransactionModal from '../../Modal/TransactionModal'
+import { TransactionModal } from '../../Modal'
 import {
   AddOutlinedIcon,
   DeleteOutlineOutlinedIcon,
 } from '../../../assets/icons'
-import { SearchInput } from '../..'
-import { useGlobalContext } from '../../../context/GlobalContext'
-import { LoadingCenter } from '../..'
+import { SearchInput, LoadingCenter } from '../..'
 import { formatMoney, monthNameFinder } from '../../../functions'
-import { useAuthContext } from '../../../context/AuthContext'
+import { useAuthContext, useGlobalContext } from '../../../context'
 import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 
-const Transactions = () => {
+export default function Transactions() {
   const { handleOpenTrans, transList, transListLoading, getTrans } =
     useGlobalContext()
 
@@ -30,7 +28,6 @@ const Transactions = () => {
     // eslint-disable-next-line
   }, [])
 
-
   return (
     <Wrapper>
       <TransactionModal />
@@ -38,7 +35,8 @@ const Transactions = () => {
         sx={{ borderBottom: 1, borderColor: 'divider' }}
         centered
         value={value}
-        onChange={handleChange}>
+        onChange={handleChange}
+      >
         {transactionsValues_tabs.map((item) => {
           const { id, label } = item
           return <Tab disableRipple key={id} label={label} />
@@ -66,7 +64,8 @@ const Transactions = () => {
           in={true}
           timeout={{
             enter: 500,
-          }}>
+          }}
+        >
           <FaBtn onClick={handleOpenTrans}>
             <AddOutlinedIcon />
           </FaBtn>
@@ -75,8 +74,6 @@ const Transactions = () => {
     </Wrapper>
   )
 }
-
-export default Transactions
 
 const Wrapper = styled('div')(() => ({
   marginTop: '1rem',

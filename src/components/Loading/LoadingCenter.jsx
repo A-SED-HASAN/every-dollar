@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles'
 import React from 'react'
 import { CircleLoader } from '../../global'
 
-const LoadingCenter = () => {
+export default function LoadingCenter() {
   return (
     <Wrapper>
       <div>
@@ -12,8 +12,6 @@ const LoadingCenter = () => {
     </Wrapper>
   )
 }
-
-export default LoadingCenter
 
 const Wrapper = styled('div')(({ float }) => ({
   display: 'grid',

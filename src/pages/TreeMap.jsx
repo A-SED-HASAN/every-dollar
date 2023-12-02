@@ -1,9 +1,8 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
-import { useDataContext } from '../context/DataContext.js'
-import { EmptyChart, LoadingCenter } from '../components/index.js'
-import { Tree, Top } from '../components/index.js'
-import { useGlobalContext } from '../context/GlobalContext.js'
+import { useDataContext } from '../context'
+import { EmptyChart, LoadingCenter, Tree, Top } from '../components'
+import { useGlobalContext } from '../context'
 export default function TreeMap() {
   const { loading, specificList, name } = useDataContext()
   const { isIncomeInc } = useGlobalContext()
@@ -59,7 +58,6 @@ const Wrapper = styled('section')(() => ({
     padding: '.5rem',
   },
 }))
-
 const ChartWrapper = styled('div')(() => ({
   width: '100%',
   height: '85vh',

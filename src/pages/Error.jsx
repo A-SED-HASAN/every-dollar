@@ -2,13 +2,16 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import { PrimaryBtn } from '../components/Styled/Button'
+import { useHref } from 'react-router-dom'
 export default function Error() {
+  const href = useHref()
+
   return (
     <Wrapper>
       <div>
         <h1>Error</h1>
         <p>
-          This application has no explicit mapping for /Error, so you are seeing
+          This application has no explicit mapping for {href}, so you are seeing
           this as a fallback.
         </p>
         <Link to='/budget' style={{ width: '30vw' }}>

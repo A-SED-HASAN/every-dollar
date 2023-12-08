@@ -1,8 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
-import { useDataContext } from '../context'
+import { useDataContext ,useGlobalContext} from '../context'
 import { EmptyChart, LoadingCenter, Tree, Top } from '../components'
-import { useGlobalContext } from '../context'
 export default function TreeMap() {
   const { loading, specificList, name } = useDataContext()
   const { isIncomeInc } = useGlobalContext()

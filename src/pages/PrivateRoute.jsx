@@ -5,9 +5,5 @@ import { useAuthContext } from '../context'
 export default function PrivateRoute({ children }) {
   const { authUser } = useAuthContext()
 
-  if (!authUser) {
-    return <Navigate to='sign-in' replace />
-  } else {
-    return children
-  }
+  return !authUser ? <Navigate to='sign-in' replace /> : children
 }

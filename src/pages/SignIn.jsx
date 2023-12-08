@@ -9,7 +9,6 @@ import {
 import { styled } from '@mui/material/styles'
 import { ramseyBlue, everyDollar } from '../assets/images'
 import {
-  IconButton,
   OutlinedInput,
   InputLabel,
   InputAdornment,
@@ -25,7 +24,7 @@ import {
 } from '../assets/icons'
 import { useAuthContext } from '../context'
 import { Loading } from '../components'
-import { PrimaryBtn } from '../components/Styled/Button'
+import { PrimaryBtn, IconBtn } from '../components/Styled/Button'
 
 export default function SignIn() {
   const {
@@ -189,11 +188,7 @@ const LinkBtn = styled(Link)(({ weight }) => ({
     color: 'var(--bg-s-800)',
   },
 }))
-const IconBtn = styled(IconButton)(() => ({
-  '*': {
-    cursor: 'pointer',
-  },
-}))
+
 const OutlinedInp = styled(OutlinedInput)(() => ({
   '*': {
     cursor: 'pointer',

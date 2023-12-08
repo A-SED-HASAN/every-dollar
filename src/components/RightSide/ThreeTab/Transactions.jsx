@@ -10,13 +10,17 @@ import {
 } from '../../../assets/icons'
 import { SearchInput, LoadingCenter } from '../..'
 import { formatMoney, monthNameFinder } from '../../../functions'
-import { useAuthContext, useGlobalContext } from '../../../context'
+import {
+  useAuthContext,
+  useDataContext,
+  useGlobalContext,
+} from '../../../context'
 import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../../../firebase'
-
 export default function Transactions() {
   const { handleOpenTrans, transList, transListLoading, getTrans } =
     useGlobalContext()
+  const { searchInputVal } = useDataContext()
 
   const [value, setValue] = useState(0)
 
@@ -27,6 +31,11 @@ export default function Transactions() {
     getTrans()
     // eslint-disable-next-line
   }, [])
+  const filteredTransList = transList.filter((item) => {
+    return item.whereSpend_income
+      .toLowerCase()
+      .includes(searchInputVal.toLowerCase())
+  })
 
   return (
     <Wrapper>
@@ -47,12 +56,12 @@ export default function Transactions() {
       <TransListWrapper>
         {transListLoading ? (
           <LoadingCenter />
-        ) : transList.length === 0 ? (
+        ) : filteredTransList.length === 0 ? (
           <h1 style={{ textAlign: 'center' }}>
             <i>no Transaction</i>
           </h1>
         ) : (
-          transList.map((item) => {
+          filteredTransList.map((item) => {
             return <Row key={item.id} {...item} />
           })
         )}
@@ -174,8 +183,8 @@ const RowWrapper = styled('div')(() => ({
       height: '100%',
       position: 'absolute',
       left: '30%',
-      top: '-9%',
-      fontSize: '2rem',
+      top: '21%',
+      fontSize: '1.2rem',
       display: 'none',
       cursor: 'pointer',
     },

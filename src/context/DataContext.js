@@ -339,7 +339,18 @@ export const DataProvider = ({ children }) => {
   const [pieTitle, setPieTitle] = useState('')
   const [pieValue, setPieValue] = useState('')
 
+  
+  const [searchInputVal, setSearchInputVal] = useState('')
+  const changeSearchHandler = (e) => {
+    setSearchInputVal(e.target.value)
+  }
+  const cancelSearchHandler = () => {
+    setSearchInputVal('')
+  }
   const ctxVal = {
+    searchInputVal,
+    changeSearchHandler,
+    cancelSearchHandler,
     playMoney,
     monthNow,
     yearNow,

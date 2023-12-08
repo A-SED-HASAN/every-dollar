@@ -1,8 +1,7 @@
 import { monthsName } from '../assets/constants'
 
-export const lengthChecker = (string, length = 11) => {
-  return string.length > length ? `${string.slice(0, length)} ...` : string
-}
+export const lengthChecker = (string, length = 11) =>
+  string.length > length ? `${string.slice(0, length)} ...` : string
 
 export const formatMoney = (amount) => {
   const formatter = new Intl.NumberFormat('en-US', {
@@ -33,6 +32,39 @@ export const calcPercentValue = (data, type) => {
     : '-'
 }
 
+export const monthNameFinder = (monthNumber) => {
+  const specific = monthsName.find((item) => item.id === +monthNumber)
+  return specific?.name.slice(0, 3)
+}
+
+export const paginate = (data) => {
+  const width = window.innerWidth
+  const itemsPerPage = Math.floor(width / 150)
+
+  const numberOfPages = Math.ceil(data.length / itemsPerPage)
+
+  const newData = Array.from({ length: numberOfPages }, (_, index) => {
+    const start = index * itemsPerPage
+    return data.slice(start, start + itemsPerPage)
+  })
+
+  return newData
+}
+
+export const posORneg = (number, reverse) => {
+  if (reverse) {
+    return number === 0 ? null : number < 0 ? 't-zero' : 'u-zero'
+  } else {
+    return number === 0 ? null : number < 0 ? 'u-zero' : 't-zero'
+  }
+}
+
+export const isNanChecker = (number) => (!isNaN(number) ? number : 0)
+
+export const arrowDirection = (number) =>
+  number === 0 ? null : number < 0 ? '⇣' : '⇡'
+
+// -- Shapes --
 export const heart = (x, y, width, height) => {
   const r = width / 4
   const dx = x - width / 2
@@ -68,35 +100,3 @@ export const star = () => (x, y, width, height) => {
   path.push(['Z'])
   return path
 }
-
-export const monthNameFinder = (monthNumber) => {
-  const specific = monthsName.find((item) => item.id === +monthNumber)
-  return specific?.name.slice(0, 3)
-}
-
-export const paginate = (data) => {
-  const width = window.innerWidth
-  const itemsPerPage = Math.floor(width / 150)
-
-  const numberOfPages = Math.ceil(data.length / itemsPerPage)
-
-  const newData = Array.from({ length: numberOfPages }, (_, index) => {
-    const start = index * itemsPerPage
-    return data.slice(start, start + itemsPerPage)
-  })
-
-  return newData
-}
-
-export const posORneg = (number, reverse) => {
-  if (reverse) {
-    return number === 0 ? null : number < 0 ? 't-zero' : 'u-zero'
-  } else {
-    return number === 0 ? null : number < 0 ? 'u-zero' : 't-zero'
-  }
-}
-
-export const isNanChecker = (number) => (!isNaN(number) ? number : 0)
-
-export const arrowDirection = (number) =>
-  number === 0 ? null : number < 0 ? '⇣' : '⇡'
